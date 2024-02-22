@@ -1,5 +1,10 @@
+<<<<<<< HEAD
+import mongoose from "mongoose";
+import constants from "../config/constants";
+=======
 import mongoose from 'mongoose';
 import constants from '../config/constants.js';
+>>>>>>> dev
 
 const Schema = mongoose.Schema;
 const refType = Schema.Types.ObjectId;
@@ -7,214 +12,222 @@ const refType = Schema.Types.ObjectId;
 const ProfileSchema = new Schema({
   firstName: {
     type: String,
-    required: true
+    required: true,
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
   },
   middleName: {
-    type: String
+    type: String,
   },
   preferredName: {
-    type: String
+    type: String,
   },
   gender: {
     type: String,
-    enum: constants.gender
+    enum: constants.gender,
   },
   profilePic: {
     type: refType,
-    ref: 'Document'
+    ref: "Document",
   },
   cellPhone: {
     type: String,
-    required: true
+    required: true,
   },
   workPhone: {
-    type: String
+    type: String,
   },
   address: {
     street: {
       type: String,
-      required: true
+      required: true,
     },
     building: {
-      type: String
+      type: String,
     },
     city: {
       type: String,
-      required: true
+      required: true,
     },
     state: {
       type: String,
       enum: constants.state,
-      required: true
+      required: true,
     },
     zip: {
       type: String,
+<<<<<<< HEAD
+      required: true,
+    },
+    required: true,
+=======
       required: true
     }
+>>>>>>> dev
   },
   car: {
     make: {
-      type: String
+      type: String,
     },
     model: {
-      type: String
+      type: String,
     },
     color: {
-      type: String
-    }
+      type: String,
+    },
   },
   SSN: {
     type: String,
-    required: true
+    required: true,
   },
   DOB: {
     type: Date,
-    required: true
+    required: true,
   },
   immigrationStatus: {
     type: String,
     enum: constants.immigrationStatus,
-    required: true
+    required: true,
   },
   workAuth: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     startDate: {
       type: Date,
-      required: true
+      required: true,
     },
     endDate: {
       type: Date,
-      required: true
-    }
+      required: true,
+    },
   },
   driversLicense: {
     number: {
       type: String,
-      required: true
+      required: true,
     },
     state: {
       type: String,
-      enum: constants.state
+      enum: constants.state,
     },
     expiration: {
-      type: Date
+      type: Date,
     },
     document: {
       type: refType,
-      ref: 'Document'
-    }
+      ref: "Document",
+    },
   },
   reference: {
     firstName: {
       type: String,
-      required: true
+      required: true,
     },
     lastName: {
       type: String,
-      required: true
+      required: true,
     },
     middleName: {
-      type: String
+      type: String,
     },
     relationship: {
       type: String,
-      required: true
+      required: true,
     },
     phone: {
       type: String,
-      required: true
+      required: true,
     },
     email: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  emergencyContacts: [{
-    firstName: {
-      type: String,
-      required: true
+  emergencyContacts: [
+    {
+      firstName: {
+        type: String,
+        required: true,
+      },
+      lastName: {
+        type: String,
+        required: true,
+      },
+      middleName: {
+        type: String,
+      },
+      relationship: {
+        type: String,
+        required: true,
+      },
+      phone: {
+        type: String,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+      },
     },
-    lastName: {
-      type: String,
-      required: true
-    },
-    middleName: {
-      type: String
-    },
-    relationship: {
-      type: String,
-      required: true
-    },
-    phone: {
-      type: String,
-      required: true
-    },
-    email: {
-      type: String,
-      required: true
-    }
-  }],
+  ],
   OPTReceipt: {
     type: refType,
-    ref: 'Document',
+    ref: "Document",
     status: {
       type: String,
       enum: constants.documentStatus,
-      default: 'PENDING'
+      default: "PENDING",
     },
     feedback: {
       type: String,
-    }
+    },
   },
   OPTEAD: {
     type: refType,
-    ref: 'Document',
+    ref: "Document",
     status: {
       type: String,
       enum: constants.documentStatus,
-      default: 'PENDING'
+      default: "PENDING",
     },
     feedback: {
       type: String,
-    }
+    },
   },
   I983: {
     type: refType,
-    ref: 'Document',
+    ref: "Document",
     status: {
       type: String,
       enum: constants.documentStatus,
-      default: 'PENDING'
+      default: "PENDING",
     },
     feedback: {
       type: String,
-    }
+    },
   },
   I20: {
     type: refType,
-    ref: 'Document',
+    ref: "Document",
     status: {
       type: String,
       enum: constants.documentStatus,
-      default: 'PENDING'
+      default: "PENDING",
     },
     feedback: {
       type: String,
-    }
+    },
   },
   applicationStatus: {
     type: String,
     enum: constants.applicationStatus,
-    default: 'NOT_STARTED',
-    required: true
-  }
+    default: "NOT_STARTED",
+    required: true,
+  },
 });
 
-export default mongoose.model('Profile', ProfileSchema);
+export default mongoose.model("Profile", ProfileSchema);

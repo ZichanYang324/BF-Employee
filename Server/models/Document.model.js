@@ -1,20 +1,25 @@
+<<<<<<< HEAD
+import mongoose from "mongoose";
+import constants from "../config/constants";
+=======
 import mongoose from 'mongoose';
+>>>>>>> dev
 
 const Schema = mongoose.Schema;
 
 const DocumentSchema = new Schema({
   URL: {
     type: String,
-    required: true
+    required: true,
   },
   S3Bucket: {
     type: String,
-    required: true
+    required: true,
   },
   S3Name: {
     type: String,
-    required: true
+    required: true,
   },
 });
 
-export default mongoose.model('Document', DocumentSchema);
+export default mongoose.model("Document", DocumentSchema);

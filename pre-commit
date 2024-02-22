@@ -1,0 +1,17 @@
+#!/bin/bash
+
+GIT_ROOT=$(git rev-parse --show-toplevel)
+echo "Running prettier formatting..."
+cd "$GIT_ROOT/Server"
+npm run format
+
+# Check if formatting changes were made
+git diff --exit-code
+if [ $? -ne 0 ]; then
+    echo "Formatting changes detected. Please commit them before proceeding."
+    exit 1
+fi
+
+# All checks passed, allow the commit
+echo "Format check passed. Proceeding with commit."
+exit 0
