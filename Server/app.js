@@ -14,6 +14,10 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use('/public', express.static(path.join(process.cwd(), 'public')));
 
+app.get('/', (_req, res) => {
+  res.status(200).send('<h1>Server started</h1>');
+});
+
 app.all('*', (_req, res) => {
   res.status(404).send('<h1>Page not found</h1>');
 });
