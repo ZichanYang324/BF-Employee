@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import constants from '../config/constants';
+import constants from '../config/constants.js';
 
 const Schema = mongoose.Schema;
 const refType = Schema.Types.ObjectId;
@@ -54,8 +54,7 @@ const ProfileSchema = new Schema({
     zip: {
       type: String,
       required: true
-    },
-    required: true
+    }
   },
   car: {
     make: {

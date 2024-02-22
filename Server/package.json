@@ -3,7 +3,8 @@
   "module": "idnex.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js "
+    "dev": "nodemon --env-file .env index.js ",
+    "seed": "node --env-file .env config/seed.js"
   },
   "dependencies": {
     "argon2": "^0.31.2",
