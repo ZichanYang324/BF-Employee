@@ -93,10 +93,6 @@ const ProfileSchema = new Schema({
     endDate: {
       type: Date,
       required: true
-    },
-    receipt: {
-      type: refType,
-      ref: 'Document'
     }
   },
   driversLicense: {
@@ -165,7 +161,61 @@ const ProfileSchema = new Schema({
       type: String,
       required: true
     }
-  }]
+  }],
+  OPTReceipt: {
+    type: refType,
+    ref: 'Document',
+    status: {
+      type: String,
+      enum: constants.documentStatus,
+      default: 'PENDING'
+    },
+    feedback: {
+      type: String,
+    }
+  },
+  OPTEAD: {
+    type: refType,
+    ref: 'Document',
+    status: {
+      type: String,
+      enum: constants.documentStatus,
+      default: 'PENDING'
+    },
+    feedback: {
+      type: String,
+    }
+  },
+  I983: {
+    type: refType,
+    ref: 'Document',
+    status: {
+      type: String,
+      enum: constants.documentStatus,
+      default: 'PENDING'
+    },
+    feedback: {
+      type: String,
+    }
+  },
+  I20: {
+    type: refType,
+    ref: 'Document',
+    status: {
+      type: String,
+      enum: constants.documentStatus,
+      default: 'PENDING'
+    },
+    feedback: {
+      type: String,
+    }
+  },
+  applicationStatus: {
+    type: String,
+    enum: constants.applicationStatus,
+    default: 'NOT_STARTED',
+    required: true
+  }
 });
 
 export default mongoose.model('Profile', ProfileSchema);
