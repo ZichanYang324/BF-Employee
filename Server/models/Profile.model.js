@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import mongoose from "mongoose";
 import constants from "../config/constants";
-=======
-import mongoose from 'mongoose';
-import constants from '../config/constants.js';
->>>>>>> dev
 
 const Schema = mongoose.Schema;
 const refType = Schema.Types.ObjectId;
@@ -58,14 +53,9 @@ const ProfileSchema = new Schema({
     },
     zip: {
       type: String,
-<<<<<<< HEAD
       required: true,
     },
     required: true,
-=======
-      required: true
-    }
->>>>>>> dev
   },
   car: {
     make: {
