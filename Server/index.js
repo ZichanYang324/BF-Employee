@@ -1,7 +1,6 @@
 import app from "./app.js";
-import process from "process";
-
 import mongoose from "mongoose";
+import process from "process";
 
 mongoose
   .connect(process.env.MONGO_URL)

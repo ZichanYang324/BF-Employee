@@ -1,6 +1,6 @@
+import { Profile, User } from "../models/index.js";
 import argon2 from "argon2";
 import mongoose from "mongoose";
-import { User, Profile } from "../models/index.js";
 
 const MONGO_URL = process.env.MONGO_URL;
 
