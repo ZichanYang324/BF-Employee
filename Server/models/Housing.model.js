@@ -5,17 +5,15 @@ const Schema = mongoose.Schema;
 const housingSchema = new Schema({
   address: { type: String, required: true },
   landlordInfo: {
-    name: String,
-    phone: String,
-    email: String,
-    required: true,
+    name: { type: String, required: true },
+    phone: { type: String, required: true },
+    email: { type: String, required: true },
   },
   facilityDetails: {
-    beds: Number,
-    mattresses: Number,
-    tables: Number,
-    chairs: Number,
-    required: true,
+    beds: { type: Number, required: true },
+    mattresses: { type: Number, required: true },
+    tables: { type: Number, required: true },
+    chairs: { type: Number, required: true },
   },
   reports: [
     {
