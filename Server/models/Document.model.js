@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import constants from "../config/constants";
 
 const Schema = mongoose.Schema;
 
