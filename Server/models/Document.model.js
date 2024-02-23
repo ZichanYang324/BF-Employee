@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
-import constants from "../config/constants";
 
 const Schema = mongoose.Schema;
-const refType = Schema.Types.ObjectId;
 
 const DocumentSchema = new Schema({
   URL: {

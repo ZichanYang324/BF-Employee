@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --env-file .env index.js ",
-    "format": "prettier --write ."
+    "format": "prettier --write ..",
+    "seed": "node --env-file .env config/seed.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.515.0",
