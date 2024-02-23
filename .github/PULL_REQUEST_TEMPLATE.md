@@ -1,6 +1,6 @@
 # Description
 Please include the exact bug/functionality description and a summary of the changes/ related issues. Please also include any other relevant motivation and context:
-Fixes # (bug list priority high/medium/low x.y.z)
+Fixes # (bug is related which...)
 Or Implements # (BGP) 
 
 ## Related PRS (if any):
