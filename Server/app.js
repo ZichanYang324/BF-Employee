@@ -1,10 +1,10 @@
-import express from "express";
+import DevRouter from "./routers/DevRouter.js";
+import cookieParser from "cookie-parser";
 import cors from "cors";
+import express from "express";
 import morgan from "morgan";
 import path from "path";
 import process from "process";
-import cookieParser from "cookie-parser";
-import DevRouter from "./routers/DevRouter.js";
 
 const app = express();
 
