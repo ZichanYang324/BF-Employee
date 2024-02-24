@@ -1,5 +1,10 @@
 import { FacilityReport, Housing } from "../models";
 
+/**
+ * Get housing reports for current user
+ * @returns {FacilityReport} object with author's name
+ */
+
 const getReportForEmployee = async (req, res) => {
   const { profileId } = req.body;
   try {
@@ -9,7 +14,7 @@ const getReportForEmployee = async (req, res) => {
       .populate({
         path: "createdBy",
         model: "Profile",
-        select: "firstName lastName preferredName cellPhone",
+        select: "firstName lastName preferredName",
       })
       .exec();
     if (!reports || reports.length === 0) {

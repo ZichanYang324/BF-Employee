@@ -1,5 +1,10 @@
 import { Housing, Profile } from "../models";
 
+/**
+ * Get housing details for current user
+ * @returns {address, [{assignedEmployees.name,phoneNumber}]}
+ */
+
 const getHousingDetailsForEmployee = async (req, res) => {
   const { profileId } = req.body;
   try {
