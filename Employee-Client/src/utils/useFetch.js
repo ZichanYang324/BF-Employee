@@ -42,8 +42,11 @@ export default function useFetch(url, options) {
     try {
       const response = await fetch(`${BASE_URL}${url}`, {
         method: optionsRef.current?.method || "GET",
-        headers: optionsRef.current?.headers,
-        body: optionsRef.current?.body,
+        headers: {
+          "Content-Type": "application/json",
+          ...optionsRef.current?.headers,
+        },
+        body: optionsRef.current?.body ? JSON.stringify(optionsRef.current?.body) : null,
       });
 
       if (!response.ok) {
