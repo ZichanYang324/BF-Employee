@@ -1,10 +1,10 @@
+import { bucketName, s3 } from "../config/s3.js";
 import {
   DeleteObjectCommand,
   GetObjectCommand,
   ListObjectsV2Command,
   PutObjectCommand,
 } from "@aws-sdk/client-s3";
-import { s3, bucketName } from "../config/s3.js";
 
 /**
  * List files in the bgp-zichan S3 bucket.
