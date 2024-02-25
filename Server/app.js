@@ -5,6 +5,7 @@ import express from "express";
 import morgan from "morgan";
 import path from "path";
 import process from "process";
+import profileRouter from "./routers/profileRouter.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/dev", DevRouter);
+app.use("/profile", profileRouter);
 
 app.all("*", (_req, res) => {
   res.status(404).send("<h1>Page not found</h1>");
