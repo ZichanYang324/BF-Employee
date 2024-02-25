@@ -1,5 +1,6 @@
 import Housing from "../models/Housing.model.js";
 import Profile from "../models/Profile.model.js";
+
 /**
  * Get housing details for current user
  * @param {profileId}
@@ -43,7 +44,7 @@ export const getHousingDetailsForEmployee = async (req, res) => {
     return res
       .status(500)
       .json(
-        `error when fetching Housing details for current employee - ${error}`
+        `error when fetching Housing details for current employee - ${error}`,
       );
   }
 };

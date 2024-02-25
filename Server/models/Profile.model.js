@@ -164,20 +164,60 @@ const ProfileSchema = new Schema({
     },
   ],
   OPTReceipt: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
+    status: {
+      type: String,
+      enum: constants.documentStatus,
+      default: "PENDING",
+    },
+    feedback: {
+      type: String,
+    },
   },
   OPTEAD: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
+    status: {
+      type: String,
+      enum: constants.documentStatus,
+      default: "PENDING",
+    },
+    feedback: {
+      type: String,
+    },
   },
   I983: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
+    status: {
+      type: String,
+      enum: constants.documentStatus,
+      default: "PENDING",
+    },
+    feedback: {
+      type: String,
+    },
   },
   I20: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
+    status: {
+      type: String,
+      enum: constants.documentStatus,
+      default: "PENDING",
+    },
+    feedback: {
+      type: String,
+    },
   },
   applicationStatus: {
     type: String,
