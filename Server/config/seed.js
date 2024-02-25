@@ -9,8 +9,13 @@ const seed = async () => {
     mongoose.connect(MONGO_URL);
     console.log("Connected to MongoDB");
 
-    await User.deleteMany({});
-    await Profile.deleteMany({});
+    // delete if exists
+    if (mongoose.connection.collections.users) {
+      await User.deleteMany({});
+    }
+    if (mongoose.connection.collections.profiles) {
+      await Profile.deleteMany({});
+    }
 
     const user = {
       username: "user1",
@@ -19,7 +24,8 @@ const seed = async () => {
     };
 
     await User.create(user);
-    console.log("Succeded");
+
+    console.log("Succeeded");
   } catch (err) {
     console.error(err);
   } finally {
