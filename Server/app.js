@@ -1,18 +1,16 @@
 import DevRouter from "./routers/DevRouter.js";
+import {
+  commentRouter,
+  housingRouter,
+  reportRouter,
+} from "./routers/HousingRouter.js";
+import { profileRouter } from "./routers/ProfileRouter.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
 import path from "path";
 import process from "process";
-import cookieParser from "cookie-parser";
-import DevRouter from "./routers/DevRouter.js";
-import {
-  housingRouter,
-  commentRouter,
-  reportRouter,
-} from "./routers/HousingRouter.js";
-import router from "./routers/DevRouter.js";
 
 const app = express();
 
@@ -34,6 +32,8 @@ app.use("/dev", DevRouter);
 app.use("/housing", housingRouter);
 app.use("/report", reportRouter);
 app.use("/comment", commentRouter);
+
+app.use("/profile", profileRouter);
 
 app.all("*", (_req, res) => {
   res.status(404).send("<h1>Page not found</h1>");
