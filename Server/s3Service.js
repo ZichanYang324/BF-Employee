@@ -1,4 +1,6 @@
-const AWS = require('aws-sdk');
+// s3Service.js
+
+import AWS from 'aws-sdk';
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -20,3 +22,5 @@ async function uploadFileToS3(fileBuffer, fileName, bucketName) {
     throw new Error('Error uploading file to S3');
   }
 }
+
+export default { uploadFileToS3 };
