@@ -19,7 +19,6 @@ const DocumentSchema = new Schema({
   status: {
     type: String,
     enum: constants.documentStatus,
-    default: "PENDING",
   },
   feedback: {
     type: String,
