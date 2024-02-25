@@ -2,6 +2,7 @@ import DevRouter from "./routers/DevRouter.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
+import registerRouter from "./routers/registerRouter.js";
 import morgan from "morgan";
 import path from "path";
 import process from "process";
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
 app.use(cookieParser());
+app.use('/user', registerRouter);
 app.use("/public", express.static(path.join(process.cwd(), "public")));
 
 app.get("/", (_req, res) => {
