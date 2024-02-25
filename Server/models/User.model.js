@@ -1,6 +1,6 @@
 import constants from "../config/constants.js";
+import bcrypt from "bcrypt";
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt';
 
 const Schema = mongoose.Schema;
 const refType = Schema.Types.ObjectId;
@@ -37,8 +37,8 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 // Encrypt password using bcrypt
-UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
     next();
   }
 

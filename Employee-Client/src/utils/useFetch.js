@@ -46,7 +46,9 @@ export default function useFetch(url, options) {
           "Content-Type": "application/json",
           ...optionsRef.current?.headers,
         },
-        body: optionsRef.current?.body ? JSON.stringify(optionsRef.current?.body) : null,
+        body: optionsRef.current?.body
+          ? JSON.stringify(optionsRef.current?.body)
+          : null,
       });
 
       if (!response.ok) {

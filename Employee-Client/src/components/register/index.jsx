@@ -24,7 +24,7 @@ export function Register() {
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
     const dispatch = useDispatch();
-    const { user, isLoading } = useSelector((store) => store.user);
+    const { user } = useSelector((store) => store.user);
 
     const navigate = useNavigate();
 

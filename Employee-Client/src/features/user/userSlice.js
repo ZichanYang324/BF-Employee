@@ -1,30 +1,33 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
-import { addUserToLocalStorage, getUserFromLocalStorage } from "../../utils/localStorage";
-import { loginUserThunk, registerUserThunk } from "./userThunk";
 import API_PATHS from "../../globals/paths";
-import Cookies from 'js-cookie';
+import {
+  addUserToLocalStorage,
+  getUserFromLocalStorage,
+} from "../../utils/localStorage";
+import { loginUserThunk, registerUserThunk } from "./userThunk";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const initialState = {
   isLoading: false,
-//   isSidebarOpen: false,
+  //   isSidebarOpen: false,
   user: getUserFromLocalStorage(),
 };
 
 // action creator
 export const registerUser = createAsyncThunk(
-  'user/registerUser',
+  "user/registerUser",
   async (user, thunkAPI) => {
     return registerUserThunk(API_PATHS.USER_REGISTER, user, thunkAPI);
-  }
+  },
 );
 
 // action creator
 export const loginUser = createAsyncThunk(
-  'user/loginUser',
+  "user/loginUser",
   async (user, thunkAPI) => {
     return loginUserThunk(API_PATHS.USER_LOGIN, user, thunkAPI);
-  }
+  },
 );
 
 // export const updateUser = createAsyncThunk(
@@ -36,8 +39,8 @@ export const loginUser = createAsyncThunk(
 
 const storeUser = (tokenValue, expirationTime) => {
   const expiredTimeDays = Math.fround(expirationTime / (3600 * 24));
-  Cookies.set('token', tokenValue, { expires: expiredTimeDays });
-}
+  Cookies.set("token", tokenValue, { expires: expiredTimeDays });
+};
 
 // const removeCookies = () => {
 //   Cookies.remove('token');
@@ -47,7 +50,7 @@ const storeUser = (tokenValue, expirationTime) => {
 
 // reducer
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     // toggleSidebar: (state) => {
@@ -99,7 +102,7 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error(payload);
-      })
+      });
     //   .addCase(updateUser.pending, (state) => {
     //     state.isLoading = true;
     //   })

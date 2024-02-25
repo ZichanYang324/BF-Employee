@@ -25,7 +25,7 @@ export function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useDispatch();
-    const { user, isLoading } = useSelector((store) => store.user);
+    const { user } = useSelector((store) => store.user);
     const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();

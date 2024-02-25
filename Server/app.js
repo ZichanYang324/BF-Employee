@@ -1,8 +1,8 @@
 import DevRouter from "./routers/DevRouter.js";
+import userRouter from "./routers/userRouter.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
-import userRouter from "./routers/userRouter.js";
 import morgan from "morgan";
 import path from "path";
 import process from "process";
@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use('/user', userRouter);
+app.use("/user", userRouter);
 app.use("/public", express.static(path.join(process.cwd(), "public")));
 
 app.get("/", (_req, res) => {

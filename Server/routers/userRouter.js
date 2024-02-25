@@ -1,12 +1,10 @@
 import {
-  authUser,
-  // deleteUser,
+  authUser, // deleteUser,
   // getUserById,
   // getUserProfile,
   // getUsers,
   // logoutUser,
-  registerUser,
-  // updateUser,
+  registerUser, // updateUser,
   // updateUserProfile,
 } from "../controllers/userControllers.js";
 // import { admin, protect } from "../middleware/authMiddleware.js";
@@ -14,7 +12,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.route("/").post(registerUser)
+router.route("/").post(registerUser);
 // .get(protect, admin, getUsers);
 router.post("/auth", authUser);
 // router.post("/logout", logoutUser);
