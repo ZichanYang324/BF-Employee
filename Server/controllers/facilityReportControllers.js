@@ -1,6 +1,6 @@
+import constants from "../config/constants.js";
 import FacilityReport from "../models/FacilityReport.model.js";
 import Housing from "../models/Housing.model.js";
-import constants from "../config/constants.js";
 
 /**
  * Get housing reports for current user

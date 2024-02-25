@@ -1,6 +1,6 @@
+import Comment from "../models/Comment.model.js";
 import FacilityReport from "../models/FacilityReport.model.js";
 import Profile from "../models/Profile.model.js";
-import Comment from "../models/Comment.model.js";
 import UserModel from "../models/User.model.js";
 
 /**

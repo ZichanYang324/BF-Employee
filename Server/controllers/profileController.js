@@ -22,7 +22,7 @@ export const createProfile = async (req, res) => {
 
   if (immigrationStatus.type === "VISA" && !workAuth) {
     return res.status(400).json({
-      message: "Work authorization is required"
+      message: "Work authorization is required",
     });
   }
 
@@ -46,7 +46,7 @@ export const createProfile = async (req, res) => {
   });
 
   return res.status(201).send(newProfile);
-}
+};
 
 export const getProfile = async (req, res) => {
   const user = req.user;
@@ -61,7 +61,7 @@ export const getProfileStatus = async (req, res) => {
   const user = req.user;
   const profile = await Profile.findById(user.profile?._id);
   const status = profile.applicationStatus;
-  return res.status(200).json({status});
+  return res.status(200).json({ status });
 };
 
 export const updateProfileStatus = async (req, res) => {
@@ -71,4 +71,4 @@ export const updateProfileStatus = async (req, res) => {
   profile.applicationStatus = status;
   await profile.save();
   return res.status(200).send(profile);
-}
+};

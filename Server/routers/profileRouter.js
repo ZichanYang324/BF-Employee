@@ -1,5 +1,10 @@
+import {
+  createProfile,
+  getProfile,
+  getProfileStatus,
+  updateProfileStatus,
+} from "../controllers/profileController.js";
 import { Router } from "express";
-import { createProfile, getProfile, getProfileStatus, updateProfileStatus } from "../controllers/profileController.js";
 
 const profileRouter = Router();
 
