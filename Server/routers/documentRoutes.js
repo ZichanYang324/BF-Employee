@@ -1,16 +1,21 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const authenticate = require('./authMiddleware');
-const checkHRRole = require('./hrRoleMiddleware');
-const DocumentController = require('../controllers/DocumentController');
+import authenticate from "../middlewares/authMiddleware.js";
+import checkHRRole from "../middlewares/hrRoleMiddleware.js";
+import DocumentController from "../controllers/DocumentController.js";
 
 // upload a document
-router.post('/upload', authenticate, DocumentController.uploadDocument);
+router.post("/upload", authenticate, DocumentController.uploadDocument);
 
 // update document status (for HR)
-router.patch('/:documentId/status', authenticate, checkHRRole, DocumentController.updateDocumentStatus);
+router.patch(
+  "/:documentId/status",
+  authenticate,
+  checkHRRole,
+  DocumentController.updateDocumentStatus,
+);
 
 // get user's documents
-router.get('/my', authenticate, DocumentController.getMyDocuments);
+router.get("/my", authenticate, DocumentController.getMyDocuments);
 
-module.exports = router;
+export default router;

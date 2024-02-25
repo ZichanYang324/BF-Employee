@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import constants from '../config/constants';
+import mongoose from "mongoose";
+import constants from "../config/constants.js";
 
 const Schema = mongoose.Schema;
 const refType = Schema.Types.ObjectId;
@@ -8,26 +8,26 @@ const UserSchema = new Schema({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   role: {
     type: String,
     enum: constants.roles,
-    default: 'EMPLOYEE'
+    default: "EMPLOYEE",
   },
   profile: {
     type: refType,
-    ref: 'Profile'
-  }
+    ref: "Profile",
+  },
 });
 
-export default mongoose.model('User', UserSchema);
+export default mongoose.model("User", UserSchema);
