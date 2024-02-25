@@ -57,6 +57,7 @@ export const updateComment = async (req, res) => {
       return res.status(401).json("Permission denied");
     }
     comment.description = description;
+    comment.timestamp = new Date();
     await comment.save();
     return res.status(200).json(comment);
   } catch (error) {
