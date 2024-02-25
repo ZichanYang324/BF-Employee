@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 
 const generateToken = (res, userId) => {
+  const expiresIn = '3h'
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
-    expiresIn: '3h',
+    expiresIn: expiresIn,
   });
 
   // Set JWT as an HTTP-Only cookie
@@ -12,6 +13,8 @@ const generateToken = (res, userId) => {
     sameSite: 'strict', // Prevent CSRF attacks
     maxAge: 3 * 60 * 60 * 1000, // 3 hours
   });
+
+  return {token,expiresIn}
 };
 
 export default generateToken;
