@@ -1,16 +1,17 @@
-import { Housing, Profile } from "../models";
-
+import Housing from "../models/Housing.model.js";
+import Profile from "../models/Profile.model.js";
 /**
  * Get housing details for current user
- * @returns {address, [{assignedEmployees.name,phoneNumber}]}
+ * @param {profileId}
+ * @returns {address, [{assignedEmployees.name,phoneNumber}]} address and roommate info
  */
 
-const getHousingDetailsForEmployee = async (req, res) => {
+export const getHousingDetailsForEmployee = async (req, res) => {
   const { profileId } = req.body;
   try {
     const profile = await Profile.findById(profileId);
     if (!profile) {
-      return res.status(400).json("Profile not found");
+      return res.status(404).json("Profile not found");
     }
     const housingDetails = await Housing.findOne({
       assignedEmployees: profileId,
@@ -23,7 +24,7 @@ const getHousingDetailsForEmployee = async (req, res) => {
       .exec();
     if (!housingDetails) {
       return res
-        .status(400)
+        .status(404)
         .json("Housing Info does not exist for current employee");
     }
     const res_details = {

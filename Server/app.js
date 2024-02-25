@@ -5,7 +5,12 @@ import path from "path";
 import process from "process";
 import cookieParser from "cookie-parser";
 import DevRouter from "./routers/DevRouter.js";
-
+import {
+  housingRouter,
+  commentRouter,
+  reportRouter,
+} from "./routers/HousingRouter.js";
+import router from "./routers/DevRouter.js";
 const app = express();
 
 app.use(express.json());
@@ -20,6 +25,12 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/dev", DevRouter);
+
+// housing, report, comment api router
+
+app.use("/housing", housingRouter);
+app.use("/report", reportRouter);
+app.use("/comment", commentRouter);
 
 app.all("*", (_req, res) => {
   res.status(404).send("<h1>Page not found</h1>");
