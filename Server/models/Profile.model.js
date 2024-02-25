@@ -22,6 +22,7 @@ const ProfileSchema = new Schema({
   gender: {
     type: String,
     enum: constants.gender,
+    required: true,
   },
   profilePic: {
     type: refType,
@@ -33,6 +34,10 @@ const ProfileSchema = new Schema({
   },
   workPhone: {
     type: String,
+  },
+  email: {
+    type: String,
+    // required: true,
   },
   address: {
     street: {
