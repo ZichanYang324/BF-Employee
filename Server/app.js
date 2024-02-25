@@ -5,6 +5,11 @@ import express from "express";
 import morgan from "morgan";
 import path from "path";
 import process from "process";
+import {
+  housingRouter,
+  commentRouter,
+  reportRouter,
+} from "./routers/HousingRouter.js";
 import profileRouter from "./routers/profileRouter.js";
 
 const app = express();
@@ -21,6 +26,12 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/dev", DevRouter);
+
+// housing, report, comment api router
+
+app.use("/housing", housingRouter);
+app.use("/report", reportRouter);
+app.use("/comment", commentRouter);
 app.use("/profile", profileRouter);
 
 app.all("*", (_req, res) => {
