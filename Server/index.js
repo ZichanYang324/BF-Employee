@@ -1,8 +1,13 @@
 import app from "./app.js";
+<<<<<<< HEAD
 import process from "process";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 dotenv.config();
+=======
+import mongoose from "mongoose";
+import process from "process";
+>>>>>>> 6506ee30bdcf7b437e58053efa6fd561d3718540
 
 mongoose
   .connect(process.env.MONGO_URL)
