@@ -40,15 +40,6 @@ app.use("/public", express.static(path.join(process.cwd(), "public")));
 
 app.get("/", (_req, res) => {
   res.status(200).send("<h1>Server started</h1>");
-<<<<<<< HEAD
-});
-app.use('/documents', documentRoutes);
-//app.use('/users', userRoutes);
-app.all("*", (_req, res) => {
-  res.status(404).send("<h1>Page not found!</h1>");
-});
-
-=======
 });
 
 app.use("/dev", DevRouter);
