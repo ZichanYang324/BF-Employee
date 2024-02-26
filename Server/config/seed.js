@@ -1,5 +1,5 @@
 import { Document, Profile, User } from "../models/index.js";
-import argon2 from "argon2";
+import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import process from "process";
@@ -131,7 +131,7 @@ const seed = async () => {
     const userContent = {
       username: "user1",
       email: "user1@mail.com",
-      password: await argon2.hash("pswd1"),
+      password: await bcrypt.hash("pswd1"),
       profile: profile._id,
     };
 
