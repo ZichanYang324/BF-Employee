@@ -1,8 +1,10 @@
 import { Document, Profile, User } from "../models/index.js";
 import argon2 from "argon2";
+import dotenv from "dotenv";
 import mongoose from "mongoose";
+import process from "process";
 
-const MONGO_URL = process.env.MONGO_URL;
+dotenv.config();
 
 function seedProfile() {
   const driversLicenseDoc = new Document({
@@ -116,7 +118,7 @@ function seedProfile() {
 
 const seed = async () => {
   try {
-    mongoose.connect(MONGO_URL);
+    mongoose.connect(process.env.MONGO_URL);
     console.log("Connected to MongoDB");
 
     await User.deleteMany({});
