@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use("/user", registerRouter);
+app.use("/user", userRouter);
 app.use("/public", express.static(path.join(process.cwd(), "public")));
 
 app.get("/", (_req, res) => {
