@@ -169,8 +169,10 @@ const ProfileSchema = new Schema({
     },
   ],
   OPTReceipt: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
     status: {
       type: String,
       enum: constants.documentStatus,
@@ -181,8 +183,10 @@ const ProfileSchema = new Schema({
     },
   },
   OPTEAD: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
     status: {
       type: String,
       enum: constants.documentStatus,
@@ -193,8 +197,10 @@ const ProfileSchema = new Schema({
     },
   },
   I983: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
     status: {
       type: String,
       enum: constants.documentStatus,
@@ -205,8 +211,10 @@ const ProfileSchema = new Schema({
     },
   },
   I20: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
     status: {
       type: String,
       enum: constants.documentStatus,

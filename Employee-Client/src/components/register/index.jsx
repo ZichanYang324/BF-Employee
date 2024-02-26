@@ -12,8 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
-import customFetch from '../../utils/customFetch';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../features/user/userSlice';
 
 const defaultTheme = createTheme();
 
@@ -21,15 +23,28 @@ export function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
+    const dispatch = useDispatch();
+    const { user } = useSelector((store) => store.user);
+
+    const navigate = useNavigate();
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        customFetch.post('/user', { username: username, email: email, password: password })
-            .then((res) => {
-                console.log(res);
-            })
+        // customFetch.post('/user', { username: username, email: email, password: password })
+        //     .then((res) => {
+        //         console.log(res);
+        //     })
+        dispatch(registerUser({ username: username, email: email, password: password }));
     }
+
+    useEffect(() => {
+        if (user) {
+            setTimeout(() => {
+                navigate("/dashboard");
+            }, 1000);
+        }
+    }, [user]);
 
     return (
         <ThemeProvider theme={defaultTheme}>

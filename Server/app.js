@@ -5,7 +5,8 @@ import {
   reportRouter,
 } from "./routers/HousingRouter.js";
 import profileRouter from "./routers/profileRouter.js";
-import registerRouter from "./routers/registerRouter.js";
+import userRouter from "./routers/userRouter.js";
+import documentRoutes from "./routers/documentRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
@@ -20,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use("/user", registerRouter);
+app.use("/user", userRouter);
 app.use("/public", express.static(path.join(process.cwd(), "public")));
 
 app.get("/", (_req, res) => {
@@ -35,9 +36,11 @@ app.use("/housing", housingRouter);
 app.use("/report", reportRouter);
 app.use("/comment", commentRouter);
 app.use("/profile", profileRouter);
+app.use("/documents", documentRoutes);
+
 
 app.all("*", (_req, res) => {
-  res.status(404).send("<h1>Page not found</h1>");
+  res.status(404).send("<h1>Page not found!</h1>");
 });
 
 export default app;
