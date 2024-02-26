@@ -10,7 +10,7 @@ import {
   commentRouter,
   reportRouter,
 } from "./routers/HousingRouter.js";
-
+import registerRouter from './routers/registerRouter.js'
 const app = express();
 
 app.use(express.json());

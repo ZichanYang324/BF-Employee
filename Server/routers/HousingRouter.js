@@ -7,7 +7,7 @@ import {
   createReportForEmployee,
   getReportForEmployee,
 } from "../controllers/facilityReportControllers.js";
-import { getHousingDetailsForEmployee } from "../controllers/housingControllers.js";
+import { getHousingDetailsForEmployee ,addHouseForHR,getAllBasicHouseInfoForHR,getHouseSummaryForHR} from "../controllers/housingControllers.js";
 import express from "express";
 
 const housingRouter = express.Router();
