@@ -55,7 +55,7 @@ export const getHousingDetailsForEmployee = async (req, res) => {
 
 
 /**
- * Adding house for HR
+ * Adding house as HR
  * @param {profileId, address,landlordInfo,facilityDetails,pagination}
  * @returns {Housing} newly added house
  */
@@ -89,7 +89,40 @@ export const addHouseForHR =async (req,res)=>{
 }
 
 /**
- * Get basic information for all houses for HR
+ * delete a house as HR
+ * @param {profileId, houseID}
+ * @returns {deletedHouse} deleted house
+ */
+
+export const deleteHouseForHR =async (req,res)=>{
+  try {
+    const {profileId, houseID} = req.body
+    const user = await UserModel.findOne({ profile: profileId }).exec();
+    if(!user){
+      return res.status(404).json("User not found");
+    }
+    if(user.role !== "HR"){
+      return res.status(401).json("Permission denied");
+    }
+  
+    const deletedHouse = await Housing.findByIdAndDelete(houseID)
+    if(!deletedHouse){
+      return res.status(404).json("House not found");
+    }
+    return res.status(200).json(deletedHouse);
+
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json(
+        `error when deleting a House- ${error}`
+      );
+  }
+}
+
+/**
+ * Get basic information for all houses as HR
  * @param {ProfileId}
  * @returns {[address, Landlord, NumberofEmployee]} houses' basic infomation
  */
@@ -125,7 +158,7 @@ export const getAllBasicHouseInfoForHR = async (req,res)=>{
 }
 
 /**
- * Get summary information for selected House for HR
+ * Get summary information for selected House as HR
  * body @param {ProfileId}
  * query @param {houseID, page}
  * @returns {facilityInfo, FacilityReports, Comments, EmployeesInfo}
