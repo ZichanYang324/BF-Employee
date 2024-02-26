@@ -1,7 +1,7 @@
 // import asyncHandler from '../middleware/asyncHandler.js';
-import generateToken from '../utils/generateToken.js';
-import asyncHandler from '../middlewares/asyncHandler.js';
-import User from '../models/User.model.js';
+import asyncHandler from "../middlewares/asyncHandler.js";
+import User from "../models/User.model.js";
+import generateToken from "../utils/generateToken.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
@@ -30,14 +30,14 @@ import User from '../models/User.model.js';
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
   const { username, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
 
   if (userExists) {
     res.status(400);
-    throw new Error('User already exists');
+    throw new Error("User already exists");
   }
 
   const user = await User.create({
@@ -53,12 +53,11 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       username: user.username,
       email: user.email,
-    //   role: user.role,
-
+      //   role: user.role,
     });
   } else {
     res.status(400);
-    throw new Error('Invalid user data');
+    throw new Error("Invalid user data");
   }
 });
 
@@ -183,13 +182,13 @@ const registerUser = asyncHandler(async (req, res) => {
 // });
 
 export {
-//   authUser,
+  //   authUser,
   registerUser,
-//   logoutUser,
-//   getUserProfile,
-//   updateUserProfile,
-//   getUsers,
-//   deleteUser,
-//   getUserById,
-//   updateUser,
+  //   logoutUser,
+  //   getUserProfile,
+  //   updateUserProfile,
+  //   getUsers,
+  //   deleteUser,
+  //   getUserById,
+  //   updateUser,
 };
