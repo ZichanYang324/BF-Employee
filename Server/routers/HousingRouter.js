@@ -1,5 +1,5 @@
 import express from "express";
-import { getHousingDetailsForEmployee } from "../controllers/housingControllers.js";
+import { getHousingDetailsForEmployee, getAllBasicHouseInfoForHR,addHouseForHR, getHouseSummaryForHR } from "../controllers/housingControllers.js";
 import {
   getReportForEmployee,
   createReportForEmployee,
@@ -16,13 +16,13 @@ const commentRouter = express.Router();
 
 // TODO: add middlewares to authentify/validate request
 
-// housing info router
-housingRouter.get("/", getHousingDetailsForEmployee);
-// facility report router
+// housing info router /housing
+housingRouter.get("/", getHousingDetailsForEmployee).post('/add',addHouseForHR).get('/getAllBasicHouses',getAllBasicHouseInfoForHR).get('/getHouseSummary',getHouseSummaryForHR);
+// facility report router /report
 reportRouter
   .get("/", getReportForEmployee)
   .post("/add", createReportForEmployee);
-// comment info router
+// comment info router /comment
 commentRouter
   .get("/", getReportComments)
   .post("/add", createComment)
