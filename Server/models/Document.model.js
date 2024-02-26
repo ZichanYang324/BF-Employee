@@ -5,13 +5,13 @@ const Schema = mongoose.Schema;
 const DocumentSchema = new Schema({
   URL: {
     type: String,
-    required: true,
   },
   S3Bucket: {
     type: String,
     required: true,
+    default: "bgp-zichan",
   },
-  S3Name: {
+  S3Key: {
     type: String,
     required: true,
   },
