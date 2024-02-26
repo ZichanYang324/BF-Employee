@@ -1,5 +1,10 @@
 import DevRouter from "./routers/DevRouter.js";
 import userRouter from "./routers/userRouter.js";
+import {
+  commentRouter,
+  housingRouter,
+  reportRouter,
+} from "./routers/HousingRouter.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
@@ -22,6 +27,12 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/dev", DevRouter);
+
+// housing, report, comment api router
+
+app.use("/housing", housingRouter);
+app.use("/report", reportRouter);
+app.use("/comment", commentRouter);
 
 app.all("*", (_req, res) => {
   res.status(404).send("<h1>Page not found</h1>");
