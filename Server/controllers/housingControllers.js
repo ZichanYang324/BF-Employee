@@ -48,7 +48,7 @@ export const getHousingDetailsForEmployee = async (req, res) => {
     return res
       .status(500)
       .json(
-        `error when fetching Housing details for current employee - ${error}`
+        `error when fetching Housing details for current employee - ${error}`,
       );
   }
 };
