@@ -3,24 +3,17 @@
   "module": "index.js",
   "type": "module",
   "scripts": {
-<<<<<<< HEAD
-    "format": "prettier --write ..",
     "dev": "nodemon --env-file .env index.js ",
-    "seed": "node --env-file .env config/seed.js"
-  },
-  "dependencies": {
-    "argon2": "^0.31.2",
-    "aws-sdk": "^2.1565.0",
-=======
-    "dev": "nodemon --env-file .env index.js ",
+    "dev2": "nodemon index.js",
     "format": "prettier --write .",
     "seed": "node --env-file .env config/seed.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.515.0",
     "argon2": "^0.40.1",
+    "aws-sdk": "^2.1565.0",
     "bcrypt": "^5.1.1",
->>>>>>> 6506ee30bdcf7b437e58053efa6fd561d3718540
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -29,19 +22,14 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.1",
     "morgan": "^1.10.0",
-<<<<<<< HEAD
-    "process": "^0.11.10"
-=======
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.10"
->>>>>>> 6506ee30bdcf7b437e58053efa6fd561d3718540
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "dotenv-cli": "^7.3.0",
     "eslint": "^8.56.0",
-<<<<<<< HEAD
-=======
     "eslint-config-prettier": "^9.1.0",
->>>>>>> 6506ee30bdcf7b437e58053efa6fd561d3718540
     "nodemon": "^3.0.3",
     "prettier": "^3.2.5"
   }

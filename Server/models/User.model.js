@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-import mongoose from "mongoose";
-import constants from "../config/constants.js";
-=======
 import constants from "../config/constants.js";
 import mongoose from "mongoose";
->>>>>>> 6506ee30bdcf7b437e58053efa6fd561d3718540
+import bcrypt from 'bcryptjs';
 
 const Schema = mongoose.Schema;
 const refType = Schema.Types.ObjectId;
@@ -20,7 +16,7 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
-  password: {
+  passwordHash: {
     type: String,
     required: true,
   },
@@ -34,5 +30,7 @@ const UserSchema = new Schema({
     ref: "Profile",
   },
 });
-
+UserSchema.methods.comparePassword = function(password) {
+  return bcrypt.compareSync(password, this.passwordHash);
+};
 export default mongoose.model("User", UserSchema);
