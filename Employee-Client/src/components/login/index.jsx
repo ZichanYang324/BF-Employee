@@ -12,33 +12,37 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
+// import customFetch from '../../utils/customFetch';
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from '../../features/user/userSlice';
+import { useNavigate } from "react-router-dom";
 
-// function Copyright(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {/* {'Copyright © '} */}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export function Login() {
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const dispatch = useDispatch();
+    const { user } = useSelector((store) => store.user);
+    const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        // customFetch.post('/user/auth', { username: username, password: password })
+        // .then((res) => {
+        //     console.log(res);
+        // })
+        dispatch(loginUser({ username: username, password: password }));
     };
+
+    useEffect(() => {
+        if (user) {
+            setTimeout(() => {
+                navigate("/dashboard");
+            }, 1000);
+        }
+    }, [user]);
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -63,10 +67,12 @@ export function Login() {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoComplete="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             autoFocus
                         />
                         <TextField
@@ -78,11 +84,9 @@ export function Login() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
-                        {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
                         <Button
                             type="submit"
                             fullWidth
@@ -92,20 +96,9 @@ export function Login() {
                             Sign In
                         </Button>
                         <Grid container>
-                            {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
-                            {/* <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid> */}
                         </Grid>
                     </Box>
                 </Box>
-                {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
             </Container>
         </ThemeProvider>
     );
