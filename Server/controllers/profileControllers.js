@@ -1,10 +1,12 @@
-// import Profile from "../models/Profile.model.js";
 import User from "../models/User.model.js";
 
 export async function getProfile(req, res) {
-  // TODO: need auth
+  let userId = req.user._id;
+  if (process.env.NODE_ENV === "development") {
+    // TODO: remove this block
+    userId = req.query.userId;
+  }
 
-  const { userId } = req.query;
   if (!userId) {
     return res.status(400).json("Invalid request");
   }
