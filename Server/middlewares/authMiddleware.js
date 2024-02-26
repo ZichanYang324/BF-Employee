@@ -1,4 +1,4 @@
-import User from "../models/userModel.js";
+import User from "../models/User.model.js";
 import asyncHandler from "./asyncHandler.js";
 import jwt from "jsonwebtoken";
 import process from "process";
@@ -37,5 +37,21 @@ const admin = (req, res, next) => {
     throw new Error("Not authorized as an admin");
   }
 };
+//use token to do authenticate
+const authenticate = async (req, res, next) => {
+  try {
+    const token = req.header('Authorization').replace('Bearer ', '');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findOne({ _id: decoded.userId });
 
-export { protect, admin };
+    if (!user) {
+      throw new Error();
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: 'Please authenticate.' });
+  }
+};
+export { protect, admin, authenticate };
