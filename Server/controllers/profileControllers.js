@@ -1,10 +1,12 @@
 import User from "../models/User.model.js";
 
 export async function getProfile(req, res) {
-  let userId = req.user._id;
+  let userId;
   if (process.env.NODE_ENV === "development") {
     // TODO: remove this block
     userId = req.query.userId;
+  } else {
+    userId = req.user._id;
   }
 
   if (!userId) {
