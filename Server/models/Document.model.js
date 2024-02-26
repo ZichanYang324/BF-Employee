@@ -1,4 +1,4 @@
-import constants from "../config/constants.js";
+// import constants from "../config/constants.js";
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
@@ -24,6 +24,7 @@ const DocumentSchema = new Schema({
     type: refType,
     ref: "User",
     required: true,
+    default: "bgp-zichan",
   },
   feedback: {
     type: String,

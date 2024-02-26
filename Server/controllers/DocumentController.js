@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 // exports.uploadDocument = async (req, res) => {
 //   // upload to a storage services..
 // };
-import uploadFileToS3 from "../s3Service.js";
+// import uploadFileToS3 from "../s3Service.js";
 const documentOrder = ["OPT Receipt", "OPT EAD", "I-983", "I-20"];
 
 async function canUploadNextDocument(userId, documentType) {
@@ -133,7 +133,7 @@ async function login(req, res) {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if (!user || !user.comparePassword(password)) {
+    if (!user || !user.matchPassword(password)) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 

@@ -4,30 +4,34 @@ import User from "../models/User.model.js";
 import generateToken from "../utils/generateToken.js";
 
 // @desc    Auth user & get token
-// @route   POST /api/users/auth
+// @route   POST /user/auth
 // @access  Public
-// const authUser = asyncHandler(async (req, res) => {
-//   const { email, password } = req.body;
+const authUser = asyncHandler(async (req, res) => {
+  const { username, password } = req.body;
 
-//   const user = await User.findOne({ email });
+  const user = await User.findOne({ username });
 
-//   if (user && (await user.matchPassword(password))) {
-//     generateToken(res, user._id);
+  if (user && (await user.matchPassword(password))) {
+    const { token, expiresIn } = generateToken(res, user._id);
 
-//     res.json({
-//       _id: user._id,
-//       name: user.name,
-//       email: user.email,
-//       isAdmin: user.isAdmin,
-//     });
-//   } else {
-//     res.status(401);
-//     throw new Error('Invalid email or password');
-//   }
-// });
+    res.json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        // isAdmin: user.isAdmin,
+      },
+      token: token,
+      expiresIn: expiresIn,
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password");
+  }
+});
 
 // @desc    Register a new user
-// @route   POST /api/users
+// @route   POST /user
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
   console.log(req.body);
@@ -47,13 +51,17 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    generateToken(res, user._id);
+    const { token, expiresIn } = generateToken(res, user._id);
 
     res.status(201).json({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      //   role: user.role,
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        //   role: user.role,
+      },
+      token: token,
+      expiresIn: expiresIn,
     });
   } else {
     res.status(400);
@@ -182,7 +190,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // });
 
 export {
-  //   authUser,
+  authUser,
   registerUser,
   //   logoutUser,
   //   getUserProfile,
