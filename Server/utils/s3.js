@@ -5,6 +5,7 @@ import {
   ListObjectsV2Command,
   PutObjectCommand,
 } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 /**
  * List files in the bgp-zichan S3 bucket.
@@ -68,6 +69,25 @@ export async function getOneFile(params = {}) {
   };
   try {
     const data = await s3.send(new GetObjectCommand(_params));
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
+/**
+ * Get a presigned URL for a file in the bgp-zichan S3 bucket.
+ * @param {Partial<import("@aws-sdk/client-s3").GetObjectCommandInput>} params - The parameters to send to the Amazon S3 API.
+ */
+export async function getOneFilePresignedUrl(params = {}) {
+  const _params = {
+    Bucket: bucketName,
+    ...params,
+  };
+  try {
+    const data = await getSignedUrl(s3, new GetObjectCommand(_params), {
+      expiresIn: 3600,
+    });
     return { data, error: null };
   } catch (error) {
     return { data: null, error };
