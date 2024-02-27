@@ -91,6 +91,23 @@ function seedProfile({ userId }) {
         email: "davidJohnson@bgptest.com",
       },
     ],
+    OPTReceipt: {
+      document: optReceiptDoc._id,
+      status: "APPROVED",
+    },
+    OPTEAD: {
+      document: optEADDoc._id,
+      status: "REJECTED",
+      feedback: "Incorrect date of birth",
+    },
+    I983: {
+      document: i983Doc._id,
+      status: "PENDING",
+    },
+    I20: {
+      document: i20Doc._id,
+      status: "APPROVED",
+    },
     applicationStatus: "APPROVED",
   });
 
