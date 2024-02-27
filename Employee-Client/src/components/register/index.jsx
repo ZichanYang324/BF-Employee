@@ -59,7 +59,7 @@ export function Register() {
         }
     }, [user]);
 
-    const checkPgae = () => {
+    const checkPage = () => {
         if (emailInput.isValid && passwordInput.isValid && passwordRepeatInput.isValid) {
             setSubmitIsValid(true)
         } else {
@@ -68,7 +68,7 @@ export function Register() {
     }
 
     useEffect(() => {
-        checkPgae()
+        checkPage()
     }, [emailInput.value, passwordInput.value, passwordRepeatInput.value, usernameInput.value])
 
     return (

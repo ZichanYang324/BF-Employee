@@ -53,7 +53,7 @@ export function Login() {
 
     useEffect(() => {
         checkPgae()
-    }, [usernameInput.value, passwordInput.value])
+    }, [usernameInput.isValid, passwordInput.isValid])
 
     useEffect(() => {
         if (user) {
