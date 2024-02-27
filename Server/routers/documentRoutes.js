@@ -4,7 +4,7 @@ import {authenticate} from "../middlewares/authMiddleware.js";
 import checkHRRole from "../middlewares/hrRoleMiddleware.js";
 import { register,login,uploadDocument, updateDocumentStatus, getMyDocuments } from "../controllers/DocumentController.js";
 import multer from 'multer';
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ storage: multer.memoryStorage() });
 
 
 router.post("/upload", authenticate, upload.single('file'),uploadDocument);
