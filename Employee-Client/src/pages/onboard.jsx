@@ -30,7 +30,8 @@ const Onboard = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  
+
+
   const toggleWorkAuth = () => {
     setShowWorkAuth(!showWorkAuth);
   };
@@ -62,7 +63,7 @@ const Onboard = () => {
         width: 'fit-content',
         maxWidth: '1000px',
         mx: 'auto',
-        py: 4,
+        py: '16px',
     }}>
       <Typography variant='h3' gutterBottom>Onboarding Application</Typography>
       <Box sx={{ 
@@ -80,12 +81,14 @@ const Onboard = () => {
             fullWidth
             required
             sx={{ mr: 2 }}
+            {...register('firstName')}
           />
           <TextField
             label="Last Name"
             variant="outlined"
             fullWidth
             required
+            {...register('lastName')}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -94,11 +97,13 @@ const Onboard = () => {
             variant="outlined"
             sx={{ mr: 2 }}
             fullWidth
+            {...register('middleName')}
           />
           <TextField
             label="Preferred Name"
             variant="outlined"
             fullWidth
+            {...register('preferredName')}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex' }}>
@@ -108,9 +113,13 @@ const Onboard = () => {
             required
             fullWidth
             sx={{ mr: 2 }}
+            {...register('gender')}
           >
             {genders.map((gender) => (
-              <MenuItem key={gender.value} value={gender.value}>
+              <MenuItem 
+                key={gender.value} 
+                value={gender.value}
+              >
                 {gender.label}
               </MenuItem>
             ))}
@@ -124,6 +133,7 @@ const Onboard = () => {
             InputLabelProps={{
               shrink: true,
             }}
+            {...register('dateOfBirth')}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -133,11 +143,13 @@ const Onboard = () => {
             fullWidth
             required
             sx={{ mr: 2 }}
+            {...register('cellPhone')}
           />
           <TextField
             label="Work Phone"
             variant="outlined"
             fullWidth
+            {...register('workPhone')}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -147,12 +159,14 @@ const Onboard = () => {
             required
             fullWidth
             sx={{ mr: 2 }}
+            {...register('SSN')}
           />
           <TextField
             label="Email"
             disabled
             defaultValue={"user1@xxx.com"}
             fullWidth
+            {...register('email')}
           />
         </Box>
         <Typography variant='body2' sx={{my:2}}>
@@ -176,6 +190,7 @@ const Onboard = () => {
             <VisuallyHiddenInput
               type="file"
               onChange={handleProfilePicChange}
+              {...register('profilePic')}
             />
           </Button>
         </Box>
@@ -185,17 +200,20 @@ const Onboard = () => {
           variant="outlined"
           required
           sx={{mt: 2}}
+          {...register('streetAddress')}
         />
         <TextField
           label="Building / Apartment #"
           variant="outlined"
           sx={{mt: 2}}
+          {...register('buildingNumber')}
         />
         <TextField
           label="City"
           variant="outlined"
           required
           sx={{mt: 2}}
+          {...register('city')}
         />
         <Box sx={{ mt: 2, display: 'flex'}}>
           <TextField
@@ -204,6 +222,7 @@ const Onboard = () => {
             required
             fullWidth
             sx={{ mr: 2 }}
+            {...register('state')}
           >
             {stateNames.map((state) => (
               <MenuItem key={state.value} value={state.value}>
@@ -248,6 +267,7 @@ const Onboard = () => {
               fullWidth
               onChange={handleAuthTypeChange}
               sx={{mt: 2}}
+              {...register('workAuth')}
             >
               {workAuthTypes.map((workAuthType) => (
                 <MenuItem key={workAuthType.value} value={workAuthType.value}>
@@ -272,6 +292,7 @@ const Onboard = () => {
                     <VisuallyHiddenInput
                       type="file"
                       onChange={handleOptReceiptChange}
+                      {...register('optReceipt')}
                     />
                   </Button>
                   {optReceipt && (
@@ -291,6 +312,7 @@ const Onboard = () => {
                 fullWidth
                 required
                 sx={{mt: 2}}
+                {...register('visaTitle')}
               />
             )}
           </>
@@ -301,6 +323,7 @@ const Onboard = () => {
             required
             fullWidth
             sx={{ mt: 2}}
+            {...register('identity')}
           >
             <MenuItem value="PR">
               Green Card
@@ -335,6 +358,7 @@ const Onboard = () => {
                 required
                 fullWidth
                 sx={{mr: 2}}
+                {...register('licenseNumber')}
               />
               <TextField
                 label="Expiration Date"
@@ -344,6 +368,7 @@ const Onboard = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                {...register('licenseExpirationDate')}
               />
             </Box>
             <Typography variant='body2' sx={{my:2}}>
@@ -360,6 +385,7 @@ const Onboard = () => {
               <VisuallyHiddenInput
                 type="file"
                 onChange={handleDriverLicenceChange}
+                {...register('driverLicence')}
               />
             </Button>
             {driverLicence && (
@@ -378,16 +404,19 @@ const Onboard = () => {
               <TextField
                 label="Make"
                 variant="outlined"
+                {...register('carMake')}
               />
               <TextField
                 label="Model"
                 variant="outlined"
                 sx={{mt: 2}}
+                {...register('carModel')}
               />
               <TextField
                 label="Color"
                 variant="outlined"
                 sx={{mt: 2}}
+                {...register('carColor')}
               />
             </Box>
             
@@ -408,18 +437,21 @@ const Onboard = () => {
             required
             fullWidth
             sx={{mr: 2}}
+            {...register('refferenceFirstName')}
           />
           <TextField
             label="Middle Name"
             variant="outlined"
             fullWidth
             sx={{mr: 2}}
+            {...register('refferenceMiddleName')}
           />
           <TextField
             label="Last Name"
             variant="outlined"
             required
             fullWidth
+            {...register('refferenceLastName')}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -429,12 +461,14 @@ const Onboard = () => {
             fullWidth
             required
             sx={{mr: 2}}
+            {...register('refferencePhone')}
           />
           <TextField
             label="Email"
             variant="outlined"
             required
             fullWidth
+            {...register('refferenceEmail')}
           />
         </Box>
         <Typography variant='h6' sx={{mt:4, alignSelf: 'start'}}>
@@ -447,18 +481,21 @@ const Onboard = () => {
             required
             fullWidth
             sx={{mr: 2}}
+            {...register('emergencyContactFirstName')}
           />
           <TextField
             label="Middle Name"
             variant="outlined"
             fullWidth
             sx={{mr: 2}}
+            {...register('emergencyContactMiddleName')}
           />
           <TextField
             label="Last Name"
             variant="outlined"
             required
             fullWidth
+            {...register('emergencyContactLastName')}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -468,12 +505,14 @@ const Onboard = () => {
             fullWidth
             required
             sx={{mr: 2}}
+            {...register('emergencyContactPhone')}
           />
           <TextField
             label="Email"
             variant="outlined"
             required
             fullWidth
+            {...register('emergencyContactEmail')}
           />
         </Box>
       </Box>
