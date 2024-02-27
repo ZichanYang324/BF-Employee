@@ -1,31 +1,35 @@
 import { Document, Profile, User } from "../models/index.js";
-import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import process from "process";
 
 dotenv.config();
 
-function seedProfile() {
+function seedProfile({ userId }) {
   const driversLicenseDoc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Key: "drivers-license-1234567890",
+    S3Name: "drivers-license-1234567890",
+    owner: userId,
   });
   const optReceiptDoc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Key: "opt-receipt-1234567890",
+    S3Name: "opt-receipt-1234567890",
+    owner: userId,
   });
   const optEADDoc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Key: "opt-ead-1234567890",
+    S3Name: "opt-ead-1234567890",
+    owner: userId,
   });
   const i983Doc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Key: "i983-1234567890",
+    S3Name: "i983-1234567890",
+    owner: userId,
   });
   const i20Doc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Key: "i20-1234567890",
+    S3Name: "i20-1234567890",
+    owner: userId,
   });
 
   const profile = new Profile({
@@ -124,18 +128,18 @@ const seed = async () => {
     await User.deleteMany({});
     await Profile.deleteMany({});
 
-    const _profiles = seedProfile();
+    const user = new User({
+      username: "user1",
+      email: "user1@mail.com",
+      password: "pswd1", // hashed in UserSchema.pre
+    });
+
+    const _profiles = seedProfile({ userId: user._id });
     const { profile } = _profiles;
     await Promise.all(Object.values(_profiles).map((doc) => doc.save()));
 
-    const userContent = {
-      username: "user1",
-      email: "user1@mail.com",
-      password: await bcrypt.hash("pswd1"),
-      profile: profile._id,
-    };
-
-    await User.create(userContent);
+    user.profile = profile._id;
+    await user.save();
 
     console.log("Succeeded");
   } catch (err) {
