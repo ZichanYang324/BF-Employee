@@ -15,5 +15,5 @@ export function useCustomFetch(url, _options) {
   }, [_options, token]);
 
   const { data, isLoading, error, isFetched } = useFetch(url, options);
-  return { data, isFetched: isLoading, error, isFetched };
+  return { data, isLoading, error, isFetched };
 }

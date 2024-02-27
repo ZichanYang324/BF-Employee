@@ -211,10 +211,10 @@ function Documents({ documents }) {
         Documents
       </Typography>
       <div>
-        {documents.map(([docType, { s3Key, url }]) => (
+        {documents.map(([docType, { url }]) => (
           <div key={docType}>
             <a href={url} rel="noreferrer" target="_blank">
-              <Typography>{s3Key}</Typography>
+              <Typography>{docType}</Typography>
             </a>
           </div>
         ))}
