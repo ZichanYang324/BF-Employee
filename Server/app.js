@@ -1,4 +1,4 @@
-import { profileRouter } from "./routers/ProfileRouter.js";
+import profileRouter from "./routers/ProfileRouter.js";
 import userRouter from "./routers/userRouter.js";
 import cors from "cors";
 import express from "express";
