@@ -1,13 +1,30 @@
 import { TextField, Box, Button, Typography, MenuItem, Radio } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
 import { stateNames, genders, workAuthTypes } from '../utils/constants';
 import { useState } from 'react';
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 const Onboard = () => {
   
   const [showWorkAuth, setShowWorkAuth] = useState(false);
   const [authType, setAuthType] = useState('H1B');
   const [hasDriverLicence, setHasDriverLicence] = useState(false);
+  const [profilePic, setProfilePic] = useState("https://t3.ftcdn.net/jpg/02/09/37/00/360_F_209370065_JLXhrc5inEmGl52SyvSPeVB23hB6IjrR.jpg");
+  const [optReceipt, setOptReceipt] = useState();
+  const [driverLicence, setDriverLicence] = useState();
   const {
     register,
     handleSubmit,
@@ -22,8 +39,20 @@ const Onboard = () => {
     setAuthType(e.target.value);
   };
 
-  const handleToggleDriverLicence = (e) => {
+  const handleToggleDriverLicence = () => {
     setHasDriverLicence(!hasDriverLicence);
+  };
+
+  const handleProfilePicChange = (e) => {
+    setProfilePic(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const handleOptReceiptChange = (e) => {
+    setOptReceipt(e.target.files[0]);
+  };
+
+  const handleDriverLicenceChange = (e) => {
+    setDriverLicence(e.target.files[0]);
   };
 
   return (
@@ -126,7 +155,30 @@ const Onboard = () => {
             fullWidth
           />
         </Box>
-
+        <Typography variant='body2' sx={{my:2}}>
+          Profile Picture
+        </Typography>
+        <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 4}}>
+          <img
+            src={profilePic}
+            width="80px"
+            height="80px"
+            style={{ borderRadius: '50%' }}
+          />
+          <Button
+            component="label"
+            variant="contained"
+            sx={{mt: 2}}
+            startIcon={<CloudUploadIcon />}
+            role={undefined}
+          >
+            Upload
+            <VisuallyHiddenInput
+              type="file"
+              onChange={handleProfilePicChange}
+            />
+          </Button>
+        </Box>
         <Typography variant='h6' sx={{mt:4}}>Physical Address</Typography>
         <TextField
           label="Street Address"
@@ -204,8 +256,34 @@ const Onboard = () => {
               ))}
             </TextField>
             {authType === 'F1' && (
-              // TODO
-              <div>upload opt receipt</div>
+              <>
+                <Typography variant='body2' sx={{mt:2}}>
+                  Please upload your OPT receipt
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 24}}>
+                  <Button
+                    component="label"
+                    variant="contained"
+                    sx={{mt: 2, width: 120}}
+                    startIcon={<CloudUploadIcon />}
+                    role={undefined}
+                  >
+                    Upload
+                    <VisuallyHiddenInput
+                      type="file"
+                      onChange={handleOptReceiptChange}
+                    />
+                  </Button>
+                  {optReceipt && (
+                    <a 
+                      href={URL.createObjectURL(optReceipt)} 
+                      target="_blank"
+                    >
+                      {optReceipt.name}
+                    </a>
+                  )}
+                </Box>
+              </>
             )}
             {authType === 'Other' && (
               <TextField
@@ -250,7 +328,6 @@ const Onboard = () => {
           />
           <label>No</label>
         {hasDriverLicence && (
-          // TODO: upload driver's license
           <>
             <Box sx={{ mt: 2, display: 'flex'}}>
               <TextField
@@ -269,6 +346,31 @@ const Onboard = () => {
                 }}
               />
             </Box>
+            <Typography variant='body2' sx={{my:2}}>
+              Please upload your driver&rsquo;s license
+            </Typography>
+            <Button
+              component="label"
+              variant="contained"
+              sx={{width: 120}}
+              startIcon={<CloudUploadIcon />}
+              role={undefined}
+            >
+              Upload
+              <VisuallyHiddenInput
+                type="file"
+                onChange={handleDriverLicenceChange}
+              />
+            </Button>
+            {driverLicence && (
+              <a 
+                href={URL.createObjectURL(driverLicence)} 
+                target="_blank"
+                style={{ marginLeft: 24}}
+              >
+                {driverLicence.name}
+              </a>
+            )}
             <Typography variant='h6' sx={{mt:4}}>
               Car Information (if applicable)
             </Typography>
@@ -288,6 +390,7 @@ const Onboard = () => {
                 sx={{mt: 2}}
               />
             </Box>
+            
           </>
         )}
         
