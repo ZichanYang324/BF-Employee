@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
 import { stateNames, genders, workAuthTypes } from '../utils/constants';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import DEFAULT_PIC from '../assets/default-avatar.jpeg';
 
 const VisuallyHiddenInput = styled('input')({
@@ -20,9 +20,9 @@ const VisuallyHiddenInput = styled('input')({
 
 const Onboard = () => {
 
-  const [profilePic, setProfilePic] = useState(DEFAULT_PIC);
-  const [optReceipt, setOptReceipt] = useState();
-  const [driverLicence, setDriverLicence] = useState();
+  // const [profilePic, setProfilePic] = useState(DEFAULT_PIC);
+  // const [optReceipt, setOptReceipt] = useState();
+  // const [driverlicense, setDriverlicense] = useState();
   const {
     register,
     unregister,
@@ -32,7 +32,11 @@ const Onboard = () => {
 
   const showWorkAuth = watch('showWorkAuth');
   const authType = watch('authType');
-  const hasDriverLicence = watch('hasDriverLicence');
+  const hasDriverlicense = watch('hasDriverlicense');
+  const profilePic = watch('profilePic') ? watch('profilePic')[0] : null;
+  const optReceipt = watch('optReceipt') ? watch('optReceipt')[0] : null;
+  const driverlicense = watch('driverlicense') ? watch('driverlicense')[0] : null;
+
 
   useEffect(() => {
     if (showWorkAuth) {
@@ -54,8 +58,8 @@ const Onboard = () => {
       unregister("endDate");
     }
 
-    if (hasDriverLicence) {
-      register("driverLicence");
+    if (hasDriverlicense) {
+      register("driverlicense");
       register("licenseNumber");
       register("licenseExpirationDate");
       register("carMake");
@@ -64,25 +68,13 @@ const Onboard = () => {
     } else {
       unregister("licenseNumber");
       unregister("licenseExpirationDate");
-      unregister("driverLicence");
+      unregister("driverlicense");
       unregister("carMake");
       unregister("carModel");
       unregister("carColor");
     }
 
-  }, [register, unregister, showWorkAuth, authType, hasDriverLicence]);
-
-  const handleProfilePicChange = (e) => {
-    setProfilePic(URL.createObjectURL(e.target.files[0]));
-  };
-
-  const handleOptReceiptChange = (e) => {
-    setOptReceipt(e.target.files[0]);
-  };
-
-  const handleDriverLicenceChange = (e) => {
-    setDriverLicence(e.target.files[0]);
-  };
+  }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -208,7 +200,11 @@ const Onboard = () => {
         </Typography>
         <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 4}}>
           <img
-            src={profilePic}
+            src={
+              profilePic ?
+              URL.createObjectURL(profilePic) : 
+              DEFAULT_PIC
+            }
             width="80px"
             height="80px"
             style={{ borderRadius: '50%' }}
@@ -223,7 +219,6 @@ const Onboard = () => {
             Upload
             <VisuallyHiddenInput
               type="file"
-              onChange={handleProfilePicChange}
               {...register('profilePic')}
             />
           </Button>
@@ -275,14 +270,14 @@ const Onboard = () => {
           Work Authorization
         </Typography>
         <Typography variant='body2' sx={{mt:2}}>
-          Are you a citizen or permanent resident of the United States?
+          Are you a citizen or permanent resident of the United States? *
         </Typography>
         <TextField
           select
           required
           fullWidth
+          defaultValue={true}
           sx={{ width: '80px', mt: 2 }}
-          defaultValue={false}
           {...register('showWorkAuth')}
         >
           <MenuItem value={false}>Yes</MenuItem>
@@ -348,7 +343,6 @@ const Onboard = () => {
                     Upload
                     <VisuallyHiddenInput
                       type="file"
-                      onChange={handleOptReceiptChange}
                       {...register('optReceipt')}
                     />
                   </Button>
@@ -394,7 +388,7 @@ const Onboard = () => {
           Driver&rsquo;s License
         </Typography>
         <Typography variant='body2' sx={{mt:2}}>
-          Do you have a driver&rsquo;s license?
+          Do you have a driver&rsquo;s license? *
         </Typography>
         <Box sx={{ mt: 2 }}>
           <TextField
@@ -402,13 +396,12 @@ const Onboard = () => {
             required
             fullWidth
             sx={{ width: '80px' }}
-            defaultValue={false}
-            {...register('hasDriverLicence')}
+            {...register('hasDriverlicense')}
           >
             <MenuItem value={true}>Yes</MenuItem>
             <MenuItem value={false}>No</MenuItem>
           </TextField>
-        {hasDriverLicence && (
+        {hasDriverlicense && (
           <>
             <Box sx={{ mt: 2, display: 'flex'}}>
               <TextField
@@ -442,17 +435,16 @@ const Onboard = () => {
               Upload
               <VisuallyHiddenInput
                 type="file"
-                onChange={handleDriverLicenceChange}
-                {...register('driverLicence')}
+                {...register('driverlicense')}
               />
             </Button>
-            {driverLicence && (
+            {driverlicense && (
               <a 
-                href={URL.createObjectURL(driverLicence)} 
+                href={URL.createObjectURL(driverlicense)} 
                 target="_blank"
                 style={{ marginLeft: 24}}
               >
-                {driverLicence.name}
+                {driverlicense.name}
               </a>
             )}
             <Typography variant='h6' sx={{mt:4}}>
@@ -573,7 +565,7 @@ const Onboard = () => {
             {...register('emergencyContactEmail')}
           />
         </Box>
-        { (optReceipt || driverLicence) && (
+        { (optReceipt || driverlicense) && (
           <>
             <Typography variant='h6' sx={{mt:4, alignSelf: 'start'}}>
               Uploaded Files
@@ -587,13 +579,13 @@ const Onboard = () => {
                   {optReceipt.name}
                 </a>
               )}
-              {driverLicence && (
+              {driverlicense && (
                 <a 
-                  href={URL.createObjectURL(driverLicence)} 
+                  href={URL.createObjectURL(driverlicense)} 
                   target="_blank"
                   style={{ marginTop: 24}}
                 >
-                  {driverLicence.name}
+                  {driverlicense.name}
                 </a>
               )}
             </Box>
