@@ -1,6 +1,5 @@
 import { getUserFromLocalStorage } from "./localStorage";
 import axios from "axios";
-
 import Cookies from "js-cookie";
 
 const customFetch = axios.create({

@@ -9,8 +9,5 @@
   "license": "ISC",
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0"
-  },
-  "dependencies": {
-    "nodemailer": "^6.9.10"
   }
 }
