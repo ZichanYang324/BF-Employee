@@ -4,6 +4,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
 import { stateNames, genders, workAuthTypes } from '../utils/constants';
 import { useState } from 'react';
+import DEFAULT_PIC from '../assets/default-avatar.jpeg';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -22,7 +23,7 @@ const Onboard = () => {
   const [showWorkAuth, setShowWorkAuth] = useState(false);
   const [authType, setAuthType] = useState('H1B');
   const [hasDriverLicence, setHasDriverLicence] = useState(false);
-  const [profilePic, setProfilePic] = useState("https://t3.ftcdn.net/jpg/02/09/37/00/360_F_209370065_JLXhrc5inEmGl52SyvSPeVB23hB6IjrR.jpg");
+  const [profilePic, setProfilePic] = useState(DEFAULT_PIC);
   const [optReceipt, setOptReceipt] = useState();
   const [driverLicence, setDriverLicence] = useState();
   const {
@@ -55,6 +56,10 @@ const Onboard = () => {
     setDriverLicence(e.target.files[0]);
   };
 
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <Box 
       sx={{ 
@@ -65,13 +70,15 @@ const Onboard = () => {
         py: '16px',
     }}>
       <Typography variant='h3' gutterBottom>Onboarding Application</Typography>
-      <Box sx={{ 
+      <form style={{ 
         display: 'flex', 
         flexDirection: 'column', 
         minHeight: '100vh',
         width: 'fit-content',
         mx: 'auto',
-      }}>
+      }}
+      onSubmit={handleSubmit(onSubmit)}
+      >
         <Typography variant='h6' sx={{mt:2}}>Personal Information</Typography>
         <Box sx={{ mt: 2, display: 'flex'}}>
           <TextField
@@ -540,15 +547,16 @@ const Onboard = () => {
             </Box>
           </>
         )}
-      </Box>
-      <Button
-        variant="contained"
-        color="primary"
-        fullWidth
-        sx={{my: 8}}
-      >
-        Submit
-      </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{my: 8}}
+          type="submit"
+        >
+          Submit
+        </Button>
+      </form>
     </Box>
   )
 }
