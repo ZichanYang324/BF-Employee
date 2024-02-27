@@ -6,9 +6,13 @@ import process from "process";
 // User must be authenticated
 const protect = asyncHandler(async (req, res, next) => {
   let token;
+  const authHeader = req.headers.authorization;
 
-  // Read JWT from the 'jwt' cookie
-  token = req.cookies.jwt;
+  if (authHeader && authHeader.startsWith('Bearer')) {
+    token = authHeader.split(' ')[1];
+
+    console.log('Token:', token);
+  }
 
   if (token) {
     try {

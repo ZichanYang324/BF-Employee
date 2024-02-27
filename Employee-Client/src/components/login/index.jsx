@@ -2,7 +2,6 @@
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import Checkbox from '@mui/material/Checkbox';
 // import Link from '@mui/material/Link';
@@ -13,28 +12,48 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
-// import customFetch from '../../utils/customFetch';
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from '../../features/user/userSlice';
 import { useNavigate } from "react-router-dom";
+import useInput from '../../utils/use-input';
+import { getMsgErrorValidPass, isNotEmpty, validPass } from '../../utils/checkInputReg';
+import CustomInput from '../Input';
 
 
 const defaultTheme = createTheme();
 
 export function Login() {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const usernameInput = useInput(isNotEmpty);
+    const passwordInput = useInput(validPass);
     const dispatch = useDispatch();
+    const [submitIsValid, setSubmitIsValid] = useState(false);
     const { user } = useSelector((store) => store.user);
     const navigate = useNavigate();
+
+    const usernameInputErrorMsg = usernameInput.hasError
+        ? 'Username is required'
+        : '';
+
+    const userPasswordErrorMsg = passwordInput.hasError
+        ? getMsgErrorValidPass(passwordInput.value)
+        : '';
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        // customFetch.post('/user/auth', { username: username, password: password })
-        // .then((res) => {
-        //     console.log(res);
-        // })
-        dispatch(loginUser({ username: username, password: password }));
+        dispatch(loginUser({ username: usernameInput.value, password: passwordInput.value }));
     };
+
+    const checkPgae = () => {
+        if (usernameInput.isValid && passwordInput.isValid) {
+            setSubmitIsValid(true)
+        } else {
+            setSubmitIsValid(false)
+        }
+    }
+
+    useEffect(() => {
+        checkPgae()
+    }, [usernameInput.isValid, passwordInput.isValid])
 
     useEffect(() => {
         if (user) {
@@ -63,35 +82,27 @@ export function Login() {
                         Employee Log in
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="username"
+                        <CustomInput
                             label="Username"
-                            name="username"
-                            autoComplete="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            autoFocus
+                            value={usernameInput.value}
+                            handleChange={usernameInput.valueChangeHandler}
+                            onBlur={usernameInput.inputBlurHandler}
+                            errorMsg={usernameInputErrorMsg}
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
+                        <CustomInput
                             label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={passwordInput.value}
+                            handleChange={passwordInput.valueChangeHandler}
+                            onBlur={passwordInput.inputBlurHandler}
+                            type='password'
+                            errorMsg={userPasswordErrorMsg}
                         />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            disabled={!submitIsValid}
                         >
                             Sign In
                         </Button>
