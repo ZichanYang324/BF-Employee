@@ -20,9 +20,6 @@ const VisuallyHiddenInput = styled('input')({
 
 const Onboard = () => {
 
-  // const [profilePic, setProfilePic] = useState(DEFAULT_PIC);
-  // const [optReceipt, setOptReceipt] = useState();
-  // const [driverlicense, setDriverlicense] = useState();
   const {
     register,
     unregister,
@@ -36,7 +33,6 @@ const Onboard = () => {
   const profilePic = watch('profilePic') ? watch('profilePic')[0] : null;
   const optReceipt = watch('optReceipt') ? watch('optReceipt')[0] : null;
   const driverlicense = watch('driverlicense') ? watch('driverlicense')[0] : null;
-
 
   useEffect(() => {
     if (showWorkAuth) {
@@ -76,9 +72,9 @@ const Onboard = () => {
 
   }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  // const onSubmit = (data) => {
+  //   console.log(data);
+  // };
 
   return (
     <Box 

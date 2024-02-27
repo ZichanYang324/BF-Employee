@@ -61,4 +61,3 @@ export const getMsgErrorValidPass = (value) => {
   }
   return result.join("\n");
 };
-
