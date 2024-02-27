@@ -132,7 +132,7 @@ const seed = async () => {
     const userContent = {
       username: "user1",
       email: "user1@mail.com",
-      password: await bcrypt.hash("pswd1", 8),
+      password: "pswd1", // hashed in UserSchema.pre
     };
 
     const user = await User.create(userContent);
