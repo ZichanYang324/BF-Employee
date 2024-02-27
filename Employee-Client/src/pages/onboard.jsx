@@ -72,9 +72,9 @@ const Onboard = () => {
 
   }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
 
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  // };
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <Box 
