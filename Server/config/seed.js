@@ -6,26 +6,31 @@ import process from "process";
 
 dotenv.config();
 
-function seedProfile() {
+function seedProfile({ userId }) {
   const driversLicenseDoc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Key: "drivers-license-1234567890",
+    S3Name: "drivers-license-1234567890",
+    owner: userId,
   });
   const optReceiptDoc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Key: "opt-receipt-1234567890",
+    S3Name: "opt-receipt-1234567890",
+    owner: userId,
   });
   const optEADDoc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Key: "opt-ead-1234567890",
+    S3Name: "opt-ead-1234567890",
+    owner: userId,
   });
   const i983Doc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Key: "i983-1234567890",
+    S3Name: "i983-1234567890",
+    owner: userId,
   });
   const i20Doc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Key: "i20-1234567890",
+    S3Name: "i20-1234567890",
+    owner: userId,
   });
 
   const profile = new Profile({
@@ -86,23 +91,6 @@ function seedProfile() {
         email: "davidJohnson@bgptest.com",
       },
     ],
-    OPTReceipt: {
-      document: optReceiptDoc._id,
-      status: "APPROVED",
-    },
-    OPTEAD: {
-      document: optEADDoc._id,
-      status: "REJECTED",
-      feedback: "Incorrect date of birth",
-    },
-    I983: {
-      document: i983Doc._id,
-      status: "PENDING",
-    },
-    I20: {
-      document: i20Doc._id,
-      status: "APPROVED",
-    },
     applicationStatus: "APPROVED",
   });
 
@@ -124,18 +112,19 @@ const seed = async () => {
     await User.deleteMany({});
     await Profile.deleteMany({});
 
-    const _profiles = seedProfile();
-    const { profile } = _profiles;
-    await Promise.all(Object.values(_profiles).map((doc) => doc.save()));
-
     const userContent = {
       username: "user1",
       email: "user1@mail.com",
-      password: await bcrypt.hash("pswd1"),
-      profile: profile._id,
+      password: await bcrypt.hash("pswd1", 8),
     };
 
-    await User.create(userContent);
+    const user = await User.create(userContent);
+
+    const _profiles = seedProfile({ userId: user._id });
+    const { profile } = _profiles;
+    await Promise.all(Object.values(_profiles).map((doc) => doc.save()));
+
+    await User.updateOne({ _id: user._id }, { profile: profile._id });
 
     console.log("Succeeded");
   } catch (err) {
