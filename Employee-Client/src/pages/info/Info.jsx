@@ -1,25 +1,31 @@
 import ResponsiveAppBar from "../../components/navbar";
-import customFetch from "../../utils/customFetch";
-import { useCustomFetch } from "./hooks";
-import { Box, Container, TextField, Typography } from "@mui/material";
+import { fetchDocuments, fetchProfile } from "../../features/info/infoSlice";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Container,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Info() {
-  // const profile = useSelector((store) => store.profile);
-
-  const { data: _profile, isFetched: isFetchedProfile } =
-    useCustomFetch("/profile");
-  const profile = useMemo(() => _profile?.profile, [_profile]);
-
-  const { data: documents, isFetched: isFetchedDocuments } =
-    useCustomFetch("/profile/documents");
+  const dispatch = useDispatch();
+  const profile = useSelector((store) => store.info.profile.data);
+  const profileStatus = useSelector((store) => store.info.profile.status);
+  const email = useSelector((store) => store.user.user.email);
 
   useEffect(() => {
-    window.customFetch = customFetch;
-  }, []);
+    if (profileStatus === "idle") {
+      dispatch(fetchProfile());
+    }
+  }, [profileStatus, dispatch]);
 
-  if (!isFetchedProfile || !isFetchedDocuments) {
+  if (profileStatus !== "succeeded") {
     return <div>Loading...</div>;
   }
 
@@ -28,12 +34,7 @@ function Info() {
       <ResponsiveAppBar />
       <Container>
         <Section>
-          <Name
-            firstName={profile.firstName}
-            middleName={profile.middleName}
-            lastName={profile.lastName}
-            preferredName={profile.preferredName}
-          />
+          <Name {...{ ...profile, email }} />
         </Section>
         <Section>
           <Address address={profile.address} />
@@ -51,7 +52,7 @@ function Info() {
           <EmergencyContact contacts={profile.emergencyContacts} />
         </Section>
         <Section>
-          <Documents documents={documents} />
+          <Documents />
         </Section>
       </Container>
     </div>
@@ -79,6 +80,10 @@ function Name({
   DOB,
   gender,
 }) {
+  const profilePicUrl = useMemo(() => {
+    profilePic == null ? "" : profilePic;
+  }, [profilePic]);
+
   return (
     <>
       <Typography variant="h4" sx={{ marginBottom: "4px" }}>
@@ -96,7 +101,11 @@ function Name({
           />
         </div>
         <div>
-          <TextField sx={INPUT_SX} value={profilePic} label="Profile picture" />
+          <TextField
+            sx={INPUT_SX}
+            value={profilePicUrl}
+            label="Profile picture"
+          />
         </div>
         <div>
           <TextField sx={INPUT_SX} value={email} label="Email" />
@@ -204,22 +213,35 @@ function EmergencyContact({ contacts }) {
   );
 }
 
-function Documents({ documents }) {
+function Documents() {
+  const dispatch = useDispatch();
+  const documents = useSelector((store) => store.info.documents.data);
+  const documentsStatus = useSelector((store) => store.info.documents.status);
+
+  function handleDocumentChange(_event, expanded) {
+    if (expanded && documentsStatus === "idle") {
+      dispatch(fetchDocuments());
+    }
+  }
+
   return (
-    <>
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
-        Documents
-      </Typography>
-      <div>
-        {documents.map(([docType, { url }]) => (
-          <div key={docType}>
-            <a href={url} rel="noreferrer" target="_blank">
-              <Typography>{docType}</Typography>
-            </a>
-          </div>
-        ))}
-      </div>
-    </>
+    <Accordion onChange={handleDocumentChange}>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography variant="h4">Documents</Typography>
+      </AccordionSummary>
+
+      <AccordionDetails>
+        {documentsStatus === "succeeded"
+          ? documents.map(([docType, { url }]) => (
+              <div key={docType}>
+                <a href={url} rel="noreferrer" target="_blank">
+                  <Typography>{docType}</Typography>
+                </a>
+              </div>
+            ))
+          : "Loading..."}
+      </AccordionDetails>
+    </Accordion>
   );
 }
 
