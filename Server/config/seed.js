@@ -1,8 +1,9 @@
 import { Profile, User } from "../models/index.js";
 import argon2 from "argon2";
+import dotenv from "dotenv";
 import mongoose from "mongoose";
 import process from "process";
-import dotenv from "dotenv";
+
 dotenv.config();
 
 const seed = async () => {

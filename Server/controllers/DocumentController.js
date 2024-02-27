@@ -1,6 +1,6 @@
 import Document from "../models/Document.model.js";
 import User from "../models/User.model.js";
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // exports.uploadDocument = async (req, res) => {
@@ -114,7 +114,7 @@ async function getMyDocuments(req, res) {
   }
 }
 
-async function register (req, res) {
+async function register(req, res) {
   try {
     const { username, email, password } = req.body;
     const passwordHash = bcrypt.hashSync(password, 8);
@@ -122,11 +122,11 @@ async function register (req, res) {
     const user = new User({ username, email, passwordHash });
     await user.save();
 
-    res.status(201).json({ message: 'User registered successfully' });
+    res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-};
+}
 
 async function login(req, res) {
   try {
@@ -134,16 +134,24 @@ async function login(req, res) {
     const user = await User.findOne({ email });
 
     if (!user || !user.matchPassword(password)) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
     res.json({
       token: token,
-      isAdmin: user.isAdmin 
-  });
+      isAdmin: user.isAdmin,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+}
+export {
+  register,
+  login,
+  uploadDocument,
+  updateDocumentStatus,
+  getMyDocuments,
 };
-export { register, login, uploadDocument, updateDocumentStatus, getMyDocuments };

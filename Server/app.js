@@ -5,8 +5,8 @@ import {
   reportRouter,
 } from "./routers/HousingRouter.js";
 import profileRouter from "./routers/ProfileRouter.js";
-import userRouter from "./routers/userRouter.js";
 import documentRoutes from "./routers/documentRoutes.js";
+import userRouter from "./routers/userRouter.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
@@ -37,7 +37,6 @@ app.use("/report", reportRouter);
 app.use("/comment", commentRouter);
 app.use("/profile", profileRouter);
 app.use("/documents", documentRoutes);
-
 
 app.all("*", (_req, res) => {
   res.status(404).send("<h1>Page not found!</h1>");

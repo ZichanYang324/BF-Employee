@@ -235,6 +235,6 @@ export const workAuthTypes = [
   },
   {
     value: "Other",
-    label: "Other"
-  }
-]
+    label: "Other",
+  },
+];
