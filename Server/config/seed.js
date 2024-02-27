@@ -1,5 +1,4 @@
 import { Document, Profile, User } from "../models/index.js";
-import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import process from "process";
@@ -129,19 +128,18 @@ const seed = async () => {
     await User.deleteMany({});
     await Profile.deleteMany({});
 
-    const userContent = {
+    const user = new User({
       username: "user1",
       email: "user1@mail.com",
       password: "pswd1", // hashed in UserSchema.pre
-    };
-
-    const user = await User.create(userContent);
+    });
 
     const _profiles = seedProfile({ userId: user._id });
     const { profile } = _profiles;
     await Promise.all(Object.values(_profiles).map((doc) => doc.save()));
 
-    await User.updateOne({ _id: user._id }, { profile: profile._id });
+    user.profile = profile._id;
+    await user.save();
 
     console.log("Succeeded");
   } catch (err) {
