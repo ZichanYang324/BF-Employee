@@ -65,7 +65,7 @@ export const updateInfo = createAsyncThunk(
       thunkAPI.dispatch(fetchProfile());
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.msg);
+      return thunkAPI.rejectWithValue(error?.response?.data?.msg);
     }
   },
 );
@@ -84,7 +84,7 @@ const infoSlice = createSlice({
       })
       .addCase(fetchProfile.rejected, (state, { error }) => {
         state.profile.status = "failed";
-        state.profile.error = error.message;
+        state.profile.error = error?.message;
       })
       .addCase(fetchDocuments.pending, (state) => {
         state.documents.status = "loading";
@@ -95,7 +95,7 @@ const infoSlice = createSlice({
       })
       .addCase(fetchDocuments.rejected, (state, { error }) => {
         state.documents.status = "failed";
-        state.documents.error = error.message;
+        state.documents.error = error?.message;
       });
   },
 });
