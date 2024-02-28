@@ -1,17 +1,17 @@
-import { profileRouter } from "./routers/ProfileRouter.js";
+import {
+  commentRouter,
+  housingRouter,
+  reportRouter,
+} from "./routers/HousingRouter.js";
+import profileRouter from "./routers/ProfileRouter.js";
+import documentRoutes from "./routers/documentRoutes.js";
 import userRouter from "./routers/userRouter.js";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
 import path from "path";
 import process from "process";
-import cookieParser from "cookie-parser";
-import {
-  housingRouter,
-  commentRouter,
-  reportRouter,
-} from "./routers/HousingRouter.js";
-import documentRoutes from "./routers/documentRoutes.js";
 
 const app = express();
 

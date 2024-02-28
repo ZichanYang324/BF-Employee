@@ -44,7 +44,7 @@ const admin = (req, res, next) => {
 //use token to do authenticate
 const authenticate = async (req, res, next) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({ _id: decoded.userId });
 
@@ -55,7 +55,7 @@ const authenticate = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Please authenticate.' });
+    res.status(401).json({ message: "Please authenticate." });
   }
 };
 export { protect, admin, authenticate };
