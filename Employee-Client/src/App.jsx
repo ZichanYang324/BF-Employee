@@ -2,10 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "./components/login";
 import { Register } from "./components/register";
 import Dashboard from "./pages/dashboard";
+import Info from "./pages/info";
 import Onboard from "./pages/onboard";
 import ProtectedRoute from "./pages/protectedRoute";
 import VisaStatusManagement from "./components/visa"; 
-
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="visa-status" element={<VisaStatusManagement />} /> 
-
+        <Route path="info" element={<Info />} />
         <Route path="onboard" element={<Onboard />} />
       </Routes>
     </BrowserRouter>)
