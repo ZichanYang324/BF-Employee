@@ -183,93 +183,175 @@ function Name({
 }
 
 function Address({ address }) {
+  const { register, reset, handleSubmit } = useForm({
+    defaultValues: address,
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
       <Typography variant="h4" sx={{ marginBottom: 2 }}>
         Address
       </Typography>
-      <Box component="form" noValidate>
+      <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
         <div>
           <TextField
             sx={INPUT_SX}
+            {...register("building")}
             label="Building/apt #"
-            value={address.building}
           />
-          <TextField sx={INPUT_SX} label="Street name" value={address.street} />
-          <TextField sx={INPUT_SX} label="City" value={address.city} />
-          <TextField sx={INPUT_SX} label="State" value={address.state} />
-          <TextField sx={INPUT_SX} label="Zip" value={address.zip} />
+          <TextField
+            sx={INPUT_SX}
+            {...register("street")}
+            label="Street name"
+          />
+          <TextField sx={INPUT_SX} {...register("city")} label="City" />
+          <TextField sx={INPUT_SX} {...register("state")} label="State" />
+          <TextField sx={INPUT_SX} {...register("zip")} label="Zip" />
         </div>
+        <Button variant="outlined" onClick={() => reset()} sx={{ mr: "4px" }}>
+          Cancel
+        </Button>
+        <Button type="submit" variant="contained">
+          Save
+        </Button>
       </Box>
     </>
   );
 }
 
 function ContactInfo({ cellPhone, workPhone }) {
+  const { register, reset, handleSubmit } = useForm({
+    defaultValues: { cellPhone, workPhone },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
       <Typography variant="h4" sx={{ marginBottom: 2 }}>
         Contact Information
       </Typography>
-      <Box component="form" noValidate>
+      <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <TextField sx={INPUT_SX} label="Cell phone" value={cellPhone} />
-          <TextField sx={INPUT_SX} label="Work phone" value={workPhone} />
+          <TextField
+            sx={INPUT_SX}
+            {...register("cellPhone")}
+            label="Cell phone"
+          />
+          <TextField
+            sx={INPUT_SX}
+            {...register("workPhone")}
+            label="Work phone"
+          />
         </div>
+        <Button variant="outlined" onClick={() => reset()} sx={{ mr: "4px" }}>
+          Cancel
+        </Button>
+        <Button type="submit" variant="contained">
+          Save
+        </Button>
       </Box>
     </>
   );
 }
 
 function Employment({ workAuth }) {
+  const { register, reset, handleSubmit } = useForm({
+    defaultValues: workAuth,
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
     <>
       <Typography variant="h4" sx={{ marginBottom: 2 }}>
         Employment
       </Typography>
-      <Box component="form" noValidate>
+      <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <TextField sx={INPUT_SX} label="Visa title" value={workAuth.title} />
+          <TextField sx={INPUT_SX} {...register("title")} label="Visa title" />
           <TextField
             sx={INPUT_SX}
+            {...register("startDate")}
             label="Start date"
-            value={workAuth.startDate}
           />
-          <TextField sx={INPUT_SX} label="End date" value={workAuth.endDate} />
+          <TextField sx={INPUT_SX} {...register("endDate")} label="End date" />
         </div>
+        <Button variant="outlined" onClick={() => reset()} sx={{ mr: "4px" }}>
+          Cancel
+        </Button>
+        <Button type="submit" variant="contained">
+          Save
+        </Button>
       </Box>
     </>
   );
 }
 
 function EmergencyContact({ contacts }) {
+  const { register, handleSubmit } = useForm({
+    defaultValues: contacts,
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
       <Typography variant="h4" sx={{ marginBottom: 2 }}>
         Emergency Contact
       </Typography>
-      <Box component="form" noValidate>
-        {contacts.map((contact) => (
-          <Box component="div" sx={{ mb: "8px" }} key={contact.email}>
-            <TextField
-              sx={INPUT_SX}
-              label="First name"
-              value={contact.firstName}
-            />
-            <TextField
-              sx={INPUT_SX}
-              label="Last name"
-              value={contact.lastName}
-            />
-            <TextField
-              sx={INPUT_SX}
-              label="Relationship"
-              value={contact.relationship}
-            />
-            <TextField sx={INPUT_SX} label="Phone" value={contact.phone} />
-            <TextField sx={INPUT_SX} label="Email" value={contact.email} />
-          </Box>
-        ))}
+      <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          {contacts.map((contact, index) => (
+            <Box component="div" sx={{ mb: "8px" }} key={contact.email}>
+              <TextField
+                sx={INPUT_SX}
+                label="First name"
+                {...register(`contacts[${index}].firstName`)}
+                defaultValue={contact.firstName}
+              />
+              <TextField
+                sx={INPUT_SX}
+                label="Last name"
+                {...register(`contacts[${index}].lastName`)}
+                defaultValue={contact.lastName}
+              />
+              <TextField
+                sx={INPUT_SX}
+                label="Relationship"
+                {...register(`contacts[${index}].relationship`)}
+                defaultValue={contact.relationship}
+              />
+              <TextField
+                sx={INPUT_SX}
+                label="Phone"
+                {...register(`contacts[${index}].phone`)}
+                defaultValue={contact.phone}
+              />
+              <TextField
+                sx={INPUT_SX}
+                label="Email"
+                {...register(`contacts[${index}].email`)}
+                defaultValue={contact.email}
+              />
+            </Box>
+          ))}
+        </div>
+        <Button variant="outlined" sx={{ mr: "4px" }}>
+          Cancel
+        </Button>
+        <Button type="submit" variant="contained">
+          Save
+        </Button>
       </Box>
     </>
   );
