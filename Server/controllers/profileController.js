@@ -4,24 +4,24 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 
 export const createProfile = asyncHandler(async (req, res) => {
 
-  const {
-    firstName,
-    lastName,
-    middleName,
-    preferredName,
-    gender,
-    cellPhone,
-    workPhone,
-    address,
-    car,
-    SSN,
-    DOB,
-    immigrationStatus,
-    workAuth,
-    driversLicense,
-    reference,
-    emergencyContacts,
-  } = JSON.parse(req.body.data);
+  // const {
+  //   firstName,
+  //   lastName,
+  //   middleName,
+  //   preferredName,
+  //   gender,
+  //   cellPhone,
+  //   workPhone,
+  //   address,
+  //   car,
+  //   SSN,
+  //   DOB,
+  //   immigrationStatus,
+  //   workAuth,
+  //   driversLicense,
+  //   reference,
+  //   emergencyContacts,
+  // } = JSON.parse(req.body.data);
 
 
   // if (immigrationStatus.type === "VISA" && !workAuth) {
@@ -30,27 +30,25 @@ export const createProfile = asyncHandler(async (req, res) => {
   //   });
   // }
 
-  const newProfile = await Profile.create({
-    firstName,
-    lastName,
-    middleName,
-    preferredName,
-    gender,
-    cellPhone,
-    workPhone,
-    address,
-    car,
-    SSN,
-    DOB,
-    immigrationStatus,
-    workAuth,
-    driversLicense,
-    reference,
-    emergencyContacts,
-    applicationStatus: "PENDING",
-  });
-
-  console.log(req.files);
+  // const newProfile = await Profile.create({
+  //   firstName,
+  //   lastName,
+  //   middleName,
+  //   preferredName,
+  //   gender,
+  //   cellPhone,
+  //   workPhone,
+  //   address,
+  //   car,
+  //   SSN,
+  //   DOB,
+  //   immigrationStatus,
+  //   workAuth,
+  //   driversLicense,
+  //   reference,
+  //   emergencyContacts,
+  //   applicationStatus: "PENDING",
+  // });
 
   if (req.files["profilePic"]) {
     const file = req.files["profilePic"][0];
@@ -58,6 +56,7 @@ export const createProfile = asyncHandler(async (req, res) => {
       file.buffer,
       file.originalname,
     );
+    console.log(s3Response);
     const newProfilePic = await Document.create({
       URL: s3Response.url,
       S3Bucket: s3Response.bucket,
