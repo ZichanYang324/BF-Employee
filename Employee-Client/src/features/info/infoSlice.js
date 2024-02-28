@@ -45,14 +45,14 @@ const initialState = {
 };
 
 export const fetchProfile = createAsyncThunk("info/fetchProfile", async () => {
-  const response = await customFetch.get("/profile");
+  const response = await customFetch.get("/info");
   return response.data;
 });
 
 export const fetchDocuments = createAsyncThunk(
   "info/fetchDocuments",
   async () => {
-    const response = await customFetch.get("/profile/documents");
+    const response = await customFetch.get("/info/documents");
     return response.data;
   },
 );

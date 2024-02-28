@@ -149,7 +149,12 @@ function Name({
         </div>
         <div>
           <TextField sx={INPUT_SX} {...register("SSN")} label="SSN" />
-          <TextField sx={INPUT_SX} {...register("DOB")} label="Date of birth" />
+          <TextField
+            type="date"
+            sx={INPUT_SX}
+            {...register("DOB")}
+            label="Date of birth"
+          />
           <FormControl sx={INPUT_SX}>
             <InputLabel id="info-gender-label">Gender</InputLabel>
             <Controller
@@ -278,11 +283,17 @@ function Employment({ workAuth }) {
         <div>
           <TextField sx={INPUT_SX} {...register("title")} label="Visa title" />
           <TextField
+            type="date"
             sx={INPUT_SX}
             {...register("startDate")}
             label="Start date"
           />
-          <TextField sx={INPUT_SX} {...register("endDate")} label="End date" />
+          <TextField
+            type="date"
+            sx={INPUT_SX}
+            {...register("endDate")}
+            label="End date"
+          />
         </div>
         <Button variant="outlined" onClick={() => reset()} sx={{ mr: "4px" }}>
           Cancel

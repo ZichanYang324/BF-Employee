@@ -4,10 +4,6 @@ import { getOneFilePresignedUrl } from "../utils/s3.js";
 
 export async function getProfile(req, res) {
   let userId = req.user?._id;
-  if (userId == null && process.env.NODE_ENV === "development") {
-    // TODO: remove this block
-    userId = req.query.userId;
-  }
 
   if (!userId) {
     return res.status(400).json("Invalid request");
@@ -29,6 +25,13 @@ export async function getProfile(req, res) {
       });
       userProfile.profile.profilePic.url = url;
     }
+    userProfile.profile.DOB =
+      userProfile.profile.DOB.toISOString().split("T")[0];
+    userProfile.profile.workAuth.startDate =
+      userProfile.profile.workAuth.startDate.toISOString().split("T")[0];
+    userProfile.profile.workAuth.endDate = userProfile.profile.workAuth.endDate
+      .toISOString()
+      .split("T")[0];
 
     return res.status(200).json(userProfile);
   } catch (error) {
