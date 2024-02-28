@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "./components/login";
 import { Register } from "./components/register";
 import Dashboard from "./pages/dashboard";
+import ProtectedRoute from "./pages/protectedRoute";
 import VisaStatusManagement from "./components/visa"; 
 
 

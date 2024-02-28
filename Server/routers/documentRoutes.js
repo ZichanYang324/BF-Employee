@@ -7,13 +7,13 @@ import multer from 'multer';
 const upload = multer({ storage: multer.memoryStorage() });
 
 
-router.post("/upload", authenticate, upload.single('file'),uploadDocument);
+//router.post("/upload", authenticate, upload.single('file'),uploadDocument);
 //router.post("/upload", uploadDocument);
-router.post('/register', register);
-router.post('/login', login);
-router.get("/testAuth", authenticate, (req, res) => {
-  res.json(req.user);
-});
+router.post("/upload", authenticate, upload.single('file'), (req, res, next) => {
+  console.log("Multer Debug - req.file:", req.file);
+  console.log("Multer Debug - req.body:", req.body);
+  next();
+}, uploadDocument);
 // update document status (for HR)
 router.patch(
   "/:documentId/status",
@@ -21,9 +21,14 @@ router.patch(
   checkHRRole,
   updateDocumentStatus,
 );
-
-// get user's documents
 router.get("/my",authenticate, getMyDocuments);
+
+router.post('/register', register);
+router.post('/login', login);
+router.get("/testAuth", authenticate, (req, res) => {
+  res.json(req.user);
+});
+// get user's documents
 //router.get("/my", authenticate, getMyDocuments);
 
 export default router;

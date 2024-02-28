@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useDispatch } from 'react-redux';
 import { clearStore } from '../../features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -23,6 +24,8 @@ function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const dispatch = useDispatch()
+  const navigate = useNavigate();
+
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -45,6 +48,23 @@ function ResponsiveAppBar() {
     dispatch(clearStore('Logging out...'))
     //navigate to login
   }
+
+  const handlePageClick = (page) => {
+    switch (page) {
+      case 'Visa Status Management':
+        navigate('/visa-status');
+        break;
+      // case 'Housing':
+      //   navigate('/housing'); 
+      //   break;
+            // case 'Personal Information':
+      //   navigate('/personal-information'); 
+      //   break;
+      default:
+        break;
+    }
+    handleCloseNavMenu();
+  };
 
   return (
     <AppBar position="static">
@@ -123,7 +143,7 @@ function ResponsiveAppBar() {
             }}
           >
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -133,8 +153,18 @@ function ResponsiveAppBar() {
                 {page}
               </Button>
             ))}
+          </Box> */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={() => handlePageClick(page)}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {page}
+              </Button>
+            ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

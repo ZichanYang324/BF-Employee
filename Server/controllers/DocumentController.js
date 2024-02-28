@@ -3,13 +3,7 @@ import User from "../models/User.model.js";
 import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
 import { uploadFileToS3 } from '../config/s3Service.js';
-import { uploadOneFile } from '../utils/s3.js';
 
-
-// exports.uploadDocument = async (req, res) => {
-//   // upload to a storage services..
-// };
-// import uploadFileToS3 from "../s3Service.js";
 const documentOrder = ["OPT Receipt", "OPT EAD", "I-983", "I-20"];
 
 async function canUploadNextDocument(userId, documentType) {
@@ -31,11 +25,13 @@ async function canUploadNextDocument(userId, documentType) {
 }
 
 async function uploadDocument(req, res) {
-  console.log(req.body);
   const userId = req.user._id;
-  const { documentType, file } = req.body;
+  //const { documentType, file } = req.body;
+  const { documentType } = req.body;
+  console.log("In unploadDocument function backend:")
+  console.log("userId",userId);
   console.log("Received documentType:", documentType);
-  console.log(req.file); 
+  console.log("Received file:",req.file); 
   if (!req.file) {
       return res.status(400).json({ message: "No file uploaded or file is missing." });
   }
@@ -48,18 +44,6 @@ async function uploadDocument(req, res) {
   try {
 
     const s3Response = await uploadFileToS3(req.file);
-    // const { data, error } = await uploadOneFile({
-    //   Key: fileKey,
-    //   Body: req.file.buffer,
-    //   ContentType: req.file.mimetype,
-    // });
-
-    // if (error) {
-    //   throw error;
-    // }
-
-
-    
     const newDocument = await Document.create({
       owner: userId,
       type: documentType,
@@ -67,6 +51,7 @@ async function uploadDocument(req, res) {
       URL: s3Response.Location,
       S3Bucket: s3Response.Bucket,
       S3Name: s3Response.Key,
+      feedback: "" 
     });
 
     res.status(201).json({
@@ -97,7 +82,7 @@ async function updateDocumentStatus(req, res) {
     }
 
     // placeholder for notification logic
-    // sendNotification(document.owner, "Your document status has been updated.");
+    //sendNotification(document.owner, "Your document status has been updated.");
 
     res.json({ message: "Document status updated successfully.", document });
   } catch (error) {
@@ -128,9 +113,6 @@ async function getMyDocuments(req, res) {
 async function register (req, res) {
   try {
     const { username, email, password } = req.body;
-    //const passwordHash = bcrypt.hashSync(password, 8);
-
-    //const user = new User({ username, email, passwordHash });
     const user = new User({ username, email, password });
     await user.save();
 
