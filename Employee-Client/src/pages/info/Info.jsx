@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import ResponsiveAppBar from "../../components/navbar";
 import { fetchDocuments, fetchProfile } from "../../features/info/infoSlice";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -6,11 +7,17 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useMemo } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
 function Info() {
@@ -84,37 +91,92 @@ function Name({
     profilePic == null ? "" : profilePic;
   }, [profilePic]);
 
+  const { register, control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      firstName,
+      lastName,
+      middleName,
+      preferredName,
+      profilePicUrl,
+      email,
+      SSN,
+      DOB,
+      gender,
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
       <Typography variant="h4" sx={{ marginBottom: "4px" }}>
         Name
       </Typography>
-      <Box component="form" noValidate>
+      <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <TextField sx={INPUT_SX} value={firstName} label="First name" />
-          <TextField sx={INPUT_SX} value={lastName} label="Last name" />
-          <TextField sx={INPUT_SX} value={middleName} label="Middle name" />
           <TextField
             sx={INPUT_SX}
-            value={preferredName}
+            {...register("firstName")}
+            label="First name"
+          />
+          <TextField
+            sx={INPUT_SX}
+            {...register("lastName")}
+            label="Last name"
+          />
+          <TextField
+            sx={INPUT_SX}
+            {...register("middleName")}
+            label="Middle name"
+          />
+          <TextField
+            sx={INPUT_SX}
+            {...register("preferredName")}
             label="Preferred name"
           />
         </div>
         <div>
           <TextField
             sx={INPUT_SX}
-            value={profilePicUrl}
+            {...register("profilePicUrl")}
             label="Profile picture"
           />
         </div>
         <div>
-          <TextField sx={INPUT_SX} value={email} label="Email" />
+          <TextField sx={INPUT_SX} {...register("email")} label="Email" />
         </div>
         <div>
-          <TextField sx={INPUT_SX} value={SSN} label="SSN" />
-          <TextField sx={INPUT_SX} value={DOB} label="Date of birth" />
-          <TextField sx={INPUT_SX} value={gender} label="Gender" />
+          <TextField sx={INPUT_SX} {...register("SSN")} label="SSN" />
+          <TextField sx={INPUT_SX} {...register("DOB")} label="Date of birth" />
+          <FormControl sx={INPUT_SX}>
+            <InputLabel id="info-gender-label">Gender</InputLabel>
+            <Controller
+              name="gender"
+              control={control}
+              defaultValue={gender}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  labelId="info-gender-label"
+                  label="Gender"
+                  id="info-gender-input"
+                >
+                  <MenuItem value={`FEMALE`}>Female</MenuItem>
+                  <MenuItem value={`MALE`}>Male</MenuItem>
+                  <MenuItem value={`NO_ANSWER`}>No answer</MenuItem>
+                </Select>
+              )}
+            />
+          </FormControl>
         </div>
+        <Button variant="outlined" onClick={() => reset()} sx={{ mr: "4px" }}>
+          Cancel
+        </Button>
+        <Button type="submit" variant="contained">
+          Save
+        </Button>
       </Box>
     </>
   );

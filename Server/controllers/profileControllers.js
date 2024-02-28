@@ -15,14 +15,22 @@ export async function getProfile(req, res) {
 
   try {
     const user = await User.findById(userId)
-      .populate("profile")
+      .populate({ path: "profile", populate: { path: "profilePic" } })
       .select("-password")
       .exec();
     if (!user) {
       return res.status(404).json("User not found");
     }
+    const userProfile = user.toObject();
+    console.log(userProfile);
+    if (userProfile.profile.profilePic != null) {
+      const { data: url } = await getOneFilePresignedUrl({
+        Key: userProfile.profile.profilePic.S3Name,
+      });
+      userProfile.profile.profilePic.url = url;
+    }
 
-    return res.status(200).json(user);
+    return res.status(200).json(userProfile);
   } catch (error) {
     console.error(error);
     return res.status(500).json("Internal server error");
