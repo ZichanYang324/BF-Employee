@@ -1,6 +1,7 @@
 /* eslint react/prop-types: 0 */
 import ResponsiveAppBar from "../../components/navbar";
 import { fetchDocuments, fetchProfile } from "../../features/info/infoSlice";
+import ImageUploader from "./ImageUploader";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
@@ -16,7 +17,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -87,17 +88,13 @@ function Name({
   DOB,
   gender,
 }) {
-  const profilePicUrl = useMemo(() => {
-    profilePic == null ? "" : profilePic;
-  }, [profilePic]);
-
-  const { register, control, handleSubmit, reset } = useForm({
+  const { register, control, handleSubmit, reset, watch } = useForm({
     defaultValues: {
       firstName,
       lastName,
       middleName,
       preferredName,
-      profilePicUrl,
+      profilePicUrl: profilePic ? profilePic.url : "",
       email,
       SSN,
       DOB,
@@ -137,13 +134,19 @@ function Name({
             label="Preferred name"
           />
         </div>
-        <div>
-          <TextField
-            sx={INPUT_SX}
-            {...register("profilePicUrl")}
-            label="Profile picture"
+        <Box sx={INPUT_SX}>
+          <Controller
+            control={control}
+            name="profilePicUrl"
+            render={({ field }) => (
+              <ImageUploader
+                inputProps={register("profilePicUrl")}
+                label="Profile picture"
+                value={field.value}
+              />
+            )}
           />
-        </div>
+        </Box>
         <div>
           <TextField sx={INPUT_SX} {...register("email")} label="Email" />
         </div>

@@ -8,7 +8,7 @@ dotenv.config();
 function seedProfile({ userId }) {
   const profilePicDoc = new Document({
     S3Bucket: "bgp-zichan",
-    S3Name: "profile-pic-1234567890",
+    S3Name: "avatar.png",
     owner: userId,
   });
   const driversLicenseDoc = new Document({
