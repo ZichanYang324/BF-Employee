@@ -6,7 +6,6 @@ const customFetch = axios.create({
   baseURL: "http://localhost:3100",
   headers: {
     "Accept": "application/json",
-    "Content-Type": "application/json",
   },
 });
 

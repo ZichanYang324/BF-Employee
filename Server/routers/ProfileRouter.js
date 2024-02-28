@@ -15,8 +15,8 @@ const profileUpload = upload.fields([
   { name: "driverlicense", maxCount: 1 }
 ]);
 
-profileRouter.post("/getProfile", profileUpload, getProfile);
-profileRouter.post("/createProfile", createProfile);
+profileRouter.post("/createProfile", profileUpload, createProfile);
+profileRouter.post("/getProfile", getProfile);
 profileRouter.post("/getProfileStatus", getProfileStatus);
 profileRouter.put("/updateProfileStatus", updateProfileStatus);
 

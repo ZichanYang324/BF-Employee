@@ -4,26 +4,25 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 
 export const createProfile = asyncHandler(async (req, res) => {
 
-  // const {
-  //   firstName,
-  //   lastName,
-  //   middleName,
-  //   preferredName,
-  //   gender,
-  //   cellPhone,
-  //   workPhone,
-  //   address,
-  //   car,
-  //   SSN,
-  //   DOB,
-  //   immigrationStatus,
-  //   workAuth,
-  //   driversLicense,
-  //   reference,
-  //   emergencyContacts,
-  // } = JSON.parse(req.body.data);
+  const {
+    firstName,
+    lastName,
+    middleName,
+    preferredName,
+    gender,
+    cellPhone,
+    workPhone,
+    address,
+    car,
+    SSN,
+    DOB,
+    immigrationStatus,
+    workAuth,
+    driversLicense,
+    reference,
+    emergencyContacts,
+  } = JSON.parse(req.body.data);
 
-  console.log(req.body.data);
 
   // if (immigrationStatus.type === "VISA" && !workAuth) {
   //   return res.status(400).json({
@@ -31,25 +30,25 @@ export const createProfile = asyncHandler(async (req, res) => {
   //   });
   // }
 
-  // const newProfile = await Profile.create({
-  //   firstName,
-  //   lastName,
-  //   middleName,
-  //   preferredName,
-  //   gender,
-  //   cellPhone,
-  //   workPhone,
-  //   address,
-  //   car,
-  //   SSN,
-  //   DOB,
-  //   immigrationStatus,
-  //   workAuth,
-  //   driversLicense,
-  //   reference,
-  //   emergencyContacts,
-  //   applicationStatus: "PENDING",
-  // });
+  const newProfile = await Profile.create({
+    firstName,
+    lastName,
+    middleName,
+    preferredName,
+    gender,
+    cellPhone,
+    workPhone,
+    address,
+    car,
+    SSN,
+    DOB,
+    immigrationStatus,
+    workAuth,
+    driversLicense,
+    reference,
+    emergencyContacts,
+    applicationStatus: "PENDING",
+  });
 
   console.log(req.files);
 
