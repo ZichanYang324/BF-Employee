@@ -1,27 +1,27 @@
 import { Profile, Document } from "../models/index.js";
-import { uploadOneFile } from "../utils/s3.js";
+import { uploadFileToS3 } from "../config/s3Service.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 
 export const createProfile = asyncHandler(async (req, res) => {
 
-  // const {
-  //   firstName,
-  //   lastName,
-  //   middleName,
-  //   preferredName,
-  //   gender,
-  //   cellPhone,
-  //   workPhone,
-  //   address,
-  //   car,
-  //   SSN,
-  //   DOB,
-  //   immigrationStatus,
-  //   workAuth,
-  //   driversLicense,
-  //   reference,
-  //   emergencyContacts,
-  // } = JSON.parse(req.body.data);
+  const {
+    firstName,
+    lastName,
+    middleName,
+    preferredName,
+    gender,
+    cellPhone,
+    workPhone,
+    address,
+    car,
+    SSN,
+    DOB,
+    immigrationStatus,
+    workAuth,
+    driversLicense,
+    reference,
+    emergencyContacts,
+  } = JSON.parse(req.body.data);
 
 
   // if (immigrationStatus.type === "VISA" && !workAuth) {
@@ -30,32 +30,29 @@ export const createProfile = asyncHandler(async (req, res) => {
   //   });
   // }
 
-  // const newProfile = await Profile.create({
-  //   firstName,
-  //   lastName,
-  //   middleName,
-  //   preferredName,
-  //   gender,
-  //   cellPhone,
-  //   workPhone,
-  //   address,
-  //   car,
-  //   SSN,
-  //   DOB,
-  //   immigrationStatus,
-  //   workAuth,
-  //   driversLicense,
-  //   reference,
-  //   emergencyContacts,
-  //   applicationStatus: "PENDING",
-  // });
+  const newProfile = await Profile.create({
+    firstName,
+    lastName,
+    middleName,
+    preferredName,
+    gender,
+    cellPhone,
+    workPhone,
+    address,
+    car,
+    SSN,
+    DOB,
+    immigrationStatus,
+    workAuth,
+    driversLicense,
+    reference,
+    emergencyContacts,
+    applicationStatus: "PENDING",
+  });
 
   if (req.files["profilePic"]) {
     const file = req.files["profilePic"][0];
-    const s3Response = await uploadOneFile(
-      file.buffer,
-      file.originalname,
-    );
+    const s3Response = await uploadFileToS3(file.buffer, file.originalname);
     console.log(s3Response);
     const newProfilePic = await Document.create({
       URL: s3Response.url,
@@ -68,10 +65,7 @@ export const createProfile = asyncHandler(async (req, res) => {
 
   if (req.files["optReciept"]) {
     const file = req.files["optReciept"][0];
-    const s3Response = await uploadOneFile(
-      file.buffer,
-      file.originalname,
-    );
+    const s3Response = await uploadFileToS3(file.buffer, file.originalname);
     const newOptReciept = await Document.create({
       URL: s3Response.url,
       S3Bucket: s3Response.bucket,
@@ -83,10 +77,7 @@ export const createProfile = asyncHandler(async (req, res) => {
 
   if (req.files["driverlicense"]) {
     const file = req.files["driverlicense"][0];
-    const s3Response = await uploadOneFile(
-      file.buffer,
-      file.originalname,
-    );
+    const s3Response = await uploadFileToS3(file.buffer, file.originalname);
     const newDriverLicense = await Document.create({
       URL: s3Response.url,
       S3Bucket: s3Response.bucket,
