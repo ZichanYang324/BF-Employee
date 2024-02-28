@@ -104,10 +104,6 @@ const ProfileSchema = new Schema({
       type: String,
       required: true,
     },
-    state: {
-      type: String,
-      enum: constants.state,
-    },
     expiration: {
       type: Date,
     },

@@ -3,8 +3,9 @@ import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
 import { stateNames, genders, workAuthTypes } from '../utils/constants';
-import { useEffect } from 'react';
 import DEFAULT_PIC from '../assets/default-avatar.jpeg';
+import customFetch from '../utils/customFetch';
+import { useEffect } from 'react';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -22,8 +23,8 @@ const Onboard = () => {
 
   const {
     register,
-    unregister,
     handleSubmit,
+    unregister,
     watch
   } = useForm();
 
@@ -36,6 +37,7 @@ const Onboard = () => {
 
   useEffect(() => {
     if (showWorkAuth) {
+      unregister("identity");
       register("authType");
       register("startDate");
       register("endDate");
@@ -52,6 +54,7 @@ const Onboard = () => {
       unregister("authType");
       unregister("startDate");
       unregister("endDate");
+      register("identity");
     }
 
     if (hasDriverlicense) {
@@ -72,8 +75,68 @@ const Onboard = () => {
 
   }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const jsonData = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      middleName: data.middleName,
+      preferredName: data.preferredName,
+      gender: data.gender,
+      cellPhone: data.cellPhone,
+      workPhone: data.workPhone,
+      SSN: data.SSN,
+      DOB: data.dateOfBirth,
+      address: {
+        street: data.streetAddress,
+        building: data.buildingNumber,
+        city: data.city,
+        state: data.state,
+        zip: data.zipCode,
+      },
+      immigrationStatus: data.identity || "VISA",
+      workAuth: {
+        title: data.authType === 'Other' ? data.visaTitle : data.authType,
+        startDate: data.startDate,
+        endDate: data.endDate,
+      },
+      driversLicense: {
+        number: data.licenseNumber,
+        expiration: data.licenseExpirationDate,
+      },
+      car: {
+        make: data.carMake,
+        model: data.carModel,
+        color: data.carColor,
+      },
+      reference: {
+        firstName: data.referenceFirstName,
+        middleName: data.referenceMiddleName,
+        lastName: data.referenceLastName,
+        relationship: data.referenceRelationship,
+        phone: data.referencePhone,
+        email: data.referenceEmail,
+      },
+      emergencyContacts: [
+        {
+          firstName: data.emergencyContactFirstName,
+          middleName: data.emergencyContactMiddleName,
+          lastName: data.emergencyContactLastName,
+          relationship: data.emergencyContactRelationship,
+          phone: data.emergencyContactPhone,
+          email: data.emergencyContactEmail,
+        },
+      ]
+    }
+    console.log(jsonData);
+    const formData = new FormData();
+    if (data.profilePic) formData.append('profilePic', data.profilePic);
+    if (data.optReceipt) formData.append('optReciept', data.optReceipt);
+    if (data.driverlicense) formData.append('driverlicense', data.driverlicense);
+    formData.append('data', JSON.stringify(jsonData));
+
+    const res = await customFetch.post('/profile/createProfile', formData);
+    console.log(res);
+    // TODO: jump to pending page or show error
   };
 
   return (
@@ -260,6 +323,7 @@ const Onboard = () => {
             variant="outlined"
             required
             fullWidth
+            {...register('zipCode')}
           />
         </Box>
         <Typography variant='h6' sx={{mt:4}}>
@@ -483,21 +547,21 @@ const Onboard = () => {
             required
             fullWidth
             sx={{mr: 2}}
-            {...register('refferenceFirstName')}
+            {...register('referenceFirstName')}
           />
           <TextField
             label="Middle Name"
             variant="outlined"
             fullWidth
             sx={{mr: 2}}
-            {...register('refferenceMiddleName')}
+            {...register('referenceMiddleName')}
           />
           <TextField
             label="Last Name"
             variant="outlined"
             required
             fullWidth
-            {...register('refferenceLastName')}
+            {...register('referenceLastName')}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -507,14 +571,14 @@ const Onboard = () => {
             fullWidth
             required
             sx={{mr: 2}}
-            {...register('refferencePhone')}
+            {...register('referencePhone')}
           />
           <TextField
             label="Email"
             variant="outlined"
             required
             fullWidth
-            {...register('refferenceEmail')}
+            {...register('referenceEmail')}
           />
         </Box>
         <Typography variant='h6' sx={{mt:4, alignSelf: 'start'}}>

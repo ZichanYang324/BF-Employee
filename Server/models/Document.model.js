@@ -13,7 +13,7 @@ const DocumentSchema = new Schema({
   owner: {
     type: refType,
     ref: "User",
-    required: true,
+    // required: true,
   },
 });
 

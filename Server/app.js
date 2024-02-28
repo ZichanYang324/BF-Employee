@@ -12,6 +12,7 @@ import express from "express";
 import morgan from "morgan";
 import path from "path";
 import process from "process";
+import errorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use("/user", userRouter);
 app.use("/public", express.static(path.join(process.cwd(), "public")));
+app.use(errorHandler);
 
 app.get("/", (_req, res) => {
   res.status(200).send("<h1>Server started</h1>");
