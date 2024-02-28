@@ -4,8 +4,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
 import { stateNames, genders, workAuthTypes } from '../utils/constants';
 import DEFAULT_PIC from '../assets/default-avatar.jpeg';
-import customFetch from '../utils/customFetch';
-import { useEffect } from 'react';
+import formDataFetch from '../utils/formDataFetch';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -24,7 +23,6 @@ const Onboard = () => {
   const {
     register,
     handleSubmit,
-    unregister,
     watch
   } = useForm();
 
@@ -127,14 +125,16 @@ const Onboard = () => {
         },
       ]
     }
-    console.log(jsonData);
+
     const formData = new FormData();
     if (data.profilePic) formData.append('profilePic', data.profilePic);
     if (data.optReceipt) formData.append('optReciept', data.optReceipt);
     if (data.driverlicense) formData.append('driverlicense', data.driverlicense);
     formData.append('data', JSON.stringify(jsonData));
 
-    const res = await customFetch.post('/profile/createProfile', formData);
+    console.log(formData.get('profilePic')[0]);
+
+    const res = await formDataFetch.post('/profile/createProfile', formData);
     console.log(res);
     // TODO: jump to pending page or show error
   };
