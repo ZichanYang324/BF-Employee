@@ -88,7 +88,7 @@ function Name({
   DOB,
   gender,
 }) {
-  const { register, control, handleSubmit, reset, watch } = useForm({
+  const { register, control, handleSubmit, reset } = useForm({
     defaultValues: {
       firstName,
       lastName,

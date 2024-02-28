@@ -54,7 +54,7 @@ export async function getDocuments(req, res) {
         "driversLicense.document OPTReceipt.document OPTEAD.document I983.document I20.document",
       )
       .exec();
-    const documentUrls = await getDocumentUrls(profile);
+    const documentUrls = await _getDocumentUrls(profile);
     res.status(200).json(documentUrls);
   } catch (error) {
     console.error(error);
@@ -62,7 +62,7 @@ export async function getDocuments(req, res) {
   }
 }
 
-async function getDocumentUrls(profile) {
+async function _getDocumentUrls(profile) {
   const profileDocuments = Object.entries(profile.toObject());
   const documentKeys = profileDocuments
     .filter(([key]) => key !== "_id")
@@ -83,4 +83,109 @@ async function getDocumentUrls(profile) {
     }),
   );
   return documentUrls;
+}
+
+const SECTIONS = [
+  "name",
+  "address",
+  "contact",
+  "employment",
+  "emergencyContacts",
+];
+
+export async function update(req, res) {
+  const user = req.user;
+  const section = req.params.section;
+
+  if (user == null || user._id == null || !SECTIONS.includes(section)) {
+    return res.status(400).json("Invalid request");
+  }
+
+  try {
+    const profile = await ProfileModel.findById(user.profile).exec();
+    if (!profile) {
+      return res.status(404).json("Profile not found");
+    }
+
+    if (section === "name") {
+      await _updateName({ userId: user._id });
+    } else if (section === "address") {
+      const { address } = req.body;
+      await _updateAddress({ profileId: profile._id, address });
+    } else if (section === "contact") {
+      const { cellPhone, workPhone } = req.body;
+      await _updateContact({ profileId: profile._id, cellPhone, workPhone });
+    } else if (section === "employment") {
+      const { workAuth } = req.body;
+      await _updateEmployment({ profileId: profile._id, workAuth });
+    } else if (section === "emergencyContacts") {
+      const { emergencyContacts } = req.body;
+      await _updateEmergencyContacts({
+        profileId: profile._id,
+        emergencyContacts,
+      });
+    } else {
+      return res.status(400).json("Invalid request");
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json("Internal server error");
+  }
+}
+
+async function _updateName({
+  userId,
+  firstName,
+  lastName,
+  middleName,
+  preferredName,
+  profilePic,
+  email,
+  SSN,
+  DOB,
+  gender,
+}) {
+  // TODO
+  return;
+}
+
+async function _updateAddress({ profileId, address }) {
+  const profile = await ProfileModel.updateOne(
+    { _id: profileId },
+    {
+      address,
+    },
+  ).exec();
+  return profile;
+}
+
+async function _updateContact({ profileId, cellPhone, workPhone }) {
+  const profile = await ProfileModel.updateOne(
+    { _id: profileId },
+    {
+      cellPhone,
+      workPhone,
+    },
+  ).exec();
+  return profile;
+}
+
+async function _updateEmployment({ profileId, workAuth }) {
+  const profile = await ProfileModel.updateOne(
+    { _id: profileId },
+    {
+      workAuth,
+    },
+  ).exec();
+  return profile;
+}
+
+async function _updateEmergencyContacts({ profileId, emergencyContacts }) {
+  const profile = await ProfileModel.updateOne(
+    { _id: profileId },
+    {
+      emergencyContacts,
+    },
+  ).exec();
+  return profile;
 }
