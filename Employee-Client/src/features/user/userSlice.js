@@ -1,16 +1,21 @@
 import API_PATHS from "../../globals/paths";
+import customFetch from "../../utils/customFetch";
 import {
   addUserToLocalStorage,
   getUserFromLocalStorage,
+  removeUserFromLocalStorage,
 } from "../../utils/localStorage";
-import { loginUserThunk, registerUserThunk } from "./userThunk";
+import {
+  clearStoreThunk,
+  loginUserThunk,
+  registerUserThunk,
+} from "./userThunk";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 const initialState = {
   isLoading: false,
-  //   isSidebarOpen: false,
   user: getUserFromLocalStorage(),
 };
 
@@ -30,42 +35,32 @@ export const loginUser = createAsyncThunk(
   },
 );
 
-// export const updateUser = createAsyncThunk(
-//   'user/updateUser',
-//   async (userObj, thunkAPI) => {
-//     return updateUserThunk(API_PATHS.USER_UPDATE, userObj.userId, userObj.user, thunkAPI);
-//   }
-// );
-
 const storeUser = (tokenValue, expirationTime) => {
   const expiredTimeDays = Math.fround(expirationTime / (3600 * 24));
   Cookies.set("token", tokenValue, { expires: expiredTimeDays });
 };
 
-// const removeCookies = () => {
-//   Cookies.remove('token');
-// };
+const removeCookies = () => {
+  Cookies.remove("token");
+};
 
-// export const clearStore = createAsyncThunk('user/clearStore', clearStoreThunk);
+export const clearStore = createAsyncThunk("user/clearStore", clearStoreThunk);
 
 // reducer
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    // toggleSidebar: (state) => {
-    //   state.isSidebarOpen = !state.isSidebarOpen;
-    // },
-    // logoutUser: (state, { payload }) => {
-    //   state.user = null;
-    //   state.isSidebarOpen = false;
-    //   delete customFetch.defaults.headers.common.Authorization;
-    //   removeUserFromLocalStorage();
-    //   removeCookies();
-    //   if (payload) {
-    //     toast.success(payload);
-    //   }
-    // }
+    logoutUser: (state, { payload }) => {
+      state.user = null;
+      state.isSidebarOpen = false;
+      delete customFetch.defaults.headers.common.Authorization;
+      removeUserFromLocalStorage();
+      removeCookies();
+      if (payload) {
+        toast.success(payload);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -81,7 +76,7 @@ const userSlice = createSlice({
           addUserToLocalStorage(user);
         }
 
-        toast.success(`Login successfully`);
+        // toast.success(`Login successfully`);
       })
       .addCase(registerUser.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -96,33 +91,18 @@ const userSlice = createSlice({
         state.user = user;
         storeUser(token, expiresIn);
         addUserToLocalStorage(user);
-
-        toast.success(`Welcome Back ${user.username}`);
+        // toast.success(`Login successfully`);
+        // toast.success(`Welcome Back ${user.username}`);
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error(payload);
+      })
+      .addCase(clearStore.rejected, () => {
+        toast.error("There was an error..");
       });
-    //   .addCase(updateUser.pending, (state) => {
-    //     state.isLoading = true;
-    //   })
-    //   .addCase(updateUser.fulfilled, (state, { payload }) => {
-    //     const { user } = payload;
-    //     state.isLoading = false;
-    //     state.user = user;
-    //     addUserToLocalStorage(user);
-
-    //     toast.success(`User Updated!`);
-    //   })
-    //   .addCase(updateUser.rejected, (state, { payload }) => {
-    //     state.isLoading = false;
-    //     toast.error(payload);
-    //   })
-    //   .addCase(clearStore.rejected, () => {
-    //     toast.error('There was an error..');
-    //   });
   },
 });
 
-// export const { toggleSidebar, logoutUser } = userSlice.actions;
+export const { logoutUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,4 +1,5 @@
 import customFetch from "../../utils/customFetch";
+import { logoutUser } from "./userSlice";
 
 export const registerUserThunk = async (url, user, thunkAPI) => {
   try {
@@ -20,16 +21,12 @@ export const loginUserThunk = async (url, user, thunkAPI) => {
   }
 };
 
-// export const clearStoreThunk = async(message,thunkAPI) =>{
-//   try {
-//     //logout user
-//     thunkAPI.dispatch(logoutUser(message));
-//     //clear jobs value
-//     thunkAPI.dispatch(clearAllJobsState());
-//     //clear job input values
-//     thunkAPI.dispatch(clearValues());
-//     return Promise.resolve();
-//   } catch (error) {
-//     return Promise.reject();
-//   }
-// }
+export const clearStoreThunk = async(message,thunkAPI) =>{
+  try {
+    //logout user
+    thunkAPI.dispatch(logoutUser(message));
+    return Promise.resolve();
+  } catch (error) {
+    return Promise.reject();
+  }
+}
