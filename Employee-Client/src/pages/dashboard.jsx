@@ -1,6 +1,6 @@
 import ResponsiveAppBar from '../components/navbar';
 
-const dashboard = () => {
+const Dashboard = () => {
   return (
     <div>
         <ResponsiveAppBar />
@@ -8,4 +8,4 @@ const dashboard = () => {
   )
 }
 
-export default dashboard
+export default Dashboard

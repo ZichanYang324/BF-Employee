@@ -4,7 +4,7 @@ import {
   reportRouter,
 } from "./routers/HousingRouter.js";
 import { infoRouter } from "./routers/InfoRouter.js";
-import { profileRouter } from "./routers/ProfileRouter.js";
+import profileRouter from "./routers/ProfileRouter.js";
 import documentRoutes from "./routers/documentRoutes.js";
 import userRouter from "./routers/userRouter.js";
 import cookieParser from "cookie-parser";
