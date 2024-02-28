@@ -35,45 +35,45 @@ const Onboard = () => {
   const optReceipt = watch('optReceipt') ? watch('optReceipt')[0] : null;
   const driverlicense = watch('driverlicense') ? watch('driverlicense')[0] : null;
 
-  useEffect(() => {
-    if (showWorkAuth) {
-      unregister("identity");
-      register("authType");
-      register("startDate");
-      register("endDate");
-      if (authType === 'F1') {
-        register("optReceipt");
-      } else if (authType === 'Other') {
-        unregister("optReceipt");
-        register("visaTitle");
-      } else{
-        unregister("visaTitle");
-        unregister("optReceipt");
-      }
-    } else {
-      unregister("authType");
-      unregister("startDate");
-      unregister("endDate");
-      register("identity");
-    }
+  // useEffect(() => {
+  //   if (showWorkAuth) {
+  //     unregister("identity");
+  //     register("authType");
+  //     register("startDate");
+  //     register("endDate");
+  //     if (authType === 'F1') {
+  //       register("optReceipt");
+  //     } else if (authType === 'Other') {
+  //       unregister("optReceipt");
+  //       register("visaTitle");
+  //     } else{
+  //       unregister("visaTitle");
+  //       unregister("optReceipt");
+  //     }
+  //   } else {
+  //     unregister("authType");
+  //     unregister("startDate");
+  //     unregister("endDate");
+  //     register("identity");
+  //   }
 
-    if (hasDriverlicense) {
-      register("driverlicense");
-      register("licenseNumber");
-      register("licenseExpirationDate");
-      register("carMake");
-      register("carModel");
-      register("carColor");
-    } else {
-      unregister("licenseNumber");
-      unregister("licenseExpirationDate");
-      unregister("driverlicense");
-      unregister("carMake");
-      unregister("carModel");
-      unregister("carColor");
-    }
+  //   if (hasDriverlicense) {
+  //     register("driverlicense");
+  //     register("licenseNumber");
+  //     register("licenseExpirationDate");
+  //     register("carMake");
+  //     register("carModel");
+  //     register("carColor");
+  //   } else {
+  //     unregister("licenseNumber");
+  //     unregister("licenseExpirationDate");
+  //     unregister("driverlicense");
+  //     unregister("carMake");
+  //     unregister("carModel");
+  //     unregister("carColor");
+  //   }
 
-  }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
+  // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
 
   const onSubmit = async (data) => {
     const jsonData = {
@@ -581,6 +581,14 @@ const Onboard = () => {
             {...register('referenceEmail')}
           />
         </Box>
+        <TextField
+          label="Relationship"
+          variant="outlined"
+          fullWidth
+          required
+          sx={{mt: 2}}
+          {...register('referenceRelationship')}
+        />
         <Typography variant='h6' sx={{mt:4, alignSelf: 'start'}}>
           Emergency Contacts
         </Typography>
@@ -625,6 +633,14 @@ const Onboard = () => {
             {...register('emergencyContactEmail')}
           />
         </Box>
+        <TextField
+          label="Relationship"
+          variant="outlined"
+          fullWidth
+          required
+          sx={{mt: 2}}
+          {...register('emergencyContactRelationship')}
+        />
         { (optReceipt || driverlicense) && (
           <>
             <Typography variant='h6' sx={{mt:4, alignSelf: 'start'}}>

@@ -46,6 +46,7 @@ export const createProfile = asyncHandler(async (req, res) => {
     driversLicense,
     reference,
     emergencyContacts,
+    applicationStatus: "PENDING",
   });
 
   if (req.files["profilePic"]) {
