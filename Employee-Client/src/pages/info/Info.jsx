@@ -1,6 +1,10 @@
 /* eslint react/prop-types: 0 */
 import ResponsiveAppBar from "../../components/navbar";
-import { fetchDocuments, fetchProfile } from "../../features/info/infoSlice";
+import {
+  fetchDocuments,
+  fetchProfile,
+  updateInfo,
+} from "../../features/info/infoSlice";
 import ImageUploader from "./ImageUploader";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
@@ -17,14 +21,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useEffect, useMemo } from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { usePrevious } from "react-use";
 
 function Info() {
   const dispatch = useDispatch();
   const profile = useSelector((store) => store.info.profile.data);
   const profileStatus = useSelector((store) => store.info.profile.status);
+  const prevProfileStatus = usePrevious(profileStatus);
   const email = useSelector((store) => store.user.user.email);
 
   useEffect(() => {
@@ -33,7 +39,7 @@ function Info() {
     }
   }, [profileStatus, dispatch]);
 
-  if (profileStatus !== "succeeded") {
+  if (profileStatus !== "succeeded" && prevProfileStatus === "idle") {
     return <div>Loading...</div>;
   }
 
@@ -88,18 +94,19 @@ function Name({
   DOB,
   gender,
 }) {
+  const defaultValues = {
+    firstName,
+    lastName,
+    middleName,
+    preferredName,
+    profilePicUrl: profilePic ? profilePic.url : "",
+    email,
+    SSN,
+    DOB,
+    gender,
+  };
   const { register, control, handleSubmit, reset } = useForm({
-    defaultValues: {
-      firstName,
-      lastName,
-      middleName,
-      preferredName,
-      profilePicUrl: profilePic ? profilePic.url : "",
-      email,
-      SSN,
-      DOB,
-      gender,
-    },
+    defaultValues,
   });
 
   const onSubmit = (data) => {
@@ -179,7 +186,11 @@ function Name({
             />
           </FormControl>
         </div>
-        <Button variant="outlined" onClick={() => reset()} sx={{ mr: "4px" }}>
+        <Button
+          variant="outlined"
+          onClick={() => reset({ ...defaultValues })}
+          sx={{ mr: "4px" }}
+        >
           Cancel
         </Button>
         <Button type="submit" variant="contained">
@@ -191,12 +202,17 @@ function Name({
 }
 
 function Address({ address }) {
+  const defaultValues = address;
   const { register, reset, handleSubmit } = useForm({
-    defaultValues: address,
+    defaultValues,
   });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(updateInfo({ section: "address", data: { address: data } }));
   };
 
   return (
@@ -220,7 +236,11 @@ function Address({ address }) {
           <TextField sx={INPUT_SX} {...register("state")} label="State" />
           <TextField sx={INPUT_SX} {...register("zip")} label="Zip" />
         </div>
-        <Button variant="outlined" onClick={() => reset()} sx={{ mr: "4px" }}>
+        <Button
+          variant="outlined"
+          onClick={() => reset({ ...address })}
+          sx={{ mr: "4px" }}
+        >
           Cancel
         </Button>
         <Button type="submit" variant="contained">
@@ -232,12 +252,20 @@ function Address({ address }) {
 }
 
 function ContactInfo({ cellPhone, workPhone }) {
+  const defaultValues = useMemo(
+    () => ({ cellPhone, workPhone }),
+    [cellPhone, workPhone],
+  );
   const { register, reset, handleSubmit } = useForm({
-    defaultValues: { cellPhone, workPhone },
+    defaultValues,
   });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(updateInfo({ section: "contact", data }));
   };
 
   return (
@@ -258,7 +286,11 @@ function ContactInfo({ cellPhone, workPhone }) {
             label="Work phone"
           />
         </div>
-        <Button variant="outlined" onClick={() => reset()} sx={{ mr: "4px" }}>
+        <Button
+          variant="outlined"
+          onClick={() => reset({ ...defaultValues })}
+          sx={{ mr: "4px" }}
+        >
           Cancel
         </Button>
         <Button type="submit" variant="contained">
@@ -270,12 +302,17 @@ function ContactInfo({ cellPhone, workPhone }) {
 }
 
 function Employment({ workAuth }) {
+  const defaultValues = workAuth;
   const { register, reset, handleSubmit } = useForm({
-    defaultValues: workAuth,
+    defaultValues,
   });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(updateInfo({ section: "employment", data: { workAuth: data } }));
   };
   return (
     <>
@@ -298,7 +335,11 @@ function Employment({ workAuth }) {
             label="End date"
           />
         </div>
-        <Button variant="outlined" onClick={() => reset()} sx={{ mr: "4px" }}>
+        <Button
+          variant="outlined"
+          onClick={() => reset({ ...workAuth })}
+          sx={{ mr: "4px" }}
+        >
           Cancel
         </Button>
         <Button type="submit" variant="contained">
@@ -310,12 +351,27 @@ function Employment({ workAuth }) {
 }
 
 function EmergencyContact({ contacts }) {
-  const { register, handleSubmit } = useForm({
-    defaultValues: contacts,
+  const defaultValues = useMemo(() => ({ contacts }), [contacts]);
+  const { register, handleSubmit, reset, control } = useForm({
+    defaultValues,
   });
+  const { fields, remove, append } = useFieldArray({
+    control,
+    name: "contacts",
+  });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    const { contacts } = data;
+    dispatch(
+      updateInfo({
+        section: "emergencyContacts",
+        data: { emergencyContacts: contacts },
+      }),
+    );
   };
 
   return (
@@ -325,8 +381,12 @@ function EmergencyContact({ contacts }) {
       </Typography>
       <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
         <div>
-          {contacts.map((contact, index) => (
-            <Box component="div" sx={{ mb: "8px" }} key={contact.email}>
+          {fields.map((contact, index) => (
+            <Box
+              component="div"
+              sx={{ mb: "8px", display: "flex", alignItems: "baseline" }}
+              key={contact.email}
+            >
               <TextField
                 sx={INPUT_SX}
                 label="First name"
@@ -357,10 +417,29 @@ function EmergencyContact({ contacts }) {
                 {...register(`contacts[${index}].email`)}
                 defaultValue={contact.email}
               />
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => remove(index)}
+              >
+                Remove
+              </Button>
             </Box>
           ))}
         </div>
-        <Button variant="outlined" sx={{ mr: "4px" }}>
+        <Button
+          variant="outlined"
+          color="success"
+          onClick={() => append({})}
+          sx={{ mr: "4px" }}
+        >
+          Add contact
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ mr: "4px" }}
+          onClick={() => reset(defaultValues)}
+        >
           Cancel
         </Button>
         <Button type="submit" variant="contained">

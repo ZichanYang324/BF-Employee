@@ -18,7 +18,6 @@ export async function getProfile(req, res) {
       return res.status(404).json("User not found");
     }
     const userProfile = user.toObject();
-    console.log(userProfile);
     if (userProfile.profile.profilePic != null) {
       const { data: url } = await getOneFilePresignedUrl({
         Key: userProfile.profile.profilePic.S3Name,
@@ -127,6 +126,8 @@ export async function update(req, res) {
     } else {
       return res.status(400).json("Invalid request");
     }
+
+    return res.status(200).json("Profile updated");
   } catch (error) {
     console.error(error);
     return res.status(500).json("Internal server error");
@@ -174,7 +175,11 @@ async function _updateEmployment({ profileId, workAuth }) {
   const profile = await ProfileModel.updateOne(
     { _id: profileId },
     {
-      workAuth,
+      workAuth: {
+        ...workAuth,
+        startDate: new Date(workAuth.startDate),
+        endDate: new Date(workAuth.endDate),
+      },
     },
   ).exec();
   return profile;

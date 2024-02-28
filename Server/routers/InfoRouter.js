@@ -6,3 +6,4 @@ export const infoRouter = express.Router();
 
 infoRouter.get("/", authenticate, InfoControllers.getProfile);
 infoRouter.get("/documents", authenticate, InfoControllers.getDocuments);
+infoRouter.post("/update/:section", authenticate, InfoControllers.update);

@@ -57,6 +57,19 @@ export const fetchDocuments = createAsyncThunk(
   },
 );
 
+export const updateInfo = createAsyncThunk(
+  "/info/updateInfo",
+  async ({ section, data }, thunkAPI) => {
+    try {
+      const response = await customFetch.post(`/info/update/${section}`, data);
+      thunkAPI.dispatch(fetchProfile());
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  },
+);
+
 const infoSlice = createSlice({
   name: "info",
   initialState,
