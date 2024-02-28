@@ -6,7 +6,6 @@ const customFetch = axios.create({
   baseURL: "http://localhost:3100",
   headers: {
     "Accept": "application/json",
-    "Content-Type": "application/json",
     "Cache-Control": "no-cache",
   },
 });
@@ -14,9 +13,7 @@ const customFetch = axios.create({
 export const customFetch2 = axios.create({
   baseURL: "http://localhost:3100",
   headers: {
-    "Content-Type": 'multipart/form-data',
     "Cache-Control": "no-cache",
-    
   },
 });
 
