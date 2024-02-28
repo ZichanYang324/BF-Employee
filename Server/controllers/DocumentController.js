@@ -24,7 +24,7 @@ async function canUploadNextDocument(userId, documentType) {
   return previousDocument && previousDocument.status === "Approved";
 }
 
-async function uploadDocument(req, res) {
+async function uploadDocumentbc(req, res) {
   const userId = req.user._id;
   //const { documentType, file } = req.body;
   const { documentType } = req.body;
@@ -145,7 +145,7 @@ async function login(req, res) {
 export {
   register,
   login,
-  uploadDocument,
+  uploadDocumentbc,
   updateDocumentStatus,
   getMyDocuments,
 };
