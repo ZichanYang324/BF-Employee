@@ -97,7 +97,7 @@ export const Report = () => {
                   <Typography sx={{ fontSize: 15 }} gutterBottom>
                     {`Status: ${el.status}`}
                   </Typography>
-                  <CardActions>
+                  <CardActions sx={{ marginTop: "-2px" }}>
                     <Button
                       size="small"
                       variant="contained"
@@ -110,7 +110,6 @@ export const Report = () => {
                       New Comment
                     </Button>
                   </CardActions>
-
                   <Comment profileId={profileId} reportID={el._id} />
                 </CardContent>
               </Card>

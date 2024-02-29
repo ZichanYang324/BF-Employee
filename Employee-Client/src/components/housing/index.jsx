@@ -33,6 +33,7 @@ export const Housing = () => {
   };
   const handleReportButtonClick = () => {
     navigate("/report");
+    window.location.reload();
   };
 
   const handleClose = () => {

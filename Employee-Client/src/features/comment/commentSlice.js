@@ -1,18 +1,6 @@
 import customFetch from "../../utils/customFetch";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const getComment = createAsyncThunk(
-  "comment/getComment",
-  async (body) => {
-    try {
-      const res = await customFetch.post("/comment", body);
-      return res.data;
-    } catch (error) {
-      throw error;
-    }
-  },
-);
-
 export const createComment = createAsyncThunk(
   "comment/createComment",
   async (body) => {
@@ -35,17 +23,6 @@ const CommentSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getComment.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getComment.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.data = action.payload;
-      })
-      .addCase(getComment.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      })
       .addCase(createComment.pending, (state) => {
         state.status = "loading";
         state.error = null;
