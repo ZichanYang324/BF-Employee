@@ -1,1 +1,31 @@
-<p>nav-bar works!</p>
+<mat-toolbar color="primary" class="flex justify-between !px-8">
+  <a class="cursor-pointer mr-6">
+    Home
+  </a>
+  <div class="flex justify-between gap-2">
+    <button
+      mat-button
+      routerLink="/employees"
+    >
+      Employee Profiles
+    </button>
+    <button
+      mat-button
+      routerLink="/departments"
+    >
+      Visa Status Management
+    </button>
+    <button
+      mat-button
+      routerLink="/positions"
+    >
+      Hiring Management
+    </button>
+    <button
+      mat-button
+      routerLink="/reports"
+    >
+      Housing Management
+    </button>
+  </div>
+</mat-toolbar>
