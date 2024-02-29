@@ -4,6 +4,7 @@
   "bracketSameLine": false,
   "quoteProps": "consistent",
   "importOrderSortSpecifiers": true,
-  "importOrderParserPlugins": ["typescript", "decorators-legacy", "jsx"],
-  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "singleAttributePerLine": true
 }

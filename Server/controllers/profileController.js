@@ -63,16 +63,16 @@ export const createProfile = asyncHandler(async (req, res) => {
     newProfile.profilePic = newProfilePic._id;
   }
 
-  if (req.files["optReciept"]) {
-    const file = req.files["optReciept"][0];
+  if (req.files["optReceipt"]) {
+    const file = req.files["optReceipt"][0];
     const s3Response = await uploadFileToS3(file.buffer, file.originalname);
-    const newOptReciept = await Document.create({
+    const newOptReceipt = await Document.create({
       URL: s3Response.url,
       S3Bucket: s3Response.bucket,
       S3Name: s3Response.key,
       // owner: req.user._id,
     })
-    newProfile.optReceipt = newOptReciept._id;
+    newProfile.optReceipt = newOptReceipt._id;
   }
 
   if (req.files["driverlicense"]) {

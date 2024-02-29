@@ -128,7 +128,7 @@ const Onboard = () => {
 
     const formData = new FormData();
     if (profilePic) formData.append('profilePic', profilePic);
-    if (optReceipt) formData.append('optReciept', optReceipt);
+    if (optReceipt) formData.append('optReceipt', optReceipt);
     if (driverlicense) formData.append('driverlicense', driverlicense);
     formData.append('data', JSON.stringify(jsonData));
 
