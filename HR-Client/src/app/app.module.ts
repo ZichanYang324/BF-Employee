@@ -10,6 +10,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EntireProfileComponent } from './components/entire-profile/entire-profile.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeComponent,
     NavBarComponent,
     EmployeeProfilesComponent,
+    EntireProfileComponent,
   ],
   imports: [
     BrowserModule,
