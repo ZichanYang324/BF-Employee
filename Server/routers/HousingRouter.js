@@ -35,7 +35,7 @@ reportRouter
   .post("/add", createReportForEmployee);
 // comment info router /comment
 commentRouter
-  .get("/", getReportComments)
+  .post("/", getReportComments)
   .post("/add", createComment)
   .patch("/update", updateComment);
 export { housingRouter, reportRouter, commentRouter };

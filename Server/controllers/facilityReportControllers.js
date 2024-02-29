@@ -20,8 +20,11 @@ export const getReportForEmployee = async (req, res) => {
         select: "firstName lastName preferredName",
       })
       .exec();
-    if (!reports || reports.length === 0) {
+    if (!reports) {
       return res.status(404).json("report not found");
+    }
+    if (reports.length === 0) {
+      return res.status(200).json([]);
     }
     return res.status(200).json(reports);
   } catch (error) {

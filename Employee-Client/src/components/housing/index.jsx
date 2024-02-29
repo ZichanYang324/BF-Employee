@@ -20,14 +20,19 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const Housing = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const housing = useSelector((state) => state.housing.data);
   const status = useSelector((state) => state.housing.status);
   const handleClickOpen = () => {
     setOpen(true);
+  };
+  const handleReportButtonClick = () => {
+    navigate("/report");
   };
 
   const handleClose = () => {
@@ -64,7 +69,7 @@ export const Housing = () => {
                     size="small"
                     variant="contained"
                     color="warning"
-                    disabled
+                    onClick={handleReportButtonClick}
                   >
                     View Report
                   </Button>
@@ -154,7 +159,7 @@ export const Housing = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Subscribe</Button>
+            <Button type="submit">Submit</Button>
           </DialogActions>
         </Dialog>
       </Box>

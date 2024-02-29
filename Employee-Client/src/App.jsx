@@ -1,6 +1,7 @@
 import { Housing } from "./components/housing";
 import { Login } from "./components/login";
 import { Register } from "./components/register";
+import { Report } from "./components/reports";
 import VisaStatusManagement from "./components/visa";
 import Dashboard from "./pages/dashboard";
 import Info from "./pages/info";
@@ -31,6 +32,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Housing />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="report"
+          element={
+            <ProtectedRoute>
+              <Report />
             </ProtectedRoute>
           }
         />

@@ -4,10 +4,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const getCurrentEmployeeReport = createAsyncThunk(
   "report/getCurrentEmployeeReport",
   async (profileId) => {
-    const res = customFetch.post("/report", {
-      profileId,
-    });
-    return res.data;
+    try {
+      const res = await customFetch.post("/report", {
+        profileId,
+      });
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
   },
 );
 
@@ -15,7 +19,7 @@ export const createReport = createAsyncThunk(
   "report/createReport",
   async (body, thunkAPI) => {
     try {
-      const res = customFetch.post("/report/add", body);
+      const res = await customFetch.post("/report/add", body);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue({
