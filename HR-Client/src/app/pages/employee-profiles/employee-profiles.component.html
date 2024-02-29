@@ -1,2 +1,26 @@
 <app-nav-bar></app-nav-bar>
-<p>employee-profiles works!</p>
+<div>
+  <mat-expansion-panel *ngFor="let summary of profileSummaries">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span>{{
+          summary.firstName + " " + summary.middleName + " " + summary.lastName
+        }}</span>
+      </mat-panel-title>
+      <mat-panel-description class="profiles-summary-description">
+        <div><span class="description-label">SSN: </span>{{ summary.SSN }}</div>
+        <div>
+          <span class="description-label">Work Authorization Title: </span
+          >{{ summary.workAuthTitle }}
+        </div>
+        <div>
+          <span class="description-label">Phone Number: </span
+          >{{ summary.phoneNumber }}
+        </div>
+        <div>
+          <span class="description-label">Email: </span>{{ summary.email }}
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+</div>
