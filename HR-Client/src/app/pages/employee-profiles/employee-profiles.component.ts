@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { type ProfileSummary } from 'src/app/components/entire-profile/profiles.types';
 
 const TEST_SUMMARY = {
   firstName: 'Alice',
@@ -9,15 +10,6 @@ const TEST_SUMMARY = {
   phoneNumber: '123-456-7893',
   email: 'user1@mail.com',
 };
-interface ProfileSummary {
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  SSN: string;
-  workAuthTitle: string;
-  phoneNumber: string;
-  email: string;
-}
 
 @Component({
   selector: 'app-employee-profiles',
