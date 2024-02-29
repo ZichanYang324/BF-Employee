@@ -58,7 +58,10 @@ export const Report = () => {
         <Typography sx={{ padding: "2rem" }}>Loading...</Typography>
       )}
       {status === "failed" && (
-        <Typography color="error" sx={{ padding: "2rem" }}>
+        <Typography
+          color="error"
+          sx={{ padding: "2rem" }}
+        >
           Failed to load the report.
         </Typography>
       )}
@@ -71,7 +74,11 @@ export const Report = () => {
         reportData &&
         reportData.map((el) => {
           return (
-            <Box className="cardContainer" key={el._id} marginBottom={"10px"}>
+            <Box
+              className="cardContainer"
+              key={el._id}
+              marginBottom={"10px"}
+            >
               <Card
                 sx={{
                   width: "80%",
@@ -82,19 +89,34 @@ export const Report = () => {
                 variant="outlined"
               >
                 <CardContent>
-                  <Typography sx={{ fontSize: 20 }} gutterBottom>
+                  <Typography
+                    sx={{ fontSize: 20 }}
+                    gutterBottom
+                  >
                     {`Title: ${el.title}`}
                   </Typography>
-                  <Typography sx={{ fontSize: 15 }} gutterBottom>
+                  <Typography
+                    sx={{ fontSize: 15 }}
+                    gutterBottom
+                  >
                     {`Description: ${el.description}`}
                   </Typography>
-                  <Typography sx={{ fontSize: 15 }} gutterBottom>
+                  <Typography
+                    sx={{ fontSize: 15 }}
+                    gutterBottom
+                  >
                     {`createBy: ${getName(el.createdBy)}`}
                   </Typography>
-                  <Typography sx={{ fontSize: 15 }} gutterBottom>
+                  <Typography
+                    sx={{ fontSize: 15 }}
+                    gutterBottom
+                  >
                     {`TimeStamp: ${el.timeStamp}`}
                   </Typography>
-                  <Typography sx={{ fontSize: 15 }} gutterBottom>
+                  <Typography
+                    sx={{ fontSize: 15 }}
+                    gutterBottom
+                  >
                     {`Status: ${el.status}`}
                   </Typography>
                   <CardActions sx={{ marginTop: "-2px" }}>
@@ -110,11 +132,15 @@ export const Report = () => {
                       New Comment
                     </Button>
                   </CardActions>
-                  <Comment profileId={profileId} reportID={el._id} />
+                  <Comment
+                    profileId={profileId}
+                    reportID={el._id}
+                  />
                 </CardContent>
               </Card>
               <Dialog
                 open={open}
+                BackdropProps={{ style: { backgroundColor: "transparent" } }}
                 onClose={handleClose}
                 PaperProps={{
                   component: "form",
