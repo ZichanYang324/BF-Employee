@@ -24,7 +24,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 const BASE_URL = "http://localhost:3100";
 
-export default function useFetch(url, options) {
+function useFetch(url, options) {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -43,7 +43,7 @@ export default function useFetch(url, options) {
       const response = await fetch(`${BASE_URL}${url}`, {
         method: optionsRef.current?.method || "GET",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": optionsRef.current?.headers["Content-Type"] || "application/json",
           ...optionsRef.current?.headers,
         },
         body: optionsRef.current?.body
@@ -88,3 +88,4 @@ export default function useFetch(url, options) {
 
   return { data, isLoading, error, isFetched };
 }
+export default useFetch;

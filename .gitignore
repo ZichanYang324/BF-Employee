@@ -136,3 +136,5 @@ pnpm-lock.yaml
 
 # vscode files
 .vscode
+
+uploads
