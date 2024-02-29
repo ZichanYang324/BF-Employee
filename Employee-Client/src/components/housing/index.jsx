@@ -1,3 +1,5 @@
+import { fetchHousing } from "../../features/housing/housingSlice";
+import { housingConstants } from "../../utils/housingConstants";
 import ResponsiveAppBar from "../navbar";
 import "./style.css";
 import GroupIcon from "@mui/icons-material/Group";
@@ -9,8 +11,20 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Housing = () => {
+  const dispatch = useDispatch();
+  const housing = useSelector((state) => state.housing.data);
+  const status = useSelector((state) => state.housing.status);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchHousing(housingConstants.profileId));
+    }
+  }, [dispatch, status]);
+
   return (
     <>
       <ResponsiveAppBar />
@@ -28,7 +42,7 @@ export const Housing = () => {
               alignItems={"baseline"}
             >
               <Typography sx={{ fontSize: 20 }} gutterBottom>
-                110 warn street
+                Address: {housing?.address}
               </Typography>
               <Box sx={{ display: "flex" }}>
                 <CardActions>
@@ -49,18 +63,25 @@ export const Housing = () => {
                 </CardActions>
               </Box>
             </Box>
-            <GroupIcon sx={{ fontSize: 40, mt: 2 }} />
+            <Box sx={{ display: "flex" }}>
+              <GroupIcon sx={{ fontSize: 40, mt: 2 }} />{" "}
+              <Typography
+                sx={{ fontSize: 15, paddingTop: "25px", paddingLeft: "5px" }}
+              >
+                Roommate
+              </Typography>
+            </Box>
           </CardContent>
           <Box padding={"0px 10%"} display={"flex"}>
-            <Box marginRight={"10px"}>
-              <Typography sx={{ fontSize: 15 }}>James-7188380000 </Typography>
-            </Box>{" "}
-            <Box marginRight={"10px"}>
-              <Typography sx={{ fontSize: 15 }}>James-7188380000 </Typography>
-            </Box>{" "}
-            <Box marginRight={"10px"}>
-              <Typography sx={{ fontSize: 15 }}>James-7188380000 </Typography>
-            </Box>
+            {housing?.assignedEmployees.map((el, idx) => {
+              return (
+                <Card key={idx} sx={{ padding: "10px", margin: "5px" }}>
+                  <Typography sx={{ fontSize: 15 }}>
+                    {`Name:${el.fullName} - Phone:${el.phone}`}
+                  </Typography>
+                </Card>
+              );
+            })}
           </Box>
         </Card>
       </Box>

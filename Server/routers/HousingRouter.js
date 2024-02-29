@@ -24,7 +24,7 @@ const commentRouter = express.Router();
 
 // housing info router /housing
 housingRouter
-  .get("/", getHousingDetailsForEmployee)
+  .post("/", getHousingDetailsForEmployee)
   .post("/add", addHouseForHR)
   .get("/getAllBasicHouses", getAllBasicHouseInfoForHR)
   .get("/getHouseSummary", getHouseSummaryForHR)
