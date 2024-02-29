@@ -80,9 +80,12 @@ export const getReportComments = async (req, res) => {
     // Check if the FacilityReport exists
     const report = await FacilityReport.findById(reportID).populate({
       path: "comments",
-      populate: { path: "createdby", model: "Profile" },
+      populate: {
+        path: "createdby",
+        model: "Profile",
+        select: "firstName lastName preferredName",
+      },
     });
-
     if (!report) {
       return res.status(404).json("Facility Report not found");
     }

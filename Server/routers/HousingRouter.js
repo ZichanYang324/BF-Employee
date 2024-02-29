@@ -24,18 +24,18 @@ const commentRouter = express.Router();
 
 // housing info router /housing
 housingRouter
-  .get("/", getHousingDetailsForEmployee)
+  .post("/", getHousingDetailsForEmployee)
   .post("/add", addHouseForHR)
   .get("/getAllBasicHouses", getAllBasicHouseInfoForHR)
   .get("/getHouseSummary", getHouseSummaryForHR)
   .delete("/delete", deleteHouseForHR);
 // facility report router /report
 reportRouter
-  .get("/", getReportForEmployee)
+  .post("/", getReportForEmployee)
   .post("/add", createReportForEmployee);
 // comment info router /comment
 commentRouter
-  .get("/", getReportComments)
+  .post("/", getReportComments)
   .post("/add", createComment)
   .patch("/update", updateComment);
 export { housingRouter, reportRouter, commentRouter };
