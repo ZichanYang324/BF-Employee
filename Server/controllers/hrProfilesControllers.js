@@ -1,6 +1,6 @@
 import User from "../models/User.model.js";
 
-export async function getEmployees(req, res) {
+export async function summary(req, res) {
   // const user = req.user;
   // if (user == null || user.role !== "HR") {
   //   return res.status(403).json("Unauthorized");
