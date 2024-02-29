@@ -64,12 +64,15 @@ const ProfileSchema = new Schema({
   car: {
     make: {
       type: String,
+      default: "",
     },
     model: {
       type: String,
+      default: "",
     },
     color: {
       type: String,
+      default: "",
     },
   },
   SSN: {
@@ -88,25 +91,19 @@ const ProfileSchema = new Schema({
   workAuth: {
     title: {
       type: String,
-      required: true,
+      default: "",
     },
     startDate: {
       type: Date,
-      required: true,
     },
     endDate: {
       type: Date,
-      required: true,
     },
   },
   driversLicense: {
     number: {
       type: String,
-      required: true,
-    },
-    state: {
-      type: String,
-      enum: constants.state,
+      default: "",
     },
     expiration: {
       type: Date,
