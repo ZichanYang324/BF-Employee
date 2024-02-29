@@ -9,7 +9,7 @@ const MAX_ITEM_PERPAGE = 3;
 /**
  * Get housing details for current user
  * @param {profileId}
- * @returns {address, [{assignedEmployees.name,phoneNumber}]} address and roommate info
+ * @returns {address, houseId [{assignedEmployees.name,phoneNumber}]} address and roommate info
  */
 
 export const getHousingDetailsForEmployee = async (req, res) => {
@@ -35,6 +35,7 @@ export const getHousingDetailsForEmployee = async (req, res) => {
     }
     const res_details = {
       address: housingDetails.address,
+      houseId: housingDetails._id,
       assignedEmployees: housingDetails.assignedEmployees.map((employee) => ({
         fullName:
           employee.preferredName ||

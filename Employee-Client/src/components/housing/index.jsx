@@ -1,4 +1,5 @@
 import { fetchHousing } from "../../features/housing/housingSlice";
+import { createReport } from "../../features/report/reportSlice";
 import { housingConstants } from "../../utils/housingConstants";
 import ResponsiveAppBar from "../navbar";
 import "./style.css";
@@ -9,16 +10,29 @@ import {
   Card,
   CardActions,
   CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export const Housing = () => {
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const housing = useSelector((state) => state.housing.data);
   const status = useSelector((state) => state.housing.status);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchHousing(housingConstants.profileId));
@@ -34,7 +48,7 @@ export const Housing = () => {
       </Box>
 
       <Box className="cardContainer">
-        <Card sx={{ width: "80%", height: "14rem" }} variant="outlined">
+        <Card sx={{ width: "80%", height: "16rem" }} variant="outlined">
           <CardContent>
             <Box
               display={"flex"}
@@ -57,7 +71,12 @@ export const Housing = () => {
                 </CardActions>
 
                 <CardActions>
-                  <Button size="small" variant="contained" color="error">
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleClickOpen}
+                  >
                     New Report
                   </Button>
                 </CardActions>
@@ -84,6 +103,60 @@ export const Housing = () => {
             })}
           </Box>
         </Card>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          PaperProps={{
+            component: "form",
+            onSubmit: async (event) => {
+              event.preventDefault();
+              const formData = new FormData(event.currentTarget);
+              const formJson = Object.fromEntries(formData.entries());
+              await dispatch(
+                createReport({
+                  profileId: housingConstants.profileId,
+                  houseID: housing?.houseId,
+                  ...formJson,
+                }),
+              );
+              handleClose();
+            },
+          }}
+        >
+          <DialogTitle>New Report</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              To file a new facility report, please provide a title and a
+              description
+            </DialogContentText>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="title"
+              name="title"
+              label="Title"
+              type="text"
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="description"
+              name="description"
+              label="Description"
+              type="text"
+              fullWidth
+              variant="standard"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button type="submit">Subscribe</Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </>
   );

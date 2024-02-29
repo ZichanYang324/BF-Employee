@@ -31,7 +31,7 @@ housingRouter
   .delete("/delete", deleteHouseForHR);
 // facility report router /report
 reportRouter
-  .get("/", getReportForEmployee)
+  .post("/", getReportForEmployee)
   .post("/add", createReportForEmployee);
 // comment info router /comment
 commentRouter
