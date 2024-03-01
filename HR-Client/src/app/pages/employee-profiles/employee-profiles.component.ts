@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { EntireProfileComponent } from 'src/app/components/entire-profile/entire-profile.component';
 import { type ProfileSummary } from 'src/app/components/entire-profile/profiles.types';
+
+interface ProfileDetails {
+  [key: string]: EntireProfileComponent;
+}
 
 @Component({
   selector: 'app-employee-profiles',
@@ -8,6 +13,7 @@ import { type ProfileSummary } from 'src/app/components/entire-profile/profiles.
 })
 export class EmployeeProfilesComponent implements OnInit {
   profileSummaries: ProfileSummary[] = [];
+  profileDetails: ProfileDetails = {};
 
   constructor() {}
 
@@ -18,5 +24,16 @@ export class EmployeeProfilesComponent implements OnInit {
       this.profileSummaries = data;
     };
     fetchProfiles();
+  }
+
+  async onSummaryExpanded(userId: string) {
+    if (this.profileDetails[userId]) {
+      return;
+    }
+    const profileDetail = await fetch(
+      'http://localhost:3100/hr/profiles/entire?userId=' + userId,
+    );
+    const data = await profileDetail.json();
+    this.profileDetails[userId] = data;
   }
 }
