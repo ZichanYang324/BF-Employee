@@ -17,9 +17,16 @@ const TEST_SUMMARY = {
   styleUrls: ['./employee-profiles.component.css'],
 })
 export class EmployeeProfilesComponent implements OnInit {
-  profileSummaries: ProfileSummary[] = [TEST_SUMMARY];
+  profileSummaries: ProfileSummary[] = [];
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const fetchProfiles = async () => {
+      const response = await fetch('http://localhost:3100/hr/profiles/summary');
+      const data = await response.json();
+      this.profileSummaries = data;
+    };
+    fetchProfiles();
+  }
 }

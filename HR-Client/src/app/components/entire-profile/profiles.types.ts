@@ -1,4 +1,5 @@
 export interface ProfileSummary {
+  userId: string;
   firstName: string;
   middleName: string;
   lastName: string;
