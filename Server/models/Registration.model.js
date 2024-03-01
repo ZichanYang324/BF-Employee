@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import constants from '../config/constants.js';
 
 const registrationSchema = new mongoose.Schema({
   email: {
@@ -11,7 +12,7 @@ const registrationSchema = new mongoose.Schema({
   },
   token: { type: String, required: true },
   createdAt: { type: Date, default: Date.now, expires: '3h' },
-  used: { type: Boolean, default: false }
+  status: { type: String, enum: constants.registrationLinkStatus, default: "Not Used"}
 });
 
 export default mongoose.model('Registration', registrationSchema);

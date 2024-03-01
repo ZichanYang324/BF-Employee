@@ -24,3 +24,9 @@ export const sendLink = asyncHandler(async (req,res) => {
 
   res.status(200).json({ message: 'Email sent successfully!' });
 });
+
+export const getHistory = asyncHandler(async (_req,res) => {
+  const history = await RegistrationModel.find({});
+  console.log(history);
+  res.status(200).json(history);
+});
