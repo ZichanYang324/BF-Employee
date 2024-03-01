@@ -53,6 +53,7 @@ interface ImmigrationDocument {
 }
 
 export interface Profile {
+  userId: string;
   email: string;
   firstName: string;
   lastName: string;

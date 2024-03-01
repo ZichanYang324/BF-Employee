@@ -76,6 +76,7 @@ export async function entireProfile(req, res) {
     }
     const presignedUrls = await _getPresignedUrls(employee.profile);
     const result = {
+      userId,
       email: employee.email,
       profile: {
         ...employee.profile,
