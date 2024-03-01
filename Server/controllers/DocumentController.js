@@ -1,8 +1,8 @@
+import { uploadFileToS3 } from "../config/s3Service.js";
 import Document from "../models/Document.model.js";
 import User from "../models/User.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { uploadFileToS3 } from '../config/s3Service.js';
 
 const documentOrder = ["OPT Receipt", "OPT EAD", "I-983", "I-20"];
 
@@ -28,12 +28,14 @@ async function uploadDocumentbc(req, res) {
   const userId = req.user._id;
   //const { documentType, file } = req.body;
   const { documentType } = req.body;
-  console.log("In unploadDocument function backend:")
-  console.log("userId",userId);
+  console.log("In unploadDocument function backend:");
+  console.log("userId", userId);
   console.log("Received documentType:", documentType);
-  console.log("Received file:",req.file); 
+  console.log("Received file:", req.file);
   if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded or file is missing." });
+    return res
+      .status(400)
+      .json({ message: "No file uploaded or file is missing." });
   }
   if (!(await canUploadNextDocument(userId, documentType))) {
     return res.status(403).json({
@@ -42,7 +44,6 @@ async function uploadDocumentbc(req, res) {
   }
 
   try {
-
     const s3Response = await uploadFileToS3(req.file);
     const newDocument = await Document.create({
       owner: userId,
@@ -51,7 +52,7 @@ async function uploadDocumentbc(req, res) {
       URL: s3Response.Location,
       S3Bucket: s3Response.Bucket,
       S3Name: s3Response.Key,
-      feedback: "" 
+      feedback: "",
     });
 
     res.status(201).json({

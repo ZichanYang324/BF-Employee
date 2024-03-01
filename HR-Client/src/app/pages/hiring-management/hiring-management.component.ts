@@ -31,7 +31,6 @@ export class HiringManagementComponent implements OnInit {
       .subscribe((data) => {
         this.registrationHistory = data;
       });
-    console.log(this.registrationHistory);
   }
 
   onSubmit(): void {

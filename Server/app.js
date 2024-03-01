@@ -1,3 +1,5 @@
+import errorHandler from "./middlewares/errorHandler.js";
+import hiringManagementRouter from "./routers/HiringManagementRouter.js";
 import {
   commentRouter,
   housingRouter,
@@ -13,8 +15,6 @@ import express from "express";
 import morgan from "morgan";
 import path from "path";
 import process from "process";
-import errorHandler from "./middlewares/errorHandler.js";
-import hiringManagementRouter from "./routers/HiringManagementRouter.js";
 
 const app = express();
 

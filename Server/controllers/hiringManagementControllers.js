@@ -1,15 +1,13 @@
+import asyncHandler from "../middlewares/asyncHandler.js";
+import RegistrationModel from "../models/Registration.model.js";
 import { sendEmail } from "../utils/sendMail.js";
 import jwt from "jsonwebtoken";
-import RegistrationModel from "../models/Registration.model.js";
-import asyncHandler from "../middlewares/asyncHandler.js";
 
-export const sendLink = asyncHandler(async (req,res) => {
+export const sendLink = asyncHandler(async (req, res) => {
   const { email, name } = req.body;
-  const token = jwt.sign(
-    { email }, 
-    process.env.JWT_EMAIL_SECRET, 
-    { expiresIn: '3h' }
-  );
+  const token = jwt.sign({ email }, process.env.JWT_EMAIL_SECRET, {
+    expiresIn: "3h",
+  });
   const registrationLink = `http://localhost:5173/register?token=${token}`;
 
   await RegistrationModel.create({ email, name, token });
@@ -20,12 +18,12 @@ export const sendLink = asyncHandler(async (req,res) => {
     <p>Please use <a href="${registrationLink}">this link</a> to complete registration.</p>
   `;
 
-  await sendEmail(email, 'Registration Link', emailBody);
+  await sendEmail(email, "Registration Link", emailBody);
 
-  res.status(200).json({ message: 'Email sent successfully!' });
+  res.status(200).json({ message: "Email sent successfully!" });
 });
 
-export const getHistory = asyncHandler(async (_req,res) => {
+export const getHistory = asyncHandler(async (_req, res) => {
   const history = await RegistrationModel.find({});
   console.log(history);
   res.status(200).json(history);

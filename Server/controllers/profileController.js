@@ -1,9 +1,8 @@
-import { Profile, Document } from "../models/index.js";
 import { uploadFileToS3 } from "../config/s3Service.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
+import { Document, Profile } from "../models/index.js";
 
 export const createProfile = asyncHandler(async (req, res) => {
-
   const {
     firstName,
     lastName,
@@ -22,7 +21,6 @@ export const createProfile = asyncHandler(async (req, res) => {
     reference,
     emergencyContacts,
   } = JSON.parse(req.body.data);
-
 
   // if (immigrationStatus.type === "VISA" && !workAuth) {
   //   return res.status(400).json({
@@ -59,7 +57,7 @@ export const createProfile = asyncHandler(async (req, res) => {
       S3Bucket: s3Response.bucket,
       S3Name: s3Response.key,
       // owner: req.user._id,
-    })
+    });
     newProfile.profilePic = newProfilePic._id;
   }
 
@@ -71,7 +69,7 @@ export const createProfile = asyncHandler(async (req, res) => {
       S3Bucket: s3Response.bucket,
       S3Name: s3Response.key,
       // owner: req.user._id,
-    })
+    });
     newProfile.optReceipt = newOptReceipt._id;
   }
 
@@ -83,7 +81,7 @@ export const createProfile = asyncHandler(async (req, res) => {
       S3Bucket: s3Response.bucket,
       S3Name: s3Response.key,
       // owner: req.user._id,
-    })
+    });
     newProfile.driverLicense = newDriverLicense._id;
   }
 
