@@ -1,0 +1,41 @@
+<app-nav-bar></app-nav-bar>
+
+<form
+  [formGroup]="registrationForm"
+  (ngSubmit)="onSubmit()"
+  class="flex flex-col w-96 mx-auto mt-10"
+>
+  <mat-form-field appearance="outline">
+    <mat-label> Name </mat-label>
+    <input
+      matInput
+      formControlName="name"
+    />
+    <mat-error *ngIf="registrationForm.get('name')?.errors?.['required']">
+      Name is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      formControlName="email"
+    />
+    <mat-error *ngIf="registrationForm.get('email')?.errors?.['required']">
+      Email is required
+    </mat-error>
+    <mat-error *ngIf="registrationForm.get('email')?.errors?.['email']">
+      Email is invalid
+    </mat-error>
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="!registrationForm.valid"
+  >
+    Generate token and send email
+  </button>
+</form>

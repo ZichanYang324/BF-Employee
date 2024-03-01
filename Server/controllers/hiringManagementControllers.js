@@ -1,9 +1,9 @@
-import { sendEmail } from "../utils/mailer";
+import { sendEmail } from "../utils/sendMail.js";
 import jwt from "jsonwebtoken";
-import RegistrationModel from "../models/Registration.model";
-import asyncHandler from "../middlewares/asyncHandler";
+import RegistrationModel from "../models/Registration.model.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
 
-export const generateLink = asyncHandler(async (req,res) => {
+export const sendLink = asyncHandler(async (req,res) => {
   const { email, name } = req.body;
   const token = jwt.sign(
     { email }, 
