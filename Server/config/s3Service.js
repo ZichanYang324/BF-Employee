@@ -12,6 +12,7 @@ const s3Client = new S3Client({
 });
 
 export const uploadFileToS3 = async (file, prefix = 'dongming/') => {
+  console.log('file',file)
   const fileKey = `${prefix}${Date.now()}_${file.originalname}`;
   const params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,

@@ -4,7 +4,9 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
 import { stateNames, genders, workAuthTypes } from '../utils/constants';
 import DEFAULT_PIC from '../assets/default-avatar.jpeg';
-import customFetch from '../utils/customFetch';
+import customFetch, { customFetch2, customFetchForForm } from '../utils/customFetch';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -25,6 +27,8 @@ const Onboard = () => {
     handleSubmit,
     watch
   } = useForm();
+
+  const {user} = useSelector((store)=>store.user)
 
   const showWorkAuth = watch('showWorkAuth');
   const authType = watch('authType');
@@ -74,6 +78,7 @@ const Onboard = () => {
   // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
 
   const onSubmit = async (data) => {
+    console.log('profilePic123',data.profilePic)
     const jsonData = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -127,16 +132,21 @@ const Onboard = () => {
     }
 
     const formData = new FormData();
-    if (profilePic) formData.append('profilePic', profilePic);
-    if (optReceipt) formData.append('optReceipt', optReceipt);
-    if (driverlicense) formData.append('driverlicense', driverlicense);
-    formData.append('data', JSON.stringify(jsonData));
 
-    const res = await customFetch.post('/profile/createProfile', formData);
+    if (data.profilePic) formData.append('profilePic', data.profilePic[0]);
+    if (data.optReceipt) formData.append('optReceipt', data.optReceipt[0]);
+    if (data.driverlicense) formData.append('driverlicense', data.driverlicense[0]);
+    formData.append('data',JSON.stringify(jsonData))
+
+    const res = await customFetchForForm.post('/profile/createProfile', formData);
     console.log(res);
     // TODO: jump to pending page or show error
   };
 
+  useEffect(()=>{
+    console.log('profilePic',profilePic)
+    console.log('profilePic formd',new FormData().append('profilePic', profilePic))
+  },[profilePic])
   return (
     <Box 
       sx={{ 
@@ -247,7 +257,7 @@ const Onboard = () => {
           <TextField
             label="Email"
             disabled
-            defaultValue={"user1@xxx.com"}
+            defaultValue={user.email}
             fullWidth
             {...register('email')}
           />

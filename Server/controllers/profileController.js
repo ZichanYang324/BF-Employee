@@ -1,6 +1,9 @@
 import { Profile, Document } from "../models/index.js";
 import { uploadFileToS3 } from "../config/s3Service.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
+import multer from "multer";
+
+const upload = multer({ dest: 'uploads/' });
 
 export const createProfile = asyncHandler(async (req, res) => {
 

@@ -51,15 +51,15 @@ function ResponsiveAppBar() {
 
   const handlePageClick = (page) => {
     switch (page) {
+      case 'Personal Information':
+        navigate('/info');
+        break
       case 'Visa Status Management':
         navigate('/visa-status');
         break;
-      // case 'Housing':
-      //   navigate('/housing'); 
-      //   break;
-            // case 'Personal Information':
-      //   navigate('/personal-information'); 
-      //   break;
+      case 'Housing':
+        navigate('/housing');
+        break;
       default:
         break;
     }
@@ -67,7 +67,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ zIndex: -100 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -143,17 +143,6 @@ function ResponsiveAppBar() {
             }}
           >
           </Typography>
-          {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box> */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button

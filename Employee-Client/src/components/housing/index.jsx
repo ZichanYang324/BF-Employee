@@ -1,7 +1,6 @@
 import { fetchHousing } from "../../features/housing/housingSlice";
 import { createReport } from "../../features/report/reportSlice";
 import { housingConstants } from "../../utils/housingConstants";
-import ResponsiveAppBar from "../navbar";
 import "./style.css";
 import GroupIcon from "@mui/icons-material/Group";
 import {
@@ -47,7 +46,6 @@ export const Housing = () => {
 
   return (
     <>
-      <ResponsiveAppBar />
 
       <Box sx={{ padding: "2rem" }}>
         <Typography variant="h5">Housing Infomation</Typography>

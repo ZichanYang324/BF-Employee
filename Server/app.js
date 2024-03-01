@@ -14,11 +14,13 @@ import morgan from "morgan";
 import path from "path";
 import process from "process";
 import errorHandler from "./middlewares/errorHandler.js";
+import multer from "multer";
 
 const app = express();
-
+const upload = multer();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(upload.any());
 app.use(cors());
 app.use(morgan("dev"));
 app.use(cookieParser());

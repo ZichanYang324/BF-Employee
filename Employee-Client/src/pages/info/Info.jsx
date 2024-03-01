@@ -31,7 +31,6 @@ function Info() {
 
   return (
     <div>
-      <ResponsiveAppBar />
       <Container>
         <Section>
           <Name {...{ ...profile, email }} />
