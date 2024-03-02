@@ -12,7 +12,7 @@ const upload = multer({ dest: "uploads/" });
 const profileUpload = upload.fields([
   { name: "profilePic", maxCount: 1 },
   { name: "optReceipt", maxCount: 1 },
-  { name: "driverlicense", maxCount: 1 }
+  { name: "driverlicense", maxCount: 1 },
 ]);
 
 profileRouter.post("/createProfile", profileUpload, createProfile);
