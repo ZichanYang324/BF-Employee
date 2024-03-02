@@ -10,8 +10,6 @@ export const sendLink = asyncHandler(async (req, res) => {
   });
   const registrationLink = `http://localhost:5173/register?token=${token}`;
 
-  await RegistrationModel.create({ email, name, token });
-
   const emailBody = `
     <h1>Welcome</h1>
     <p>Dear ${name}</p>
@@ -20,11 +18,12 @@ export const sendLink = asyncHandler(async (req, res) => {
 
   await sendEmail(email, "Registration Link", emailBody);
 
+  await RegistrationModel.create({ email, name, link: registrationLink });
+
   res.status(200).json({ message: "Email sent successfully!" });
 });
 
 export const getHistory = asyncHandler(async (_req, res) => {
   const history = await RegistrationModel.find({});
-  console.log(history);
   res.status(200).json(history);
 });
