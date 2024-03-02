@@ -15,9 +15,9 @@ const DocumentSchema = new Schema({
     ref: "User",
     // required: true,
   },
-  type: { type: String, required: true }, 
-  status: { type: String, default: "Pending" }, 
-  feedback: { type: String, default: "" }, 
+  // type: { type: String, required: true }, 
+  // status: { type: String, default: "Pending" }, 
+  // feedback: { type: String, default: "" }, 
 });
 
 export default mongoose.model("Document", DocumentSchema);

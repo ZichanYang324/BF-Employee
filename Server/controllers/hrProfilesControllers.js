@@ -77,39 +77,37 @@ export async function entireProfile(req, res) {
     const presignedUrls = await _getPresignedUrls(employee.profile);
     const result = {
       userId,
-      email: employee.email,
-      profile: {
+      ...{
         ...employee.profile,
         DOB: _formatDate(employee.profile.DOB),
-        workAuth: {
+        workAuth: employee.profile.workAuth && {
           ...employee.profile.workAuth,
           startDate: _formatDate(employee.profile.workAuth.startDate),
           endDate: _formatDate(employee.profile.workAuth.endDate),
         },
-        profilePic: {
-          ...employee.profile.profilePic,
-          url: presignedUrls.profilePic,
-        },
-        driversLicense: {
+        profilePic: presignedUrls.profilePic,
+        driversLicense: employee.profile.driversLicense && {
           ...employee.profile.driversLicense,
+          expiration: _formatDate(employee.profile.driversLicense.expiration),
           url: presignedUrls.driversLicense,
         },
-        OPTReceipt: {
+        OPTReceipt: employee.profile.OPTReceipt && {
           ...employee.profile.OPTReceipt,
           url: presignedUrls.OPTReceipt,
         },
-        OPTEAD: {
+        OPTEAD: employee.profile.OPTEAD && {
           ...employee.profile.OPTEAD,
           url: presignedUrls.OPTEAD,
         },
-        I983: {
+        I983: employee.profile.I983 && {
           ...employee.profile.I983,
           url: presignedUrls.I983,
         },
-        I20: {
+        I20: employee.profile.I20 && {
           ...employee.profile.I20,
           url: presignedUrls.I20,
         },
+        email: employee.email,
       },
     };
     return res.status(200).json(result);
@@ -121,11 +119,11 @@ export async function entireProfile(req, res) {
 
 async function _getPresignedUrls(profile) {
   const profilePic = profile.profilePic;
-  const driversLicense = profile.driversLicense.document;
-  const OPTReceipt = profile.OPTReceipt.document;
-  const OPTEAD = profile.OPTEAD.document;
-  const I983 = profile.I983.document;
-  const I20 = profile.I20.document;
+  const driversLicense = profile.driversLicense?.document;
+  const OPTReceipt = profile.OPTReceipt?.document;
+  const OPTEAD = profile.OPTEAD?.document;
+  const I983 = profile.I983?.document;
+  const I20 = profile.I20?.document;
 
   const urlsRes = await Promise.all([
     profilePic ? getOneFilePresignedUrl({ Key: profilePic.S3Name }) : null,
@@ -139,15 +137,16 @@ async function _getPresignedUrls(profile) {
   ]);
 
   return {
-    profilePic: urlsRes[0].data,
-    driversLicense: urlsRes[1].data,
-    OPTReceipt: urlsRes[2].data,
-    OPTEAD: urlsRes[3].data,
-    I983: urlsRes[4].data,
-    I20: urlsRes[5].data,
+    profilePic: urlsRes[0]?.data,
+    driversLicense: urlsRes[1]?.data,
+    OPTReceipt: urlsRes[2]?.data,
+    OPTEAD: urlsRes[3]?.data,
+    I983: urlsRes[4]?.data,
+    I20: urlsRes[5]?.data,
   };
 }
 
 function _formatDate(date) {
+  if (!date) return undefined;
   return date.toISOString().split("T")[0];
 }

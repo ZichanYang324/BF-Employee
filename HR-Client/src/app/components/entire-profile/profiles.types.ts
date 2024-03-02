@@ -72,6 +72,7 @@ export interface Profile {
   driversLicense?: DriversLicense;
   reference: Reference;
   emergencyContacts: EmergencyContact[];
+  OPTReceipt: ImmigrationDocument;
   OPTEAD: ImmigrationDocument;
   I983: ImmigrationDocument;
   I20: ImmigrationDocument;

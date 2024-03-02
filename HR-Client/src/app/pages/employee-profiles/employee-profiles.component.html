@@ -25,8 +25,10 @@
         </div>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-entire-profile
-      [profile]="profileDetails[summary.userId]"
-    ></app-entire-profile>
+    <div>
+      <app-entire-profile
+        [profile]="profileDetails[summary.userId]"
+      ></app-entire-profile>
+    </div>
   </mat-expansion-panel>
 </div>

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { EntireProfileComponent } from 'src/app/components/entire-profile/entire-profile.component';
-import { type ProfileSummary } from 'src/app/components/entire-profile/profiles.types';
+import {
+  Profile,
+  type ProfileSummary,
+} from 'src/app/components/entire-profile/profiles.types';
 
 interface ProfileDetails {
-  [key: string]: EntireProfileComponent;
+  [key: string]: Profile;
 }
 
 @Component({

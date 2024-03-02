@@ -1,1 +1,338 @@
-<div>{{ profile | json }}</div>
+<div class="entire-profile">
+  <section class="info-container">
+    <div class="info-container">
+      <div class="description-label">First name:</div>
+      <div>{{ profile?.firstName }}</div>
+    </div>
+    <div class="info-container">
+      <div class="description-label">Middle name:</div>
+      <div>{{ profile?.middleName }}</div>
+    </div>
+    <div class="info-container">
+      <div class="description-label">Last name:</div>
+      <div>{{ profile?.lastName }}</div>
+    </div>
+    <div class="info-container">
+      <div class="description-label">Preferred name:</div>
+      <div>{{ profile?.preferredName }}</div>
+    </div>
+  </section>
+
+  <section>
+    <img
+      class="profile-pic"
+      *ngIf="profile?.profilePic"
+      [src]="profile?.profilePic"
+      alt="Profile picture"
+    />
+  </section>
+
+  <section class="info-container">
+    <div class="description-label">Email:</div>
+    <div>{{ profile?.email }}</div>
+  </section>
+
+  <section class="info-container">
+    <div class="info-container">
+      <div class="description-label">SSN:</div>
+      <div>{{ profile?.SSN }}</div>
+    </div>
+    <div class="info-container">
+      <div class="description-label">Date of birth:</div>
+      <div>{{ profile?.DOB }}</div>
+    </div>
+    <div class="info-container">
+      <div class="description-label">Gender:</div>
+      <div>{{ profile?.gender }}</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Address</div>
+    <div class="info-container">
+      <div class="info-container">
+        <div class="description-label">Building/Apt number:</div>
+        <div>{{ profile?.address?.building }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Street name:</div>
+        <div>{{ profile?.address?.street }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">City:</div>
+        <div>{{ profile?.address?.city }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">State:</div>
+        <div>{{ profile?.address?.state }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Zip:</div>
+        <div>{{ profile?.address?.zip }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-container">
+    <div class="info-container">
+      <div class="description-label">Cell phone:</div>
+      <div>{{ profile?.cellPhone }}</div>
+    </div>
+    <div class="info-container">
+      <div class="description-label">Work phone:</div>
+      <div>{{ profile?.workPhone }}</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Car</div>
+    <div class="info-container">
+      <div class="info-container">
+        <div class="description-label">Make:</div>
+        <div>{{ profile?.car?.make }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Model:</div>
+        <div>{{ profile?.car?.model }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Color:</div>
+        <div>{{ profile?.car?.color }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-container">
+    <div class="description-label">Immigration Status:</div>
+    <div>{{ profile?.immigrationStatus }}</div>
+  </section>
+
+  <section>
+    <div class="section-label">Work authorization</div>
+    <div class="info-container">
+      <div class="info-container">
+        <div class="description-label">Title:</div>
+        <div>{{ profile?.workAuth?.title }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Start date:</div>
+        <div>{{ profile?.workAuth?.startDate }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">End date:</div>
+        <div>{{ profile?.workAuth?.endDate }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Driver's License</div>
+    <div class="info-container">
+      <div class="info-container">
+        <div class="description-label">Number:</div>
+        <div>{{ profile?.driversLicense?.number }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Expiration date:</div>
+        <div>{{ profile?.driversLicense?.expiration }}</div>
+      </div>
+      <div class="info-container">
+        <a
+          *ngIf="profile?.driversLicense?.url"
+          class="link"
+          [href]="profile?.driversLicense?.url"
+          target="_blank"
+          >Download</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <!-- Reference -->
+    <div class="section-label">Reference</div>
+    <div class="info-container">
+      <div class="info-container">
+        <div class="description-label">First name:</div>
+        <div>{{ profile?.reference?.firstName }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Middle name:</div>
+        <div>{{ profile?.reference?.middleName }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Last name:</div>
+        <div>{{ profile?.reference?.lastName }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Relationship:</div>
+        <div>{{ profile?.reference?.relationship }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Phone:</div>
+        <div>{{ profile?.reference?.phone }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Email:</div>
+        <div>{{ profile?.reference?.email }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <!-- Emergency contacts -->
+    <div class="section-label">Emergency contacts</div>
+    <ul class="info-container flex-column">
+      <li
+        class="contact-li"
+        *ngFor="let contact of profile?.emergencyContacts"
+      >
+        <div class="info-container">
+          <div class="info-container">
+            <div class="description-label">First name:</div>
+            <div>{{ contact?.firstName }}</div>
+          </div>
+          <div class="info-container">
+            <div class="description-label">Middle name:</div>
+            <div>{{ contact?.middleName }}</div>
+          </div>
+          <div class="info-container">
+            <div class="description-label">Last name:</div>
+            <div>{{ contact?.lastName }}</div>
+          </div>
+          <div class="info-container">
+            <div class="description-label">Relationship:</div>
+            <div>{{ contact?.relationship }}</div>
+          </div>
+          <div class="info-container">
+            <div class="description-label">Phone:</div>
+            <div>{{ contact?.phone }}</div>
+          </div>
+          <div class="info-container">
+            <div class="description-label">Email:</div>
+            <div>{{ contact?.email }}</div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section *ngIf="profile?.OPTReceipt">
+    <!-- OPT Receipt -->
+    <div class="section-label">OPT Receipt</div>
+    <div
+      class="info-container"
+      *ngIf="profile?.OPTReceipt?.url"
+    >
+      <div class="info-container">
+        <div class="description-label">Status:</div>
+        <div>{{ profile?.OPTEAD?.status }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Feedback:</div>
+        <div>{{ profile?.OPTEAD?.feedback }}</div>
+      </div>
+      <div class="info-container">
+        <a
+          *ngIf="profile?.OPTEAD?.url"
+          class="link"
+          [href]="profile?.OPTEAD?.url"
+          target="_blank"
+          >Download</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="profile?.OPTEAD">
+    <!-- OPT EAD -->
+    <div class="section-label">OPT EAD</div>
+    <div
+      class="info-container"
+      *ngIf="profile?.OPTEAD?.url"
+    >
+      <div class="info-container">
+        <div class="description-label">Status:</div>
+        <div>{{ profile?.OPTEAD?.status }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Feedback:</div>
+        <div>{{ profile?.OPTEAD?.feedback }}</div>
+      </div>
+      <div class="info-container">
+        <a
+          *ngIf="profile?.OPTEAD?.url"
+          class="link"
+          [href]="profile?.OPTEAD?.url"
+          target="_blank"
+          >Download</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="profile?.I983">
+    <!-- I983 -->
+    <div class="section-label">I983</div>
+    <div
+      class="info-container"
+      *ngIf="profile?.I983?.url"
+    >
+      <div class="info-container">
+        <div class="description-label">Status:</div>
+        <div>{{ profile?.I983?.status }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Feedback:</div>
+        <div>{{ profile?.I983?.feedback }}</div>
+      </div>
+      <div class="info-container">
+        <a
+          *ngIf="profile?.I983?.url"
+          class="link"
+          [href]="profile?.I983?.url"
+          target="_blank"
+          >Download</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="profile?.I20">
+    <!-- I20 -->
+    <div class="section-label">I20</div>
+    <div
+      class="info-container"
+      *ngIf="profile?.I20?.url"
+    >
+      <div class="info-container">
+        <div class="description-label">Status:</div>
+        <div>{{ profile?.I20?.status }}</div>
+      </div>
+      <div class="info-container">
+        <div class="description-label">Feedback:</div>
+        <div>{{ profile?.I20?.feedback }}</div>
+      </div>
+      <div class="info-container">
+        <a
+          *ngIf="profile?.I20?.url"
+          class="link"
+          [href]="profile?.I20?.url"
+          target="_blank"
+          >Download</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <!-- Application status -->
+    <div class="section-label">Application status</div>
+    <div class="info-container">
+      <div class="info-container">
+        <div class="description-label">Status:</div>
+        <div>{{ profile?.applicationStatus }}</div>
+      </div>
+    </div>
+  </section>
+</div>
