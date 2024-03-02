@@ -13,9 +13,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { RegistrationEmailComponent } from './pages/registration-email/registration-email.component';
+import { ApplicationReviewComponent } from './pages/application-review/application-review.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,8 @@ import { ToastrModule } from 'ngx-toastr';
     HomeComponent,
     NavBarComponent,
     HiringManagementComponent,
+    RegistrationEmailComponent,
+    ApplicationReviewComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -37,6 +42,7 @@ import { ToastrModule } from 'ngx-toastr';
     MatInputModule,
     MatTableModule,
     MatIconModule,
+    MatSidenavModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,
