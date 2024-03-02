@@ -38,4 +38,14 @@ export class EmployeeProfilesComponent implements OnInit {
     const data = await profileDetail.json();
     this.profileDetails[userId] = data;
   }
+
+  async onSearch(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const searchTerm = input.value;
+    const response = await fetch(
+      'http://localhost:3100/hr/profiles/summary?search=' + searchTerm,
+    );
+    const data = await response.json();
+    this.profileSummaries = data;
+  }
 }

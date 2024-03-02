@@ -1,5 +1,15 @@
 <app-nav-bar></app-nav-bar>
 <div>
+  <mat-form-field>
+    <input
+      matInput
+      matNativeControl
+      (input)="onSearch($event)"
+      type="search"
+      placeholder="Search"
+    />
+  </mat-form-field>
+
   <mat-expansion-panel
     *ngFor="let summary of profileSummaries"
     (opened)="onSummaryExpanded(summary.userId)"
