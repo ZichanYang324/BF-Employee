@@ -1,0 +1,10 @@
+<!-- employee-list.component.html -->
+<input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange($event)" placeholder="Search employees...">
+
+<div *ngFor="let employee of employees">
+  <div>{{ employee.fullName }}</div>
+  <div>Work Authorization: {{ employee.workAuth.title }}</div>
+  <div>Start Date: {{ employee.workAuth.startDate | date }}</div>
+  <div>End Date: {{ employee.workAuth.endDate | date }}</div>
+  <div>Days Remaining: {{ calculateDaysRemaining(employee.workAuth.endDate) }}</div>
+</div>

@@ -13,11 +13,16 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { EmployeeListComponent } from './employee-list/employee-list.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [AppComponent, VisaStatusManagementComponent, DocumentListComponent,     VisaStatusManagementComponent,
-    DocumentDetailComponent],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule,FormsModule,HttpClientModule,    MatCardModule,
+    DocumentDetailComponent,
+    EmployeeListComponent],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule,FormsModule,HttpClientModule,    MatCardModule,MatExpansionModule,    MatFormFieldModule,
+
     MatButtonModule,
     MatInputModule,
     MatIconModule,],

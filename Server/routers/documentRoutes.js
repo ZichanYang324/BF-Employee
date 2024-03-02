@@ -4,7 +4,8 @@ import {
   uploadDocumentbc,
   login,
   register,
-  getAllDocuments
+  getAllDocuments,
+  getEmployees
 } from "../controllers/DocumentController.js";
 import { authenticate } from "../middlewares/authMiddleware.js";
 import checkHRRole from "../middlewares/hrRoleMiddleware.js";
@@ -31,6 +32,8 @@ router.get("/my",authenticate, getMyDocuments);
 router.get("/all", authenticate, checkHRRole, getAllDocuments);
 router.post('/register', register);
 router.post('/login', login);
+router.get("/employees", authenticate, checkHRRole, getEmployees);
+
 router.get("/testAuth", authenticate, (req, res) => {
   res.json(req.user);
 });

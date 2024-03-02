@@ -9,15 +9,24 @@ import { Document } from '../models/document.model';
 })
 export class VisaStatusManagementComponent implements OnInit {
   documents: any[] = [];
-
+  searchQuery: string = '';
   constructor(private HrVisaStatusService: HrVisaStatusService) {}
 
   ngOnInit(): void {
     this.loadDocuments();
   }
 
+  // loadDocuments(): void {
+  //   this.HrVisaStatusService.getAllDocuments().subscribe({
+  //     next: (data: any[]) => {
+  //       this.documents = data;
+  //     },
+  //     error: (error: any) => console.error(error),
+  //   });
+  // }
   loadDocuments(): void {
-    this.HrVisaStatusService.getAllDocuments().subscribe({
+    // Modify to pass searchQuery to the service method
+    this.HrVisaStatusService.getAllDocuments(this.searchQuery).subscribe({
       next: (data: any[]) => {
         this.documents = data;
       },
