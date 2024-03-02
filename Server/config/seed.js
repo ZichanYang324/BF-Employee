@@ -6,6 +6,11 @@ import process from "process";
 dotenv.config();
 
 function seedProfile({ userId }) {
+  const profilePicDoc = new Document({
+    S3Bucket: "bgp-zichan",
+    S3Name: "avatar.png",
+    owner: userId,
+  });
   const driversLicenseDoc = new Document({
     S3Bucket: "bgp-zichan",
     S3Name: "drivers-license-1234567890",
@@ -38,7 +43,7 @@ function seedProfile({ userId }) {
     middleName: "B",
     preferredName: "Alice",
     gender: "FEMALE",
-    profilePic: null,
+    profilePic: profilePicDoc._id,
     cellPhone: "123-456-7890",
     workPhone: "123-456-7890",
     address: {
@@ -111,6 +116,7 @@ function seedProfile({ userId }) {
   });
 
   return {
+    profilePicDoc,
     driversLicenseDoc,
     optReceiptDoc,
     optEADDoc,
@@ -122,6 +128,8 @@ function seedProfile({ userId }) {
 
 const seed = async () => {
   try {
+    process.env.MONGO_URL = "mongodb+srv://fredjiang:jdm330227@cluster0.zfckcvl.mongodb.net/BFHR"
+
     mongoose.connect(process.env.MONGO_URL);
     console.log("Connected to MongoDB");
 

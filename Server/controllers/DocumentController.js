@@ -3,6 +3,7 @@ import User from "../models/User.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { uploadFileToS3 } from '../config/s3Service.js';
+import Profile from "../models/Profile.model.js";
 
 const documentOrder = ["OPT Receipt", "OPT EAD", "I-983", "I-20"];
 
@@ -31,7 +32,6 @@ async function uploadDocumentbc(req, res) {
   console.log("In unploadDocument function backend:")
   console.log("userId",userId);
   console.log("Received documentType:", documentType);
-  console.log("Received file:",req.file); 
   if (!req.file) {
       return res.status(400).json({ message: "No file uploaded or file is missing." });
   }
@@ -109,6 +109,58 @@ async function getMyDocuments(req, res) {
       .json({ message: "An error occurred while retrieving documents." });
   }
 }
+// async function getAllDocuments(req, res) {
+//   try {
+//     // Fetch all documents without filtering by owner
+//     const documents = await Document.find({});
+//     // .populate('owner', 'name workAuthorization') // Assuming 'owner' references User collection
+//     // .exec();
+
+//     if (!documents.length) {
+//       return res.status(404).json({ message: "No documents found." });
+//     }
+
+//     res.json(documents);
+//   } catch (error) {
+//     res.status(500).json({ message: "An error occurred while retrieving all documents." });
+//   }
+// }
+async function getAllDocuments(req, res) {
+  try {
+    const documents = await Document.find({})
+      .populate({
+        path: 'owner', 
+        populate: {
+          path: 'profile', 
+          select: 'workAuth firstName lastName middleName' 
+        }
+      })
+      .exec();
+
+    if (!documents.length) {
+      return res.status(404).json({ message: "No documents found." });
+    }
+
+    // Transform documents to include full name and workAuth as direct properties
+    const transformedDocuments = documents.map(doc => {
+      const docObj = doc.toObject();
+      if (docObj.owner && docObj.owner.profile) {
+        // Combine first, middle, and last names
+        docObj.owner.fullName = `${docObj.owner.profile.firstName}${docObj.owner.profile.middleName ? ' ' + docObj.owner.profile.middleName : ''} ${docObj.owner.profile.lastName}`;
+        // Directly attach workAuth details
+        docObj.owner.workAuth = docObj.owner.profile.workAuth;
+        // Optionally, remove the profile object to flatten the structure
+        delete docObj.owner.profile;
+      }
+      return docObj;
+    });
+
+    res.json(transformedDocuments);
+  } catch (error) {
+    res.status(500).json({ message: "An error occurred while retrieving all documents." });
+  }
+}
+
 
 async function register(req, res) {
   try {
@@ -148,4 +200,5 @@ export {
   uploadDocumentbc,
   updateDocumentStatus,
   getMyDocuments,
+  getAllDocuments
 };

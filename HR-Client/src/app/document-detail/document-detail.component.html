@@ -1,0 +1,22 @@
+<mat-card class="document-card">
+  <mat-card-header>
+    <mat-card-title>{{ document.owner.fullName }}</mat-card-title>
+    <mat-card-subtitle>{{ document.type }} - {{ document.status }}</mat-card-subtitle>
+  </mat-card-header>
+  <!-- <img mat-card-image *ngIf="document.URL" [src]="document.URL" alt="Document Image"> -->
+  <mat-card-content>
+    <p>Work Authorization Title: {{ document.owner.workAuth.title }}</p>
+    <p>Start Date: {{ document.owner.workAuth.startDate | date }}, End Date: {{ document.owner.workAuth.endDate | date }}</p>
+    <p>Days Remaining: {{ calculateDaysRemaining(document.owner.workAuth.endDate) }}</p>
+    <p>Feedback: {{ document.feedback }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+   
+    <button mat-button color="primary" (click)="approve.emit(document._id)">Approve</button>
+    <mat-form-field appearance="fill">
+      <mat-label>Feedback for rejection</mat-label>
+      <textarea matInput [(ngModel)]="feedback"></textarea>
+    </mat-form-field>
+    <button mat-button color="warn" (click)="reject.emit({id: document._id, feedback: feedback})">Reject</button>
+  </mat-card-actions>
+</mat-card>
