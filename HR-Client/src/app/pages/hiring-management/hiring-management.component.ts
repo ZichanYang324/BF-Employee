@@ -10,7 +10,8 @@ import { RegistrationHistoryServiceService } from 'src/app/services/registration
   templateUrl: './hiring-management.component.html',
   styleUrls: ['./hiring-management.component.css'],
 })
-export class HiringManagementComponent implements OnInit {
+
+export class HiringManagementComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -25,12 +26,16 @@ export class HiringManagementComponent implements OnInit {
     email: ['', Validators.required],
   });
 
-  ngOnInit(): void {
+  updateRegistrationHistory(): void {
     this.registrationHistoryService
       .getRegistrationHistory()
       .subscribe((data) => {
         this.registrationHistory = data;
       });
+  }
+
+  ngOnInit(): void {
+    this.updateRegistrationHistory();
   }
 
   onSubmit(): void {
@@ -43,6 +48,7 @@ export class HiringManagementComponent implements OnInit {
         .subscribe({
           next: () => {
             this.toastr.success('Email sent successfully');
+            this.updateRegistrationHistory();
           },
           error: () => {
             this.toastr.error('An error occurred, please try again.');
