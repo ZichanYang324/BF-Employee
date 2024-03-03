@@ -1,3 +1,4 @@
+import { EmployeeProfilesComponent } from './pages/employee-profiles/employee-profiles.component';
 import { HiringManagementComponent } from './pages/hiring-management/hiring-management.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NgModule } from '@angular/core';
@@ -9,6 +10,10 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+  },
+  {
+    path: 'employee-profiles',
+    component: EmployeeProfilesComponent,
   },
   {
     path: 'hiring-management',

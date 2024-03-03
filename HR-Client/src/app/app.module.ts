@@ -1,6 +1,8 @@
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EntireProfileComponent } from './components/entire-profile/entire-profile.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { EmployeeProfilesComponent } from './pages/employee-profiles/employee-profiles.component';
 import { HiringManagementComponent } from './pages/hiring-management/hiring-management.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CommonModule } from '@angular/common';
@@ -9,8 +11,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -25,6 +29,8 @@ import { ApplicationReviewComponent } from './pages/application-review/applicati
     AppComponent,
     HomeComponent,
     NavBarComponent,
+    EmployeeProfilesComponent,
+    EntireProfileComponent,
     HiringManagementComponent,
     RegistrationEmailComponent,
     ApplicationReviewComponent,
@@ -38,6 +44,9 @@ import { ApplicationReviewComponent } from './pages/application-review/applicati
     HttpClientModule,
     MatToolbarModule,
     MatButtonModule,
+    MatListModule,
+    MatExpansionModule,
+    MatInputModule,
     ReactiveFormsModule,
     MatInputModule,
     MatTableModule,
