@@ -10,21 +10,15 @@
     <div class="flex flex-col gap-2 mt-4">
       <button
         mat-button
-        [ngClass]="{ 
-          'bg-slate-500 text-white': tab === 'registration-email'
-        }"
         routerLink="./registration-email"
-        (click)="switchTab('registration-email')"
+        class="bg-slate-300"
       >
         Registration Emial
       </button>
       <button
         mat-button
-        [ngClass]="{ 
-          'bg-slate-500 text-white': tab === 'application-review'
-        }"
         routerLink="./application-review"
-        (click)="switchTab('application-review')"
+        class="bg-slate-300"
       >
         Application Review
       </button>

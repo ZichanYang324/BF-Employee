@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 @Component({
@@ -9,11 +9,5 @@ import { Subscription } from 'rxjs';
 
 export class HiringManagementComponent{
 
-  tab: String = "registration-email";
-
-  constructor( ) {}
-
-  switchTab(tab: String){
-    this.tab = tab;
-  }
+  
 }

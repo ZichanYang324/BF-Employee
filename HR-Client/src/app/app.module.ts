@@ -23,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { RegistrationEmailComponent } from './pages/registration-email/registration-email.component';
 import { ApplicationReviewComponent } from './pages/application-review/application-review.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ApplicationReviewComponent } from './pages/application-review/applicati
     HttpClientModule,
     MatToolbarModule,
     MatButtonModule,
+    MatCardModule,
     MatListModule,
     MatExpansionModule,
     MatInputModule,

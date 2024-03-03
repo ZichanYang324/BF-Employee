@@ -1,5 +1,6 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import RegistrationModel from "../models/Registration.model.js";
+import ProfileModel from "../models/Profile.model.js";
 import { sendEmail } from "../utils/sendMail.js";
 import jwt from "jsonwebtoken";
 
@@ -26,4 +27,10 @@ export const sendLink = asyncHandler(async (req, res) => {
 export const getHistory = asyncHandler(async (_req, res) => {
   const history = await RegistrationModel.find({});
   res.status(200).json(history);
+});
+
+export const getApplicationByStatus = asyncHandler(async (req, res) => {
+  const { status } = req.query;
+  const applications = await ProfileModel.find({ applicationStatus: status});
+  res.status(200).json(applications);
 });
