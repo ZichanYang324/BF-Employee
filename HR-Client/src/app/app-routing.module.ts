@@ -1,3 +1,4 @@
+import { HiringManagementComponent } from './pages/hiring-management/hiring-management.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HouseSummaryComponent } from './pages/house-summary/house-summary.component';
 import { HousingComponent } from './pages/housing/housing.component';
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'house-summary/:houseID',
     component: HouseSummaryComponent,
+  },
+  {
+    path: 'hiring-management',
+    component: HiringManagementComponent,
   },
 ];
 
