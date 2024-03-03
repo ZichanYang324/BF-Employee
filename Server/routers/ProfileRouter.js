@@ -1,8 +1,7 @@
 import {
   createProfile,
   getProfile,
-  getProfileStatus,
-  updateProfileStatus,
+  getProfileStatus
 } from "../controllers/profileController.js";
 import { Router } from "express";
 import multer from "multer";
@@ -18,6 +17,5 @@ const profileUpload = upload.fields([
 profileRouter.post("/createProfile", profileUpload, createProfile);
 profileRouter.post("/getProfile", getProfile);
 profileRouter.post("/getProfileStatus", getProfileStatus);
-profileRouter.put("/updateProfileStatus", updateProfileStatus);
 
 export default profileRouter;

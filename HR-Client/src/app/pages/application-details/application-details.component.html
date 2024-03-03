@@ -1,4 +1,4 @@
-<div class="entire-profile py-4 px-8">
+<div class="entire-profile pt-4 px-8 pb-16 w-fit">
   <section class="info-container my-4">
     <div class="info-container">
       <div class="description-label">First name:</div>
@@ -242,6 +242,45 @@
     </div>
   </div>
 
-
+  <ng-container 
+    *ngIf="profile.applicationStatus === 'PENDING'"
+  >
+    <div
+      class="flex flex-col items-center w-full mt-12"
+    >
+      <button 
+        mat-raised-button 
+        class="w-36 bg-blue-700 text-white"
+        (click)="approveApplication()"
+      >
+        APPROVE
+      </button>
+      <span class="flex items-center w-full my-4">
+        <span class="h-px flex-1 bg-black"></span>
+        <span class="shrink-0 px-6">OR</span>
+        <span class="h-px flex-1 bg-black"></span>
+      </span>
+      <form
+        [formGroup]="feedbackForm"
+        (ngSubmit)="rejectApplication()"
+        class="flex flex-col items-center w-full"
+      >
+        <mat-form-field appearance="outline" class="w-96">
+          <mat-label>Feedback</mat-label>
+          <textarea
+            matInput
+            formControlName="feedback"
+          ></textarea>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          class="w-36 bg-red-700 text-white"
+          type="submit"
+        >
+          REJECT
+        </button>
+      </form>
+    </div>
+  </ng-container>
 </div>
 

@@ -9,6 +9,7 @@ import { RegistrationHistoryServiceService } from 'src/app/services/registration
   templateUrl: './registration-email.component.html',
   styleUrls: ['./registration-email.component.css']
 })
+
 export class RegistrationEmailComponent implements OnInit {
 
   constructor(

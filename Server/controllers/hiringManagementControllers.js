@@ -40,3 +40,23 @@ export const getApplicationById = asyncHandler(async (req, res) => {
   const application = await ProfileModel.findById(id);
   res.status(200).json(application);
 });
+
+export const updateApplicationStatus = asyncHandler(async (req, res) => {
+  const { id, status } = req.body;
+  const application = await ProfileModel.findByIdAndUpdate(
+    id, 
+    { applicationStatus: status }, 
+    { new: true }
+  );
+  res.status(200).json(application);
+});
+
+export const addFeedback = asyncHandler(async (req, res) => {
+  const { id, feedback } = req.body;
+  const application = await ProfileModel.findByIdAndUpdate(
+    id, 
+    { feedback }, 
+    { new: true }
+  );
+  res.status(200).json(application);
+});

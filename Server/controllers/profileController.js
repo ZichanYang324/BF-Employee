@@ -104,11 +104,3 @@ export const getProfileStatus = async (req, res) => {
   return res.status(200).json({ status });
 };
 
-export const updateProfileStatus = async (req, res) => {
-  const user = req.user;
-  const profile = await Profile.findById(user.profile?._id);
-  const { status } = req.body;
-  profile.applicationStatus = status;
-  await profile.save();
-  return res.status(200).send(profile);
-};
