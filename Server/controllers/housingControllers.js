@@ -1,3 +1,4 @@
+import CommentModel from "../models/Comment.model.js";
 import FacilityReportModel from "../models/FacilityReport.model.js";
 import Housing from "../models/Housing.model.js";
 import Profile from "../models/Profile.model.js";
@@ -106,6 +107,14 @@ export const deleteHouseForHR = async (req, res) => {
     if (!deletedHouse) {
       return res.status(404).json("House not found");
     }
+
+    await FacilityReportModel.deleteMany({ houseID });
+
+    const deletedReports = deletedHouse.reports || [];
+    for (const reportID of deletedReports) {
+      await CommentModel.deleteMany({ reportID });
+    }
+
     return res.status(200).json(deletedHouse);
   } catch (error) {
     console.error(error);

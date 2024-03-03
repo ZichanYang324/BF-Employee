@@ -1,0 +1,19 @@
+<app-nav-bar></app-nav-bar>
+
+<h2 class="p-5 font-bold underline">Housing Infomation</h2>
+
+<div class="flex justify-end">
+    <button mat-raised-button color="primary" class="new-btn" (click)="addHouse()">New house</button>
+</div>
+
+<div *ngFor="let house of houses" class="content-container">
+    <h2>Address: {{house.address}}</h2>
+    <p>Landlord: {{ house.landlordInfo.name }}</p>
+    <p>Landlord Phone: {{ house.landlordInfo.phone }}</p>
+    <p>Landlord Email: {{ house.landlordInfo.email }}</p>
+    <p>Number of Employees: {{ house.NumberofEmployee }}</p>
+    <div class="flex gap-4 ">
+        <button mat-raised-button color="primary">Summary</button>
+        <button mat-raised-button color="warn">Delete</button>
+    </div>
+</div>

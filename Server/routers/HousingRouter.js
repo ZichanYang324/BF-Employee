@@ -26,7 +26,7 @@ const commentRouter = express.Router();
 housingRouter
   .post("/", getHousingDetailsForEmployee)
   .post("/add", addHouseForHR)
-  .get("/getAllBasicHouses", getAllBasicHouseInfoForHR)
+  .post("/getAllBasicHouses", getAllBasicHouseInfoForHR)
   .get("/getHouseSummary", getHouseSummaryForHR)
   .delete("/delete", deleteHouseForHR);
 // facility report router /report
