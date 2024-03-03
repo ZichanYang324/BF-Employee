@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class HousingService {
   private baseUrl = 'http://localhost:3100/housing';
-  private profile = '65def521e1e3c5b23fd98602';
+  public profile = '65def521e1e3c5b23fd98602';
   constructor(private http: HttpClient) {}
 
   getAllBasicHouses(): Observable<any[]> {

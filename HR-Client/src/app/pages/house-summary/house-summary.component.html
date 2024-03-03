@@ -29,7 +29,8 @@
                         <p>Comment by: {{ getCommenterDisplayName(comment) }}</p>
                         <p>Date: {{comment.timestamp | date:'medium'}}</p>
                         <div class="flex justify-end">
-                            <button mat-button color="primary" *ngIf="comment.createdby._id === this.profileId"
+                            <button mat-button color="primary"
+                                *ngIf="comment.createdby._id === this.housingService.profile"
                                 (click)="editComment(comment._id)">Edit Comment</button>
                         </div>
                     </div>

@@ -12,7 +12,6 @@ import { HousingService } from 'src/app/services/housing.service';
   styleUrls: ['./house-summary.component.css'],
 })
 export class HouseSummaryComponent implements OnInit {
-  profileId = '65def521e1e3c5b23fd98602';
   houseID: string = '';
   page: number = 1; // Initialized to 1 by default
   houseSummary: any;
@@ -20,7 +19,7 @@ export class HouseSummaryComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router, // Inject Router to programmatically navigate and update query params
-    private housingService: HousingService,
+    public housingService: HousingService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private CommentService: CommentService,
@@ -123,7 +122,7 @@ export class HouseSummaryComponent implements OnInit {
     const baseName =
       comment.createdby.preferredName ||
       `${comment.createdby.firstName} ${comment.createdby.lastName}`;
-    return comment.createdby._id === this.profileId
+    return comment.createdby._id === this.housingService.profile
       ? `(HR) ${baseName}`
       : baseName;
   }
