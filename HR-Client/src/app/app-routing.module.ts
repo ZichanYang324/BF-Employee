@@ -27,6 +27,11 @@ const routes: Routes = [
         path: 'application-review',
         component: ApplicationReviewComponent,
       },
+      {
+        path: '',
+        redirectTo: 'registration-email',
+        pathMatch: 'full',
+      }
     ]
   },
 ];
