@@ -4,7 +4,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
 import { stateNames, genders, workAuthTypes } from '../utils/constants';
 import DEFAULT_PIC from '../assets/default-avatar.jpeg';
-import customFetch, { customFetch2, customFetchForForm } from '../utils/customFetch';
+import  { customFetchForForm } from '../utils/customFetch';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -257,7 +257,7 @@ const Onboard = () => {
           <TextField
             label="Email"
             disabled
-            defaultValue={user.email}
+            defaultValue={user?user.email:"xxxxx@gmail.com"}
             fullWidth
             {...register('email')}
           />

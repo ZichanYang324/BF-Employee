@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 import process from "process";
 
@@ -11,8 +11,7 @@ const s3Client = new S3Client({
   },
 });
 
-export const uploadFileToS3 = async (file, prefix = 'dongming/') => {
-  console.log('file',file)
+export const uploadFileToS3 = async (file, prefix = "dongming/") => {
   const fileKey = `${prefix}${Date.now()}_${file.originalname}`;
   const params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,

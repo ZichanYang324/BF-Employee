@@ -1,12 +1,8 @@
-import { Profile, Document } from "../models/index.js";
 import { uploadFileToS3 } from "../config/s3Service.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
-import multer from "multer";
-
-const upload = multer({ dest: 'uploads/' });
+import { Document, Profile, User } from "../models/index.js";
 
 export const createProfile = asyncHandler(async (req, res) => {
-
   const {
     firstName,
     lastName,
@@ -26,12 +22,19 @@ export const createProfile = asyncHandler(async (req, res) => {
     emergencyContacts,
   } = JSON.parse(req.body.data);
 
-
   // if (immigrationStatus.type === "VISA" && !workAuth) {
   //   return res.status(400).json({
   //     message: "Work authorization is required",
   //   });
   // }
+  const token = req.headers["authorization"].split(" ")[1];
+  const tokenPayload = JSON.parse(
+    Buffer.from(token.split(".")[1], "base64").toString(),
+  );
+  const userId = tokenPayload.userId;
+  const user = await User.findById(userId);
+
+  //create profile
 
   const newProfile = await Profile.create({
     firstName,
@@ -53,8 +56,22 @@ export const createProfile = asyncHandler(async (req, res) => {
     applicationStatus: "PENDING",
   });
 
-  if (req.files["profilePic"]) {
-    const file = req.files["profilePic"][0];
+  user.profile = newProfile;
+  user.save();
+
+  const profilePicFile = req.files.filter(
+    (item) => item.fieldname === "profilePic",
+  )[0];
+  const optReceiptFile = req.files.filter(
+    (item) => item.fieldname === "optReceipt",
+  )[0];
+  const driverlicenseFile = req.files.filter(
+    (item) => item.fieldname === "driverlicense",
+  )[0];
+  console.log("profilePicFile", profilePicFile);
+
+  if (profilePicFile) {
+    const file = profilePicFile;
     const s3Response = await uploadFileToS3(file.buffer, file.originalname);
     console.log(s3Response);
     const newProfilePic = await Document.create({
@@ -62,31 +79,31 @@ export const createProfile = asyncHandler(async (req, res) => {
       S3Bucket: s3Response.bucket,
       S3Name: s3Response.key,
       // owner: req.user._id,
-    })
+    });
     newProfile.profilePic = newProfilePic._id;
   }
 
-  if (req.files["optReceipt"]) {
-    const file = req.files["optReceipt"][0];
+  if (optReceiptFile) {
+    const file = optReceiptFile;
     const s3Response = await uploadFileToS3(file.buffer, file.originalname);
     const newOptReceipt = await Document.create({
       URL: s3Response.url,
       S3Bucket: s3Response.bucket,
       S3Name: s3Response.key,
       // owner: req.user._id,
-    })
+    });
     newProfile.optReceipt = newOptReceipt._id;
   }
 
-  if (req.files["driverlicense"]) {
-    const file = req.files["driverlicense"][0];
+  if (driverlicenseFile) {
+    const file = driverlicenseFile;
     const s3Response = await uploadFileToS3(file.buffer, file.originalname);
     const newDriverLicense = await Document.create({
       URL: s3Response.url,
       S3Bucket: s3Response.bucket,
       S3Name: s3Response.key,
       // owner: req.user._id,
-    })
+    });
     newProfile.driverLicense = newDriverLicense._id;
   }
 

@@ -18,19 +18,25 @@ export async function getProfile(req, res) {
       return res.status(404).json("User not found");
     }
     const userProfile = user.toObject();
-    if (userProfile.profile.profilePic != null) {
+    if (userProfile.profile?.profilePic != null) {
       const { data: url } = await getOneFilePresignedUrl({
         Key: userProfile.profile.profilePic.S3Name,
       });
       userProfile.profile.profilePic.url = url;
     }
-    userProfile.profile.DOB =
-      userProfile.profile.DOB.toISOString().split("T")[0];
-    userProfile.profile.workAuth.startDate =
-      userProfile.profile.workAuth.startDate.toISOString().split("T")[0];
-    userProfile.profile.workAuth.endDate = userProfile.profile.workAuth.endDate
-      .toISOString()
-      .split("T")[0];
+    if (!userProfile.profile) {
+      userProfile.profile = {};
+    } else {
+      userProfile.profile.DOB =
+        userProfile.profile && userProfile.profile.DOB
+          ? userProfile.profile.DOB.toISOString().split("T")[0]
+          : "";
+
+      userProfile.profile.workAuth.startDate =
+        userProfile.profile.workAuth.startDate.toISOString().split("T")[0];
+      userProfile.profile.workAuth.endDate =
+        userProfile.profile.workAuth.endDate.toISOString().split("T")[0];
+    }
 
     return res.status(200).json(userProfile);
   } catch (error) {
