@@ -1,5 +1,9 @@
+import { CommentDialogComponent } from '../comment-dialog/comment-dialog.component';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommentService } from 'src/app/services/comment.service';
 import { HousingService } from 'src/app/services/housing.service';
 
 @Component({
@@ -8,6 +12,7 @@ import { HousingService } from 'src/app/services/housing.service';
   styleUrls: ['./house-summary.component.css'],
 })
 export class HouseSummaryComponent implements OnInit {
+  profileId = '65def521e1e3c5b23fd98602';
   houseID: string = '';
   page: number = 1; // Initialized to 1 by default
   houseSummary: any;
@@ -16,6 +21,9 @@ export class HouseSummaryComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router, // Inject Router to programmatically navigate and update query params
     private housingService: HousingService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private CommentService: CommentService,
   ) {}
 
   ngOnInit(): void {
@@ -63,5 +71,60 @@ export class HouseSummaryComponent implements OnInit {
       this.page++;
       this.fetchHouseSummary();
     }
+  }
+  addComment(reportID: string): void {
+    const dialogRef = this.dialog.open(CommentDialogComponent, {
+      width: '500px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.CommentService.addComment(reportID, result.description).subscribe({
+          next: () => {
+            this.snackBar.open('Comment added successfully', 'Close', {
+              duration: 3000,
+            });
+            this.fetchHouseSummary();
+          },
+          error: () => {
+            this.snackBar.open('Failed to add comment', 'Close', {
+              duration: 3000,
+            });
+          },
+        });
+      }
+    });
+  }
+  editComment(commentId: string): void {
+    const dialogRef = this.dialog.open(CommentDialogComponent, {
+      width: '500px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.CommentService.updateComment(
+          commentId,
+          result.description,
+        ).subscribe({
+          next: () => {
+            this.snackBar.open('Comment updated successfully', 'Close', {
+              duration: 3000,
+            });
+            this.fetchHouseSummary();
+          },
+          error: () => {
+            this.snackBar.open('Failed to updated comment', 'Close', {
+              duration: 3000,
+            });
+          },
+        });
+      }
+    });
+  }
+  getCommenterDisplayName(comment: any) {
+    const baseName =
+      comment.createdby.preferredName ||
+      `${comment.createdby.firstName} ${comment.createdby.lastName}`;
+    return comment.createdby._id === this.profileId
+      ? `(HR) ${baseName}`
+      : baseName;
   }
 }

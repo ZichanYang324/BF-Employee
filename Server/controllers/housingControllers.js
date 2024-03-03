@@ -218,7 +218,12 @@ export const getHouseSummaryForHR = async (req, res) => {
       .populate({
         path: "comments",
         model: "Comment",
-        select: "createdby description timestamp",
+        populate: {
+          path: "createdby",
+          model: "Profile",
+          select: "firstName lastName preferredName",
+        },
+        select: "description timestamp",
       })
       .populate({
         path: "createdBy",
@@ -229,6 +234,7 @@ export const getHouseSummaryForHR = async (req, res) => {
 
     if (facilityReport.length !== 0) {
       report = facilityReport.map((report) => ({
+        id: report._id,
         title: report.title,
         description: report.description,
         createdBy:

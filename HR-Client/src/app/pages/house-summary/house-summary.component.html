@@ -20,11 +20,18 @@
                 <p>Description: {{report.description}}</p>
                 <p>Created by: {{report.createdBy}}</p>
                 <p>Time created: {{report.timestamp}}</p>
+                <div class="flex justify-end">
+                    <button mat-raised-button color="primary" (click)="addComment(report.id)">Add Comment</button>
+                </div>
                 <div *ngFor="let comment of report.comments" style="margin-left: 20px;">
-                    <div>
+                    <div class="content-container">
                         <p><strong>Comment:</strong> {{comment.description}}</p>
-                        <p>Comment by: {{comment.createdby}}</p>
+                        <p>Comment by: {{ getCommenterDisplayName(comment) }}</p>
                         <p>Date: {{comment.timestamp | date:'medium'}}</p>
+                        <div class="flex justify-end">
+                            <button mat-button color="primary" *ngIf="comment.createdby._id === this.profileId"
+                                (click)="editComment(comment._id)">Edit Comment</button>
+                        </div>
                     </div>
                 </div>
             </div>
