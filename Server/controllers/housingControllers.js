@@ -95,6 +95,7 @@ export const addHouseForHR = async (req, res) => {
 export const deleteHouseForHR = async (req, res) => {
   try {
     const { profileId, houseID } = req.body;
+
     const user = await UserModel.findOne({ profile: profileId }).exec();
     if (!user) {
       return res.status(404).json("User not found");
@@ -143,6 +144,7 @@ export const getAllBasicHouseInfoForHR = async (req, res) => {
       return res.status(200).json([]);
     }
     const responeBody = houses.map((el) => ({
+      house_id: el._id,
       address: el.address,
       landlordInfo: el.landlordInfo,
       NumberofEmployee: el.assignedEmployees.length,
