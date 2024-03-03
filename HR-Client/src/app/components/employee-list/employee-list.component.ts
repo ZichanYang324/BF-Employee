@@ -1,6 +1,6 @@
 // employee-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { HrVisaStatusService } from '../services/visa-status.service';
+import { HrVisaStatusService } from '../../services/visa-status.service';
 
 @Component({
   selector: 'app-employee-list',
