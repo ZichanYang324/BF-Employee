@@ -1,5 +1,6 @@
 import ProfileModel from "../models/Profile.model.js";
 import User from "../models/User.model.js";
+import { Profile } from "../models/index.js";
 import { getOneFilePresignedUrl } from "../utils/s3.js";
 
 export async function getProfile(req, res) {
@@ -113,7 +114,10 @@ export async function update(req, res) {
     }
 
     if (section === "name") {
-      await _updateName({ userId: user._id });
+      const { name } = req.body;
+      console.log("name1234", name);
+      console.log("profile._id123124123123", profile._id);
+      await _updateName(profile._id, name);
     } else if (section === "address") {
       const { address } = req.body;
       await _updateAddress({ profileId: profile._id, address });
@@ -140,20 +144,19 @@ export async function update(req, res) {
   }
 }
 
-async function _updateName({
-  userId,
-  firstName,
-  lastName,
-  middleName,
-  preferredName,
-  profilePic,
-  email,
-  SSN,
-  DOB,
-  gender,
-}) {
-  // TODO
-  return;
+async function _updateName(profileId, name) {
+  let profile = await Profile.findById(profileId);
+  profile.firstName = name.firstName || "";
+  profile.lastName = name.lastName || "";
+  profile.middleName = name.middleName || "";
+  profile.preferredName = name.preferredName || "";
+  // profile.profilePic = name.profilePic || "";
+  profile.SSN = name.SSN || "";
+  profile.DOB = name.DOB || "";
+  profile.gender = name.gender || "";
+
+  await profile.save();
+  return profile;
 }
 
 async function _updateAddress({ profileId, address }) {

@@ -4,8 +4,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
 import { stateNames, genders, workAuthTypes } from '../utils/constants';
 import DEFAULT_PIC from '../assets/default-avatar.jpeg';
-import  { customFetchForForm } from '../utils/customFetch';
-import { useEffect } from 'react';
+import   { customFetchForForm } from '../utils/customFetch';
 import { useSelector } from 'react-redux';
 
 const VisuallyHiddenInput = styled('input')({
@@ -37,48 +36,13 @@ const Onboard = () => {
   const optReceipt = watch('optReceipt') ? watch('optReceipt')[0] : null;
   const driverlicense = watch('driverlicense') ? watch('driverlicense')[0] : null;
 
-  // useEffect(() => {
-  //   if (showWorkAuth) {
-  //     unregister("identity");
-  //     register("authType");
-  //     register("startDate");
-  //     register("endDate");
-  //     if (authType === 'F1') {
-  //       register("optReceipt");
-  //     } else if (authType === 'Other') {
-  //       unregister("optReceipt");
-  //       register("visaTitle");
-  //     } else{
-  //       unregister("visaTitle");
-  //       unregister("optReceipt");
-  //     }
-  //   } else {
-  //     unregister("authType");
-  //     unregister("startDate");
-  //     unregister("endDate");
-  //     register("identity");
-  //   }
 
-  //   if (hasDriverlicense) {
-  //     register("driverlicense");
-  //     register("licenseNumber");
-  //     register("licenseExpirationDate");
-  //     register("carMake");
-  //     register("carModel");
-  //     register("carColor");
-  //   } else {
-  //     unregister("licenseNumber");
-  //     unregister("licenseExpirationDate");
-  //     unregister("driverlicense");
-  //     unregister("carMake");
-  //     unregister("carModel");
-  //     unregister("carColor");
-  //   }
 
+  // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
+  
   // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
 
   const onSubmit = async (data) => {
-    console.log('profilePic123',data.profilePic)
     const jsonData = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -143,10 +107,6 @@ const Onboard = () => {
     // TODO: jump to pending page or show error
   };
 
-  useEffect(()=>{
-    console.log('profilePic',profilePic)
-    console.log('profilePic formd',new FormData().append('profilePic', profilePic))
-  },[profilePic])
   return (
     <Box 
       sx={{ 

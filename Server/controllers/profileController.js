@@ -120,10 +120,14 @@ export const getProfile = async (req, res) => {
 };
 
 export const getProfileStatus = async (req, res) => {
-  const user = req.user;
-  const profile = await Profile.findById(user.profile?._id);
-  const status = profile.applicationStatus;
-  return res.status(200).json({ status });
+  const user = await User.findById(req.query.userId);
+  console.log("user", user);
+  if (user.profile) {
+    const profile = await Profile.findById(user.profile._id);
+    return res.status(200).json({ status: profile.applicationStatus });
+  } else {
+    return res.status(200).json({ status: "Not Started" });
+  }
 };
 
 export const updateProfileStatus = async (req, res) => {

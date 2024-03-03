@@ -45,7 +45,8 @@ const logRequestData = (req, res, next) => {
 };
 profileRouter.post("/createProfile", logRequestData, profileUpload, createProfile);
 profileRouter.post("/getProfile", getProfile);
-profileRouter.post("/getProfileStatus", getProfileStatus);
+//use by send get to /profile/getProfileStatus?userId=21391273943527
+profileRouter.get("/getProfileStatus", getProfileStatus);
 profileRouter.put("/updateProfileStatus", updateProfileStatus);
 
 export default profileRouter;
