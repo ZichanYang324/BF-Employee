@@ -1,4 +1,5 @@
 import errorHandler from "./middlewares/errorHandler.js";
+import hiringManagementRouter from "./routers/HiringManagementRouter.js";
 import {
   commentRouter,
   housingRouter,
@@ -38,6 +39,7 @@ app.use("/documents", documentRoutes);
 app.use("/housing", housingRouter);
 app.use("/report", reportRouter);
 app.use("/comment", commentRouter);
+app.use("/hiring", hiringManagementRouter);
 app.all("*", (_req, res) => {
   res.status(404).send("<h1>Page not found!</h1>");
 });

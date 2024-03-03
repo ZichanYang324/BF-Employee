@@ -13,8 +13,8 @@ function errorHandler(err, req, res, next) {
   // Send the error message as the response
   res.json({
     error: {
-      message: err.message
-    }
+      message: err.message,
+    },
   });
 }
 
