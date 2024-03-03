@@ -13,7 +13,7 @@ export class HrVisaStatusService {
 
   constructor(private http: HttpClient) {}
   private getHttpOptions() {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWUyNWU3ZWE4MDlhNzI4NjZiNWQzNzMiLCJpYXQiOjE3MDkzNjY3NTMsImV4cCI6MTcwOTM3MDM1M30.iqDmbFdNISKRNSk7QMQRYBHHIwAuEEcvoWrIuZevxoQ";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWUyNWU3ZWE4MDlhNzI4NjZiNWQzNzMiLCJpYXQiOjE3MDk0MzUzMzYsImV4cCI6MTcwOTQzODkzNn0.LU8E6aiK4KmqcOQt51UwQaUaaDKIKEWnou3K5T0e9ds";
     return {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token}`

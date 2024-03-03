@@ -1,10 +1,16 @@
-<!-- employee-list.component.html -->
-<input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange($event)" placeholder="Search employees...">
+<mat-form-field appearance="fill">
+  <mat-label>Search employees...</mat-label>
+  <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange($event)">
+</mat-form-field>
 
 <div *ngFor="let employee of employees">
-  <div>{{ employee.fullName }}</div>
-  <div>Work Authorization: {{ employee.workAuth.title }}</div>
-  <div>Start Date: {{ employee.workAuth.startDate | date }}</div>
-  <div>End Date: {{ employee.workAuth.endDate | date }}</div>
-  <div>Days Remaining: {{ calculateDaysRemaining(employee.workAuth.endDate) }}</div>
+  <mat-card>
+    <mat-card-title>{{ employee.fullName }}</mat-card-title>
+    <mat-card-content>
+      <p>Work Authorization: {{ employee.workAuth.title }}</p>
+      <p>Start Date: {{ employee.workAuth.startDate | date }}</p>
+      <p>End Date: {{ employee.workAuth.endDate | date }}</p>
+      <p>Days Remaining: {{ calculateDaysRemaining(employee.workAuth.endDate) }}</p>
+    </mat-card-content>
+  </mat-card>
 </div>

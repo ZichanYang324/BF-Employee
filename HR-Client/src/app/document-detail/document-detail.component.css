@@ -1,7 +1,8 @@
-.document-card {
-    margin: 20px;
-  }
-  
-  mat-form-field {
-    width: 100%;
-  }
+mat-form-field {
+  width: 100%;
+}
+
+mat-card {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

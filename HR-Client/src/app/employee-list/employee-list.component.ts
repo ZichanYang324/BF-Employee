@@ -9,7 +9,7 @@ import { HrVisaStatusService } from '../services/visa-status.service';
 })
 export class EmployeeListComponent implements OnInit {
   employees: any[] = [];
-  searchQuery: string = '';
+  searchQuery: string = 'search bar';
 
   constructor(private visaStatusService: HrVisaStatusService) {}
 
