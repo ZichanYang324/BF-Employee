@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Component } from '@angular/core';
+
 @Component({
   selector: 'app-hiring-management',
   templateUrl: './hiring-management.component.html',
@@ -9,5 +8,4 @@ import { Subscription } from 'rxjs';
 
 export class HiringManagementComponent{
 
-  
 }

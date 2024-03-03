@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GetApplicationByStatusService } from '../../services/get-application-by-status.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-application-review',
   templateUrl: './application-review.component.html',
@@ -15,6 +15,7 @@ export class ApplicationReviewComponent implements OnInit {
   
   constructor(
     private getApplicationByStatusService: GetApplicationByStatusService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -27,8 +28,7 @@ export class ApplicationReviewComponent implements OnInit {
     this.getApplicationByStatusService.getApplicationByStatus('REJECTED').subscribe((data) => {
       this.rejectedApplications = data;
     });
-    console.log(this.pendingApplications);
-
   }
+
 
 }

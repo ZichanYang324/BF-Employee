@@ -34,3 +34,9 @@ export const getApplicationByStatus = asyncHandler(async (req, res) => {
   const applications = await ProfileModel.find({ applicationStatus: status});
   res.status(200).json(applications);
 });
+
+export const getApplicationById = asyncHandler(async (req, res) => {
+  const { id } = req.query;
+  const application = await ProfileModel.findById(id);
+  res.status(200).json(application);
+});

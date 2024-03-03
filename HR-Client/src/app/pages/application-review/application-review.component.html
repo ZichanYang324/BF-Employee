@@ -4,8 +4,11 @@
     <mat-card 
       *ngFor="let application of pendingApplications"
       class="hover:bg-gray-100 cursor-pointer"
+      [routerLink]="['/hiring-management/application-details']"
+      [queryParams]="{ id: application._id }"
     >
-      <mat-card-content>
+      <mat-card-content
+      >
         <div>
           <span>
             Name: 
@@ -32,6 +35,8 @@
     <mat-card 
       *ngFor="let application of rejectedApplications"
       class="hover:bg-gray-100 cursor-pointer"
+      [routerLink]="['/hiring-management/application-details']"
+      [queryParams]="{ id: application._id }"
     >
       <mat-card-content>
         <div>
@@ -60,6 +65,8 @@
     <mat-card 
       *ngFor="let application of approvedApplications"
       class="hover:bg-gray-100 cursor-pointer"
+      [routerLink]="['/hiring-management/application-details']"
+      [queryParams]="{ id: application._id }"
     >
       <mat-card-content>
         <div>
@@ -80,4 +87,5 @@
   <ng-template #noApprovedApplications>
     <p>None</p>
   </ng-template>
+  <router-outlet></router-outlet>
 </div>

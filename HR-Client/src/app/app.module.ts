@@ -24,6 +24,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { RegistrationEmailComponent } from './pages/registration-email/registration-email.component';
 import { ApplicationReviewComponent } from './pages/application-review/application-review.component';
 import { MatCardModule } from '@angular/material/card';
+import { ApplicationDetailsComponent } from './pages/application-details/application-details.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MatCardModule } from '@angular/material/card';
     HiringManagementComponent,
     RegistrationEmailComponent,
     ApplicationReviewComponent,
+    ApplicationDetailsComponent,
   ],
   imports: [
     AppRoutingModule,

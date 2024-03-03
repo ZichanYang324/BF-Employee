@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RegistrationEmailComponent } from './pages/registration-email/registration-email.component';
 import { ApplicationReviewComponent } from './pages/application-review/application-review.component';
+import { ApplicationDetailsComponent } from './pages/application-details/application-details.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'application-review',
         component: ApplicationReviewComponent,
+      },
+      {
+        path: 'application-details',
+        component: ApplicationDetailsComponent,
       },
       {
         path: '',
