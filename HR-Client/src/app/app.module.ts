@@ -3,6 +3,7 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { AddHouseDialogComponent } from './pages/add-house-dialog/add-house-dialog.component';
 import { HomeComponent } from './pages/home/home.component';
+import { HouseSummaryComponent } from './pages/house-summary/house-summary.component';
 import { HousingComponent } from './pages/housing/housing.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -25,6 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavBarComponent,
     HousingComponent,
     AddHouseDialogComponent,
+    HouseSummaryComponent,
   ],
   imports: [
     BrowserModule,

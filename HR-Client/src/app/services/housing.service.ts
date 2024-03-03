@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -14,6 +14,14 @@ export class HousingService {
     return this.http.post<any[]>(`${this.baseUrl}/getALLBasicHouses`, {
       profileId: this.profile,
     });
+  }
+
+  getHouseSummary(houseID: string, page: number) {
+    const params = new HttpParams()
+      .set('houseID', houseID)
+      .set('page', page.toString());
+    const body = { profileId: this.profile };
+    return this.http.post(`${this.baseUrl}/getHouseSummary`, body, { params });
   }
   addHouse(houseData: any) {
     const body = {

@@ -2,6 +2,7 @@ import { AddHouseDialogComponent } from '../add-house-dialog/add-house-dialog.co
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { HousingService } from 'src/app/services/housing.service';
 
 @Component({
@@ -15,11 +16,17 @@ export class HousingComponent implements OnInit {
     private housingService: HousingService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.housingService.getAllBasicHouses().subscribe((data) => {
       this.houses = data;
+    });
+  }
+  viewSummary(houseID: string, page: number = 1): void {
+    this.router.navigate(['/house-summary', houseID], {
+      queryParams: { page: 1 },
     });
   }
   deleteHouse(houseID: string): void {

@@ -27,7 +27,7 @@ housingRouter
   .post("/", getHousingDetailsForEmployee)
   .post("/add", addHouseForHR)
   .post("/getAllBasicHouses", getAllBasicHouseInfoForHR)
-  .get("/getHouseSummary", getHouseSummaryForHR)
+  .post("/getHouseSummary", getHouseSummaryForHR)
   .delete("/delete", deleteHouseForHR);
 // facility report router /report
 reportRouter

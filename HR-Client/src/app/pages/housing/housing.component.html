@@ -13,7 +13,7 @@
     <p>Landlord Email: {{ house.landlordInfo.email }}</p>
     <p>Number of Employees: {{ house.NumberofEmployee }}</p>
     <div class="flex gap-4 ">
-        <button mat-raised-button color="primary">Summary</button>
+        <button mat-raised-button color="primary" (click)="viewSummary(house.house_id)">Summary</button>
         <button mat-raised-button color="warn" (click)="deleteHouse(house.house_id)">Delete</button>
     </div>
 </div>

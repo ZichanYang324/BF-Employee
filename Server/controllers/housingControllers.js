@@ -212,6 +212,7 @@ export const getHouseSummaryForHR = async (req, res) => {
     const totalPage = Math.ceil(totalItem / MAX_ITEM_PERPAGE);
 
     const facilityReport = await FacilityReportModel.find({ houseID: houseID })
+      .sort({ timeStamp: -1 })
       .skip((pageNum - 1) * MAX_ITEM_PERPAGE)
       .limit(MAX_ITEM_PERPAGE)
       .populate({
@@ -234,17 +235,28 @@ export const getHouseSummaryForHR = async (req, res) => {
           report.createdBy.preferredName ||
           `${report.createdBy.firstName} ${report.createdBy.lastName}`,
         status: report.status,
-        timestamp: report.timestamp,
+        timestamp: report.timeStamp,
         comments: report.comments,
       }));
     }
+
+    const profileIds = house.assignedEmployees.map((emp) => emp._id);
+
+    const usersWithEmails = await UserModel.find({
+      profile: { $in: profileIds },
+    }).exec();
+
+    const emailMap = usersWithEmails.reduce((acc, user) => {
+      acc[user.profile.toString()] = user.email;
+      return acc;
+    }, {});
 
     // Employee Information
     const employeeInfo = house.assignedEmployees.map((employee) => ({
       preferredName:
         employee.preferredName || `${employee.firstName} ${employee.lastName}`,
       phone: employee.cellPhone,
-      email: employee.email,
+      email: emailMap[employee._id.toString()],
       car: employee.car,
       id: employee._id,
     }));
