@@ -4,18 +4,17 @@ import {
   getProfileStatus
 } from "../controllers/profileController.js";
 import { Router } from "express";
-import multer from "multer";
 
 const profileRouter = Router();
-const upload = multer({ dest: "uploads/" });
-const profileUpload = upload.fields([
-  { name: "profilePic", maxCount: 1 },
-  { name: "optReceipt", maxCount: 1 },
-  { name: "driverlicense", maxCount: 1 },
-]);
 
-profileRouter.post("/createProfile", profileUpload, createProfile);
+const logRequestData = (req, res, next) => {
+  console.log("Request body:", req.body); 
+  console.log('req.files',req.files)
+  next(); 
+};
+profileRouter.post("/createProfile", logRequestData, createProfile);
 profileRouter.post("/getProfile", getProfile);
-profileRouter.post("/getProfileStatus", getProfileStatus);
+//use by send get to /profile/getProfileStatus?userId=21391273943527
+profileRouter.get("/getProfileStatus", getProfileStatus);
 
 export default profileRouter;

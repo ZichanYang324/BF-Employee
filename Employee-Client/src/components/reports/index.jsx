@@ -2,7 +2,6 @@ import { createComment } from "../../features/comment/commentSlice.js";
 import { getCurrentEmployeeReport } from "../../features/report/reportSlice";
 import { housingConstants } from "../../utils/housingConstants.js";
 import { Comment } from "../comment/index.jsx";
-import ResponsiveAppBar from "../navbar";
 import {
   Box,
   Button,
@@ -17,7 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export const Report = () => {
@@ -50,7 +49,6 @@ export const Report = () => {
 
   return (
     <>
-      <ResponsiveAppBar />
       <Box sx={{ padding: "2rem" }}>
         <Typography variant="h5">My Facility Reports</Typography>
       </Box>
