@@ -1,31 +1,17 @@
 /* eslint react/prop-types: 0 */
-import ResponsiveAppBar from "../../components/navbar";
 import {
-  fetchDocuments,
-  fetchProfile,
   updateInfo,
 } from "../../features/info/infoSlice";
-import ImageUploader from "./ImageUploader";
 import { INPUT_SX } from "./utls";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Button,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useMemo } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { usePrevious } from "react-use";
+import { useEffect } from "react";
+import {  useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 function Address({ address }) {
   const defaultValues = address;

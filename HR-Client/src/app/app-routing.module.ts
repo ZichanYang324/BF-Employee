@@ -2,8 +2,20 @@ import { HiringManagementComponent } from './pages/hiring-management/hiring-mana
 import { HomeComponent } from './pages/home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SecretComponent } from './secret/secret.component';
+import { AuthGuard } from './helpers/auth..guard';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: SecretComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'login',
+    component: LoginPageComponent,
+  },
   {
     path: 'home',
     component: HomeComponent,
