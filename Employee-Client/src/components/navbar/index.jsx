@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearStore } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,9 +23,11 @@ const pages = ['Personal Information', 'Visa Status Management', 'Housing'];
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [imgSrc,setImgSrc] = React.useState('');
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
+  const profile = useSelector((store) => store.info.profile.data);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -65,6 +67,12 @@ function ResponsiveAppBar() {
     }
     handleCloseNavMenu();
   };
+
+  React.useEffect(()=>{
+    if(profile && profile.profilePic && profile.profilePic.url){
+      setImgSrc(profile.profilePic.url)
+    }
+  },[profile])
 
   return (
     <AppBar position="static" sx={{ zIndex: -100 }}>
@@ -157,7 +165,10 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar 
+                alt="Remy Sharp" 
+                src={imgSrc}
+                />
               </IconButton>
             </Tooltip>
             <Menu

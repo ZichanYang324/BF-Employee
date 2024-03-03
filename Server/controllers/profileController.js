@@ -35,29 +35,26 @@ export const createProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(userId);
 
   //create profile
-
-  const newProfile = await Profile.create({
-    firstName,
-    lastName,
-    middleName,
-    preferredName,
-    gender,
-    cellPhone,
-    workPhone,
-    address,
-    car,
-    SSN,
-    DOB,
-    immigrationStatus,
-    workAuth,
-    driversLicense,
-    reference,
-    emergencyContacts,
+  // await Profile.create
+  let newProfile = {
+    firstName: firstName,
+    lastName: lastName,
+    middleName: middleName,
+    preferredName: preferredName,
+    gender: gender,
+    cellPhone: cellPhone,
+    workPhone: workPhone,
+    address: address,
+    car: car,
+    SSN: SSN,
+    DOB: DOB,
+    immigrationStatus: immigrationStatus,
+    workAuth: workAuth,
+    driversLicense: driversLicense,
+    reference: reference,
+    emergencyContacts: emergencyContacts,
     applicationStatus: "PENDING",
-  });
-
-  user.profile = newProfile;
-  user.save();
+  };
 
   const profilePicFile = req.files.filter(
     (item) => item.fieldname === "profilePic",
@@ -73,12 +70,13 @@ export const createProfile = asyncHandler(async (req, res) => {
   if (profilePicFile) {
     const file = profilePicFile;
     const s3Response = await uploadFileToS3(file.buffer, file.originalname);
-    console.log(s3Response);
+    console.log("s3Response", s3Response);
     const newProfilePic = await Document.create({
-      URL: s3Response.url,
-      S3Bucket: s3Response.bucket,
-      S3Name: s3Response.key,
-      // owner: req.user._id,
+      URL: s3Response.Location,
+      S3Bucket: s3Response.Bucket,
+      S3Name: s3Response.Key,
+      type: "Profile Picture",
+      owner: userId,
     });
     newProfile.profilePic = newProfilePic._id;
   }
@@ -87,26 +85,30 @@ export const createProfile = asyncHandler(async (req, res) => {
     const file = optReceiptFile;
     const s3Response = await uploadFileToS3(file.buffer, file.originalname);
     const newOptReceipt = await Document.create({
-      URL: s3Response.url,
-      S3Bucket: s3Response.bucket,
-      S3Name: s3Response.key,
-      // owner: req.user._id,
+      URL: s3Response.Location,
+      S3Bucket: s3Response.Bucket,
+      S3Name: s3Response.Key,
+      type: 'Opt Receipt',
+      owner: userId,
     });
-    newProfile.optReceipt = newOptReceipt._id;
+    newProfile.OPTReceipt = newOptReceipt._id;
   }
 
   if (driverlicenseFile) {
     const file = driverlicenseFile;
     const s3Response = await uploadFileToS3(file.buffer, file.originalname);
     const newDriverLicense = await Document.create({
-      URL: s3Response.url,
-      S3Bucket: s3Response.bucket,
-      S3Name: s3Response.key,
-      // owner: req.user._id,
+      URL: s3Response.Location,
+      S3Bucket: s3Response.Bucket,
+      S3Name: s3Response.Key,
+      type: 'Driver License',
+      owner: userId,
     });
-    newProfile.driverLicense = newDriverLicense._id;
+    newProfile.driversLicense = newDriverLicense._id;
   }
-
+  const createdProfile = await Profile.create(newProfile);
+  user.profile = createdProfile;   
+  user.save();
   return res.status(201).send(newProfile);
 });
 
