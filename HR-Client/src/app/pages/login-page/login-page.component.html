@@ -1,5 +1,5 @@
 <div
-  class="authentication-card-container"
+  class="authentication-card-container pt-12"
   fxLayout="column"
   fxLayoutAlign="center"
 >
@@ -18,7 +18,11 @@
           <input
             matInput
             formControlName="username"
+            required
           />
+          <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">
+            Username is required
+          </mat-error>
         </mat-form-field>
         <br />
         <mat-form-field>
@@ -27,7 +31,11 @@
             matInput
             type="password"
             formControlName="password"
+            required
           />
+          <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">
+            Password is required
+          </mat-error>
         </mat-form-field>
       </form>
     </mat-card-content>
