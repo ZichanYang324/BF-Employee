@@ -126,6 +126,105 @@ function seedProfile({ userId }) {
   };
 }
 
+function seedProfile2({ userId }) {
+  const profilePicDoc = new Document({
+    S3Bucket: "bgp-zichan",
+    S3Name: "avatar.png",
+    owner: userId,
+  });
+  const driversLicenseDoc = new Document({
+    S3Bucket: "bgp-zichan",
+    S3Name: "drivers-license-1234567890",
+    owner: userId,
+  });
+  const optReceiptDoc = new Document({
+    S3Bucket: "bgp-zichan",
+    S3Name: "opt-receipt-1234567890",
+    owner: userId,
+  });
+  const optEADDoc = new Document({
+    S3Bucket: "bgp-zichan",
+    S3Name: "opt-ead-1234567890",
+    owner: userId,
+  });
+  const i983Doc = new Document({
+    S3Bucket: "bgp-zichan",
+    S3Name: "i983-1234567890",
+    owner: userId,
+  });
+  const i20Doc = new Document({
+    S3Bucket: "bgp-zichan",
+    S3Name: "i20-1234567890",
+    owner: userId,
+  });
+
+  const profile = new Profile({
+    firstName: "Bob",
+    lastName: "Smith",
+    middleName: "B",
+    preferredName: "Bob",
+    gender: "MALE",
+    profilePic: profilePicDoc._id,
+    cellPhone: "987-654-3210",
+    workPhone: "987-654-3210",
+    address: {
+      street: "456 Elm St",
+      building: "Apt 202",
+      city: "Othertown",
+      state: "CA",
+      zip: "54321",
+    },
+    car: {
+      make: "Honda",
+      model: "Accord",
+      color: "Silver",
+    },
+    SSN: "987-65-4321",
+    DOB: new Date("1995-05-05"),
+    immigrationStatus: "PR",
+    driversLicense: {
+      number: "0987654321",
+      state: "CA",
+      expiration: new Date("2026-01-01"),
+      document: driversLicenseDoc._id,
+    },
+    reference: {
+      firstName: "Alice",
+      lastName: "Johnson",
+      relationship: "Colleague",
+      phone: "987-654-3210",
+      email: "alicejohnson@bgptest.com",
+    },
+    emergencyContacts: [
+      {
+        firstName: "Eve",
+        lastName: "Davis",
+        relationship: "Friend",
+        phone: "987-654-3210",
+        email: "evedavis@bgptest.com",
+      },
+      {
+        firstName: "Frank",
+        lastName: "Wilson",
+        relationship: "Friend",
+        phone: "987-654-3210",
+        email: "frankwilson@bgptest.com",
+      },
+    ],
+    applicationStatus: "PENDING",
+  });
+
+  return {
+    profilePicDoc,
+    driversLicenseDoc,
+    optReceiptDoc,
+    optEADDoc,
+    i983Doc,
+    i20Doc,
+    profile,
+  };
+}
+
 const seed = async () => {
   try {
     process.env.MONGO_URL = "mongodb+srv://fredjiang:jdm330227@cluster0.zfckcvl.mongodb.net/BFHR"
@@ -148,6 +247,28 @@ const seed = async () => {
 
     user.profile = profile._id;
     await user.save();
+    console.log("User1 saved");
+
+    const user2 = new User({
+      username: "user2",
+      email: "user2@bgptest.com",
+      password: "pswd2",
+    });
+    const _profiles2 = seedProfile2({ userId: user2._id });
+    const { profile: profile2 } = _profiles2;
+    await Promise.all(Object.values(_profiles2).map((doc) => doc.save()));
+
+    user2.profile = profile2._id;
+    await user2.save();
+    console.log("User2 saved");
+
+    const hr = new User({
+      username: "HR1",
+      email: "HR1@gmail.com",
+      password: "HR1@gmail.com",
+      role: "HR",
+    });
+    await hr.save();
 
     console.log("Succeeded");
   } catch (err) {

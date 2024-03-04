@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>Add New House</h2>
+<mat-dialog-content class="mat-typography">
+    <form #houseForm="ngForm" class="form-container">
+        <mat-form-field>
+            <mat-label>Address</mat-label>
+            <input matInput [(ngModel)]="houseData.address" name="address" required>
+            <mat-error *ngIf="houseForm.controls['address']?.errors?.['required']">
+                Address is required.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Landlord Name:</mat-label>
+            <input matInput [(ngModel)]="houseData.landlordInfo.name" name="name" required>
+            <mat-error *ngIf="houseForm.controls['name']?.errors?.['required']">
+                Landlord Name is required.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Landlord Phone:</mat-label>
+            <input matInput type="number" [(ngModel)]="houseData.landlordInfo.phone" name="phone" required>
+            <mat-error *ngIf="houseForm.controls['phone']?.errors?.['required']">
+                Phone is required.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Landlord Email:</mat-label>
+            <input matInput [(ngModel)]="houseData.landlordInfo.email" name="email" required email>
+            <mat-error *ngIf="houseForm.controls['email']?.errors?.['required']">
+                Email is required.
+            </mat-error>
+            <mat-error *ngIf="houseForm.controls['email']?.errors?.['email']">
+                Invalid email address.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Number of Beds</mat-label>
+            <input matInput type="number" [(ngModel)]="houseData.facilityDetails.beds" name="beds" required>
+            <mat-error *ngIf="houseForm.controls['beds']?.errors?.['required']">
+                Number of Beds is required.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Number of Mattresses</mat-label>
+            <input matInput type="number" [(ngModel)]="houseData.facilityDetails.mattresses" name="mattresses" required>
+            <mat-error *ngIf="houseForm.controls['mattresses']?.errors?.['required']">
+                Number of Mattresses is required.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Number of Tables</mat-label>
+            <input matInput type="number" [(ngModel)]="houseData.facilityDetails.tables" name="tables" required>
+            <mat-error *ngIf="houseForm.controls['tables']?.errors?.['required']">
+                Number of Tables is required.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Number of Chairs</mat-label>
+            <input matInput type="number" [(ngModel)]="houseData.facilityDetails.chairs" name="chairs" required>
+            <mat-error *ngIf="houseForm.controls['chairs']?.errors?.['required']">
+                Number of Chairs is required.
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="houseData" [disabled]="houseForm.invalid">Add</button>
+</mat-dialog-actions>

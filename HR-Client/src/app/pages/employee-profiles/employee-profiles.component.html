@@ -1,0 +1,44 @@
+<app-nav-bar></app-nav-bar>
+<div>
+  <mat-form-field>
+    <input
+      matInput
+      matNativeControl
+      (input)="onSearch($event)"
+      type="search"
+      placeholder="Search"
+    />
+  </mat-form-field>
+
+  <mat-expansion-panel
+    *ngFor="let summary of profileSummaries"
+    (opened)="onSummaryExpanded(summary.userId)"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span>{{
+          summary.firstName + " " + summary.middleName + " " + summary.lastName
+        }}</span>
+      </mat-panel-title>
+      <mat-panel-description class="profiles-summary-description">
+        <div><span class="description-label">SSN: </span>{{ summary.SSN }}</div>
+        <div>
+          <span class="description-label">Work Authorization Title: </span
+          >{{ summary.workAuthTitle }}
+        </div>
+        <div>
+          <span class="description-label">Phone Number: </span
+          >{{ summary.phoneNumber }}
+        </div>
+        <div>
+          <span class="description-label">Email: </span>{{ summary.email }}
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div>
+      <app-entire-profile
+        [profile]="profileDetails[summary.userId]"
+      ></app-entire-profile>
+    </div>
+  </mat-expansion-panel>
+</div>

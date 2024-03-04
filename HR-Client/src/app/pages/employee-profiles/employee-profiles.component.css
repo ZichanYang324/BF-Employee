@@ -1,0 +1,8 @@
+.profiles-summary-description {
+  display: flex;
+  gap: 4px;
+}
+
+.profiles-summary-description .description-label {
+  font-weight: bold;
+}

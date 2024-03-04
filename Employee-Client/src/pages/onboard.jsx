@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { stateNames, genders, workAuthTypes } from '../utils/constants';
 import { useEffect } from 'react';
 import DEFAULT_PIC from '../assets/default-avatar.jpeg';
+import   { customFetchForForm } from '../utils/customFetch';
+import { useSelector } from 'react-redux';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -27,6 +29,8 @@ const Onboard = () => {
     watch
   } = useForm();
 
+  const {user} = useSelector((store)=>store.user)
+
   const showWorkAuth = watch('showWorkAuth');
   const authType = watch('authType');
   const hasDriverlicense = watch('hasDriverlicense');
@@ -34,46 +38,75 @@ const Onboard = () => {
   const optReceipt = watch('optReceipt') ? watch('optReceipt')[0] : null;
   const driverlicense = watch('driverlicense') ? watch('driverlicense')[0] : null;
 
-  useEffect(() => {
-    if (showWorkAuth) {
-      register("authType");
-      register("startDate");
-      register("endDate");
-      if (authType === 'F1') {
-        register("optReceipt");
-      } else if (authType === 'Other') {
-        unregister("optReceipt");
-        register("visaTitle");
-      } else{
-        unregister("visaTitle");
-        unregister("optReceipt");
-      }
-    } else {
-      unregister("authType");
-      unregister("startDate");
-      unregister("endDate");
+
+
+  // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
+  
+  // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
+
+  const onSubmit = async (data) => {
+    const jsonData = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      middleName: data.middleName,
+      preferredName: data.preferredName,
+      gender: data.gender,
+      cellPhone: data.cellPhone,
+      workPhone: data.workPhone,
+      SSN: data.SSN,
+      DOB: data.dateOfBirth,
+      address: {
+        street: data.streetAddress,
+        building: data.buildingNumber,
+        city: data.city,
+        state: data.state,
+        zip: data.zipCode,
+      },
+      immigrationStatus: data.identity || "VISA",
+      workAuth: {
+        title: data.authType === 'Other' ? data.visaTitle : data.authType,
+        startDate: data.startDate,
+        endDate: data.endDate,
+      },
+      driversLicense: {
+        number: data.licenseNumber,
+        expiration: data.licenseExpirationDate,
+      },
+      car: {
+        make: data.carMake,
+        model: data.carModel,
+        color: data.carColor,
+      },
+      reference: {
+        firstName: data.referenceFirstName,
+        middleName: data.referenceMiddleName,
+        lastName: data.referenceLastName,
+        relationship: data.referenceRelationship,
+        phone: data.referencePhone,
+        email: data.referenceEmail,
+      },
+      emergencyContacts: [
+        {
+          firstName: data.emergencyContactFirstName,
+          middleName: data.emergencyContactMiddleName,
+          lastName: data.emergencyContactLastName,
+          relationship: data.emergencyContactRelationship,
+          phone: data.emergencyContactPhone,
+          email: data.emergencyContactEmail,
+        },
+      ]
     }
 
-    if (hasDriverlicense) {
-      register("driverlicense");
-      register("licenseNumber");
-      register("licenseExpirationDate");
-      register("carMake");
-      register("carModel");
-      register("carColor");
-    } else {
-      unregister("licenseNumber");
-      unregister("licenseExpirationDate");
-      unregister("driverlicense");
-      unregister("carMake");
-      unregister("carModel");
-      unregister("carColor");
-    }
+    const formData = new FormData();
 
-  }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
+    if (data.profilePic) formData.append('profilePic', data.profilePic[0]);
+    if (data.optReceipt) formData.append('optReceipt', data.optReceipt[0]);
+    if (data.driverlicense) formData.append('driverlicense', data.driverlicense[0]);
+    formData.append('data',JSON.stringify(jsonData))
 
-  const onSubmit = (data) => {
-    console.log(data);
+    const res = await customFetchForForm.post('/profile/createProfile', formData);
+    console.log(res);
+    // TODO: jump to pending page or show error
   };
 
   return (
@@ -186,7 +219,7 @@ const Onboard = () => {
           <TextField
             label="Email"
             disabled
-            defaultValue={"user1@xxx.com"}
+            defaultValue={user?user.email:"xxxxx@gmail.com"}
             fullWidth
             {...register('email')}
           />
