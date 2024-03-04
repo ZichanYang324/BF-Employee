@@ -37,11 +37,6 @@ const Onboard = () => {
   const driverlicense = watch('driverlicense') ? watch('driverlicense')[0] : null;
 
 
-
-  // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
-  
-  // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
-
   const onSubmit = async (data) => {
     const jsonData = {
       firstName: data.firstName,
