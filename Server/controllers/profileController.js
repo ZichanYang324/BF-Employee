@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-import { Profile } from "../models/index.js";
-=======
 import { uploadFileToS3 } from "../config/s3Service.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import { Document, Profile, User } from "../models/index.js";
->>>>>>> 1d15dc99da34dcbb7880517315f6e53d246c5f54
 
-export const createProfile = async (req, res) => {
+export const createProfile = asyncHandler(async (req, res) => {
   const {
     firstName,
     lastName,
@@ -24,35 +20,8 @@ export const createProfile = async (req, res) => {
     driversLicense,
     reference,
     emergencyContacts,
-  } = JSON.parse(req.body);
+  } = JSON.parse(req.body.data);
 
-<<<<<<< HEAD
-  if (immigrationStatus.type === "VISA" && !workAuth) {
-    return res.status(400).json({
-      message: "Work authorization is required",
-    });
-  }
-
-  const newProfile = await Profile.create({
-    firstName,
-    lastName,
-    middleName,
-    preferredName,
-    gender,
-    cellPhone,
-    workPhone,
-    address,
-    car,
-    SSN,
-    DOB,
-    immigrationStatus,
-    workAuth,
-    driversLicense,
-    reference,
-    emergencyContacts,
-  });
-
-=======
   // if (immigrationStatus.type === "VISA" && !workAuth) {
   //   return res.status(400).json({
   //     message: "Work authorization is required",
@@ -140,9 +109,8 @@ export const createProfile = async (req, res) => {
   const createdProfile = await Profile.create(newProfile);
   user.profile = createdProfile;
   user.save();
->>>>>>> 1d15dc99da34dcbb7880517315f6e53d246c5f54
   return res.status(201).send(newProfile);
-};
+});
 
 export const getProfile = async (req, res) => {
   const user = req.user;
