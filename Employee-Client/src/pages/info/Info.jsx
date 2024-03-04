@@ -1,5 +1,4 @@
 /* eslint react/prop-types: 0 */
-import ResponsiveAppBar from "../../components/navbar";
 import { fetchProfile } from "../../features/info/infoSlice";
 import Address from "./Address";
 import ContactInfo from "./ContactInfo";
@@ -17,7 +16,8 @@ function Info() {
   const profile = useSelector((store) => store.info.profile.data);
   const profileStatus = useSelector((store) => store.info.profile.status);
   const prevProfileStatus = usePrevious(profileStatus);
-  const email = useSelector((store) => store.user.user.email);
+  const email = useSelector((store) => store.user?.user?.email);
+
 
   useEffect(() => {
     if (profileStatus === "idle") {
@@ -31,7 +31,6 @@ function Info() {
 
   return (
     <div>
-      <ResponsiveAppBar />
       <Container>
         <Section>
           <Name {...{ ...profile, email }} />

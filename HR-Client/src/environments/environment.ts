@@ -4,6 +4,10 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'http://localhost:3100',
+  EMAIL_USER: 'jackhallww@gmail.com',
+  EMAIL_PASS: 'mcev cufc nsuv xcwi',
+  JWT_EMAIL_SECRET: 'registrationemailtoken',
 };
 
 /*

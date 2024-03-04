@@ -4,7 +4,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
 import { stateNames, genders, workAuthTypes } from '../utils/constants';
 import DEFAULT_PIC from '../assets/default-avatar.jpeg';
-import customFetch from '../utils/customFetch';
+import   { customFetchForForm } from '../utils/customFetch';
+import { useSelector } from 'react-redux';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -26,6 +27,8 @@ const Onboard = () => {
     watch
   } = useForm();
 
+  const {user} = useSelector((store)=>store.user)
+
   const showWorkAuth = watch('showWorkAuth');
   const authType = watch('authType');
   const hasDriverlicense = watch('hasDriverlicense');
@@ -33,44 +36,10 @@ const Onboard = () => {
   const optReceipt = watch('optReceipt') ? watch('optReceipt')[0] : null;
   const driverlicense = watch('driverlicense') ? watch('driverlicense')[0] : null;
 
-  // useEffect(() => {
-  //   if (showWorkAuth) {
-  //     unregister("identity");
-  //     register("authType");
-  //     register("startDate");
-  //     register("endDate");
-  //     if (authType === 'F1') {
-  //       register("optReceipt");
-  //     } else if (authType === 'Other') {
-  //       unregister("optReceipt");
-  //       register("visaTitle");
-  //     } else{
-  //       unregister("visaTitle");
-  //       unregister("optReceipt");
-  //     }
-  //   } else {
-  //     unregister("authType");
-  //     unregister("startDate");
-  //     unregister("endDate");
-  //     register("identity");
-  //   }
 
-  //   if (hasDriverlicense) {
-  //     register("driverlicense");
-  //     register("licenseNumber");
-  //     register("licenseExpirationDate");
-  //     register("carMake");
-  //     register("carModel");
-  //     register("carColor");
-  //   } else {
-  //     unregister("licenseNumber");
-  //     unregister("licenseExpirationDate");
-  //     unregister("driverlicense");
-  //     unregister("carMake");
-  //     unregister("carModel");
-  //     unregister("carColor");
-  //   }
 
+  // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
+  
   // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
 
   const onSubmit = async (data) => {
@@ -127,12 +96,13 @@ const Onboard = () => {
     }
 
     const formData = new FormData();
-    if (profilePic) formData.append('profilePic', profilePic);
-    if (optReceipt) formData.append('optReceipt', optReceipt);
-    if (driverlicense) formData.append('driverlicense', driverlicense);
-    formData.append('data', JSON.stringify(jsonData));
 
-    const res = await customFetch.post('/profile/createProfile', formData);
+    if (data.profilePic) formData.append('profilePic', data.profilePic[0]);
+    if (data.optReceipt) formData.append('optReceipt', data.optReceipt[0]);
+    if (data.driverlicense) formData.append('driverlicense', data.driverlicense[0]);
+    formData.append('data',JSON.stringify(jsonData))
+
+    const res = await customFetchForForm.post('/profile/createProfile', formData);
     console.log(res);
     // TODO: jump to pending page or show error
   };
@@ -247,7 +217,7 @@ const Onboard = () => {
           <TextField
             label="Email"
             disabled
-            defaultValue={"user1@xxx.com"}
+            defaultValue={user?user.email:"xxxxx@gmail.com"}
             fullWidth
             {...register('email')}
           />

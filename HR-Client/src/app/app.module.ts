@@ -3,13 +3,14 @@ import { AppComponent } from './app.component';
 import { EntireProfileComponent } from './components/entire-profile/entire-profile.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { EmployeeProfilesComponent } from './pages/employee-profiles/employee-profiles.component';
+import { TokenInterceptor } from './helpers/token.interceptor';
 import { HiringManagementComponent } from './pages/hiring-management/hiring-management.component';
 import { HomeComponent } from './pages/home/home.component';
+import { SecretComponent } from './secret/secret.component';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,6 +21,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+
 
 @NgModule({
   declarations: [
@@ -29,6 +34,8 @@ import { ToastrModule } from 'ngx-toastr';
     EmployeeProfilesComponent,
     EntireProfileComponent,
     HiringManagementComponent,
+    SecretComponent,
+    LoginPageComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -36,6 +43,8 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     CommonModule,
     FormsModule,
+    MatFormFieldModule,
+    MatCardModule,
     HttpClientModule,
     MatToolbarModule,
     MatButtonModule,
@@ -52,7 +61,9 @@ import { ToastrModule } from 'ngx-toastr';
       progressBar: true,
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

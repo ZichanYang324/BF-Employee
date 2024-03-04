@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import useInput from '../../utils/use-input';
 import { getMsgErrorValidPass, isNotEmpty, validPass } from '../../utils/checkInputReg';
 import CustomInput from '../Input';
+import customFetch from '../../utils/customFetch';
 
 
 const defaultTheme = createTheme();
@@ -51,15 +52,24 @@ export function Login() {
         }
     }
 
+    const checkStatus = async(userId) =>{
+        const {data:resp} = await customFetch.get(`/profile/getProfileStatus?userId=${userId}`)
+        console.log('resp',resp)
+        if(resp.status.toLowerCase() === 'approved'){
+          //go to home page
+          navigate('/info')
+        }else(
+            navigate('/')
+        )
+      }
+
     useEffect(() => {
         checkPgae()
     }, [usernameInput.isValid, passwordInput.isValid])
 
     useEffect(() => {
         if (user) {
-            setTimeout(() => {
-                navigate("/dashboard");
-            }, 1000);
+            checkStatus(user._id)
         }
     }, [user]);
 
