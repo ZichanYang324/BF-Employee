@@ -1,0 +1,16 @@
+<mat-form-field appearance="fill">
+  <mat-label>Search employees...</mat-label>
+  <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange($event)">
+</mat-form-field>
+
+<div *ngFor="let employee of employees">
+  <mat-card>
+    <mat-card-title>{{ employee.fullName }}</mat-card-title>
+    <mat-card-content>
+      <p>Work Authorization: {{ employee.workAuth.title }}</p>
+      <p>Start Date: {{ employee.workAuth.startDate | date }}</p>
+      <p>End Date: {{ employee.workAuth.endDate | date }}</p>
+      <p>Days Remaining: {{ calculateDaysRemaining(employee.workAuth.endDate) }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

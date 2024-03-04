@@ -34,6 +34,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { VisaStatusManagementComponent } from './components/visa-status-management/visa-status-management.component';
+import { DocumentListComponent } from './components/document-list/document-list.component';
+import { DocumentDetailComponent } from './components/document-detail/document-detail.component';
+import { HrVisaStatusService } from './services/visa-status.service';
+import { SafeUrlPipe } from './pipes/safe-url.pipe';
+import { MatTabsModule } from '@angular/material/tabs'; // Import MatTabsModule
+import { EmployeeListComponent } from './components/employee-list/employee-list.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +59,12 @@ import { ToastrModule } from 'ngx-toastr';
     ApplicationDetailsComponent,
     SecretComponent,
     LoginPageComponent,
+    VisaStatusManagementComponent, 
+    DocumentListComponent,     
+    VisaStatusManagementComponent,
+    DocumentDetailComponent,
+    SafeUrlPipe,
+    EmployeeListComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -78,6 +91,9 @@ import { ToastrModule } from 'ngx-toastr';
     MatTableModule,
     MatIconModule,
     MatSidenavModule,
+    AppRoutingModule, 
+    BrowserAnimationsModule,
+    MatTabsModule ,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,
@@ -87,6 +103,7 @@ import { ToastrModule } from 'ngx-toastr';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
+  // providers: [HrVisaStatusService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
