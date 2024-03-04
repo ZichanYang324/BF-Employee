@@ -1,0 +1,12 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+.mat-tab-label {
+    color: black !important; 
+  }
+  
+  .mat-tab-label-active {
+    color: black !important; 
+  }
+
+  .mat-tab-group {
+    background-color: #697290; /* Example: light grey to contrast white text */
+  }

@@ -1,8 +1,5 @@
-
-
-<!-- visa-status-management.component.html -->
 <div *ngFor="let document of documents">
-  <app-document-detail
+  <app-document-detail class="app-de"
     [document]="document"
     (approve)="approveDocument(document._id)"
     (reject)="rejectDocument($event.id, $event.feedback)">

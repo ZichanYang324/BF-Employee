@@ -16,12 +16,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { EmployeeListComponent } from './components/employee-list/employee-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [AppComponent, VisaStatusManagementComponent, DocumentListComponent,     VisaStatusManagementComponent,
     DocumentDetailComponent,
     EmployeeListComponent],
   imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule,FormsModule,HttpClientModule,    MatCardModule,MatExpansionModule,    MatFormFieldModule,
+    MatTabsModule,
 
     MatButtonModule,
     MatInputModule,

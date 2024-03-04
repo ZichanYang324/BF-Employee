@@ -1,4 +1,10 @@
 <router-outlet></router-outlet>
-<app-visa-status-management></app-visa-status-management>
-<app-employee-list></app-employee-list>
+<mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+    <mat-tab label="In Progress">
+      <app-visa-status-management></app-visa-status-management>
+    </mat-tab>
+    <mat-tab label="All">
+      <app-employee-list></app-employee-list>
+    </mat-tab>
+  </mat-tab-group>
 
