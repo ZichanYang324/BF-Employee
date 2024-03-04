@@ -11,7 +11,7 @@ export class DocumentDetailComponent {
   @Output() approve = new EventEmitter<string>();
   @Output() reject = new EventEmitter<{ id: string; feedback: string }>();
   @Output() download = new EventEmitter<string>(); 
-
+  @Output() preview = new EventEmitter<string>(); //
 feedback: string = '';
 calculateDaysRemaining(endDate: string): number {
   const today = new Date();

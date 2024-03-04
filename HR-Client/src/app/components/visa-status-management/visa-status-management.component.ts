@@ -11,21 +11,15 @@ export class VisaStatusManagementComponent implements OnInit {
   documents: any[] = [];
   searchQuery: string = '';
   downloadUrls: { [documentId: string]: string } = {}; // For storing multiple URLs
-
+  showIframe: boolean = false; 
+  iframeSrc: string = ''; 
   constructor(private HrVisaStatusService: HrVisaStatusService) {}
 
   ngOnInit(): void {
     this.loadDocuments();
   }
 
-  // loadDocuments(): void {
-  //   this.HrVisaStatusService.getAllDocuments().subscribe({
-  //     next: (data: any[]) => {
-  //       this.documents = data;
-  //     },
-  //     error: (error: any) => console.error(error),
-  //   });
-  // }
+
   loadDocuments(): void {
     // Modify to pass searchQuery to the service method
     this.HrVisaStatusService.getAllDocuments(this.searchQuery).subscribe({
@@ -61,11 +55,22 @@ export class VisaStatusManagementComponent implements OnInit {
 
         window.open(downloadUrl, '_blank');
 
-        // Provide the URL to the user (e.g., through a link they can click)
-        this.downloadUrls[documentId] = downloadUrl;
-
       },
       error: (error) => console.error('Error downloading document:', error),
     });
+  }
+  previewDocument(documentId: string): void {
+    this.HrVisaStatusService.downloadDocumentUrl(documentId).subscribe({
+      next: (downloadUrl) => {
+
+        this.iframeSrc = downloadUrl; // Set the URL
+    this.showIframe = true; // Show the iframe
+  },      error: (error) => console.error('Error downloading document:', error),
+
+      })
+  }
+
+  closeIframe() {
+    this.showIframe = false; // Hide the iframe
   }
 }

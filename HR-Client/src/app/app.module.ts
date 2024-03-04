@@ -17,11 +17,13 @@ import { EmployeeListComponent } from './components/employee-list/employee-list.
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabsModule } from '@angular/material/tabs';
+import { SafeUrlPipe } from './pipes/safe-url.pipe';
 
 @NgModule({
   declarations: [AppComponent, VisaStatusManagementComponent, DocumentListComponent,     VisaStatusManagementComponent,
     DocumentDetailComponent,
-    EmployeeListComponent],
+    EmployeeListComponent,
+    SafeUrlPipe],
   imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule,FormsModule,HttpClientModule,    MatCardModule,MatExpansionModule,    MatFormFieldModule,
     MatTabsModule,
 

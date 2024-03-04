@@ -3,8 +3,12 @@
     [document]="document"
     (approve)="approveDocument(document._id)"
     (reject)="rejectDocument($event.id, $event.feedback)"
-    (download)="downloadDocument($event)">
+    (download)="downloadDocument($event)"
+    (preview)="previewDocument($event)">
   </app-document-detail>
 </div>
-
+<div *ngIf="showIframe" class="iframe-container">
+  <iframe [src]="iframeSrc | safeUrl" width="100%" height="500px"></iframe>
+  <button (click)="closeIframe()">Close Preview</button>
+</div>
 

@@ -5,7 +5,8 @@
 
   </mat-card-header>
   <button mat-button color="primary" (click)="download.emit(document._id)">Download</button>
-  
+  <button mat-button color="primary" (click)="preview.emit(document._id)">Preview</button>
+
   <mat-card-content>
 
     <p>URL: {{document.URL}}</p>
