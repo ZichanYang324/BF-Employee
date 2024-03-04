@@ -260,6 +260,14 @@ const seed = async () => {
     await user2.save();
     console.log("User2 saved");
 
+    const hr = new User({
+      username: "HR1",
+      email: "HR1@gmail.com",
+      password: "HR1@gmail.com",
+      role: "HR",
+    });
+    await hr.save();
+
     console.log("Succeeded");
   } catch (err) {
     console.error(err);
