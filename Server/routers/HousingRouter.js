@@ -13,6 +13,7 @@ import {
   getAllBasicHouseInfoForHR,
   getHouseSummaryForHR,
   getHousingDetailsForEmployee,
+  getProfileIdFromUid,
 } from "../controllers/housingControllers.js";
 import express from "express";
 
@@ -25,9 +26,10 @@ const commentRouter = express.Router();
 // housing info router /housing
 housingRouter
   .post("/", getHousingDetailsForEmployee)
+  .post("/getProfileId", getProfileIdFromUid)
   .post("/add", addHouseForHR)
-  .get("/getAllBasicHouses", getAllBasicHouseInfoForHR)
-  .get("/getHouseSummary", getHouseSummaryForHR)
+  .post("/getAllBasicHouses", getAllBasicHouseInfoForHR)
+  .post("/getHouseSummary", getHouseSummaryForHR)
   .delete("/delete", deleteHouseForHR);
 // facility report router /report
 reportRouter

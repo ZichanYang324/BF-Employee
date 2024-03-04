@@ -1,3 +1,4 @@
+import CommentModel from "../models/Comment.model.js";
 import FacilityReportModel from "../models/FacilityReport.model.js";
 import Housing from "../models/Housing.model.js";
 import Profile from "../models/Profile.model.js";
@@ -5,6 +6,25 @@ import UserModel from "../models/User.model.js";
 
 // number of reports per page
 const MAX_ITEM_PERPAGE = 3;
+
+export const getProfileIdFromUid = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const user = await UserModel.findById(userId).exec();
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+    if (!user.profile) {
+      return res.status(404).json("Profile has not created");
+    }
+    return res.status(200).json(user.profile);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json(`error when fetching user profile data - ${error}`);
+  }
+};
 
 /**
  * Get housing details for current user
@@ -94,6 +114,7 @@ export const addHouseForHR = async (req, res) => {
 export const deleteHouseForHR = async (req, res) => {
   try {
     const { profileId, houseID } = req.body;
+
     const user = await UserModel.findOne({ profile: profileId }).exec();
     if (!user) {
       return res.status(404).json("User not found");
@@ -106,6 +127,14 @@ export const deleteHouseForHR = async (req, res) => {
     if (!deletedHouse) {
       return res.status(404).json("House not found");
     }
+
+    await FacilityReportModel.deleteMany({ houseID });
+
+    const deletedReports = deletedHouse.reports || [];
+    for (const reportID of deletedReports) {
+      await CommentModel.deleteMany({ reportID });
+    }
+
     return res.status(200).json(deletedHouse);
   } catch (error) {
     console.error(error);
@@ -134,6 +163,7 @@ export const getAllBasicHouseInfoForHR = async (req, res) => {
       return res.status(200).json([]);
     }
     const responeBody = houses.map((el) => ({
+      house_id: el._id,
       address: el.address,
       landlordInfo: el.landlordInfo,
       NumberofEmployee: el.assignedEmployees.length,
@@ -201,12 +231,18 @@ export const getHouseSummaryForHR = async (req, res) => {
     const totalPage = Math.ceil(totalItem / MAX_ITEM_PERPAGE);
 
     const facilityReport = await FacilityReportModel.find({ houseID: houseID })
+      .sort({ timeStamp: -1 })
       .skip((pageNum - 1) * MAX_ITEM_PERPAGE)
       .limit(MAX_ITEM_PERPAGE)
       .populate({
         path: "comments",
         model: "Comment",
-        select: "createdby description timestamp",
+        populate: {
+          path: "createdby",
+          model: "Profile",
+          select: "firstName lastName preferredName",
+        },
+        select: "description timestamp",
       })
       .populate({
         path: "createdBy",
@@ -217,23 +253,35 @@ export const getHouseSummaryForHR = async (req, res) => {
 
     if (facilityReport.length !== 0) {
       report = facilityReport.map((report) => ({
+        id: report._id,
         title: report.title,
         description: report.description,
         createdBy:
           report.createdBy.preferredName ||
           `${report.createdBy.firstName} ${report.createdBy.lastName}`,
         status: report.status,
-        timestamp: report.timestamp,
+        timestamp: report.timeStamp,
         comments: report.comments,
       }));
     }
+
+    const profileIds = house.assignedEmployees.map((emp) => emp._id);
+
+    const usersWithEmails = await UserModel.find({
+      profile: { $in: profileIds },
+    }).exec();
+
+    const emailMap = usersWithEmails.reduce((acc, user) => {
+      acc[user.profile.toString()] = user.email;
+      return acc;
+    }, {});
 
     // Employee Information
     const employeeInfo = house.assignedEmployees.map((employee) => ({
       preferredName:
         employee.preferredName || `${employee.firstName} ${employee.lastName}`,
       phone: employee.cellPhone,
-      email: employee.email,
+      email: emailMap[employee._id.toString()],
       car: employee.car,
       id: employee._id,
     }));
