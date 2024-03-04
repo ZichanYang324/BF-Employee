@@ -1,6 +1,8 @@
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EntireProfileComponent } from './components/entire-profile/entire-profile.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { EmployeeProfilesComponent } from './pages/employee-profiles/employee-profiles.component';
 import { TokenInterceptor } from './helpers/token.interceptor';
 import { HiringManagementComponent } from './pages/hiring-management/hiring-management.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -10,8 +12,10 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
@@ -27,6 +31,8 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
     AppComponent,
     HomeComponent,
     NavBarComponent,
+    EmployeeProfilesComponent,
+    EntireProfileComponent,
     HiringManagementComponent,
     SecretComponent,
     LoginPageComponent,
@@ -42,6 +48,9 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
     HttpClientModule,
     MatToolbarModule,
     MatButtonModule,
+    MatListModule,
+    MatExpansionModule,
+    MatInputModule,
     ReactiveFormsModule,
     MatInputModule,
     MatTableModule,
