@@ -29,6 +29,7 @@ const routes: Routes = [
   {
     path: 'housing',
     component: HousingComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'house-summary/:houseID',
