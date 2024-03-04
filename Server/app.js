@@ -14,9 +14,9 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
+import multer from "multer";
 import path from "path";
 import process from "process";
-import multer from "multer";
 
 const app = express();
 const upload = multer();

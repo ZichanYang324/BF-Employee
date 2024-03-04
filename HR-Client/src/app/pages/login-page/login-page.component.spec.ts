@@ -1,7 +1,6 @@
-
 import { AuthenticationService } from '../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register-page',
@@ -25,7 +24,7 @@ export class RegisterPageComponent implements OnInit {
     this.authenticationService.register(
       this.registerForm.get('username')!.value,
       this.registerForm.get('email')!.value,
-      this.registerForm!.get('password')!.value
+      this.registerForm!.get('password')!.value,
     );
   }
 }

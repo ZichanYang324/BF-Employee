@@ -93,11 +93,13 @@ async function updateDocumentStatus(req, res) {
 }
 
 async function getMyDocuments(req, res) {
-  console.log('req',req)
+  console.log("req", req);
   const userId = req.user._id;
 
   try {
-    const documents = (await Document.find({ owner: userId })).filter(item=>item.type !== 'Profile Picture');
+    const documents = (await Document.find({ owner: userId })).filter(
+      (item) => item.type !== "Profile Picture",
+    );
 
     if (!documents.length) {
       return res.status(404).json({ message: "No documents found." });

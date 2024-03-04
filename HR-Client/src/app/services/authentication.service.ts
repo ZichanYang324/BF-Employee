@@ -1,7 +1,7 @@
-
+import { AuthenticationClient } from '../clients/authentication.client';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationClient } from '../clients/authentication.client';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -9,19 +9,26 @@ import { AuthenticationClient } from '../clients/authentication.client';
 export class AuthenticationService {
   private tokenKey = 'token';
   private expiresInKey = 'expiresIn';
-  private userKey = 'user'
+  private userKey = 'user';
 
   constructor(
     private authenticationClient: AuthenticationClient,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService,
   ) {}
 
   public login(username: string, password: string): void {
-    this.authenticationClient.login(username, password).subscribe(({user,token,expiresIn}) => {
-      localStorage.setItem(this.tokenKey, token);
-      localStorage.setItem(this.expiresInKey, expiresIn);
-      localStorage.setItem(this.userKey, JSON.stringify(user));
-      this.router.navigate(['/']);
+    this.authenticationClient.login(username, password).subscribe({
+      next: ({ user, token, expiresIn }) => {
+        localStorage.setItem(this.tokenKey, token);
+        localStorage.setItem(this.expiresInKey, expiresIn);
+        localStorage.setItem(this.userKey, JSON.stringify(user));
+        this.toastr.success('Signed in');
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.toastr.error(err);
+      },
     });
   }
 
@@ -36,6 +43,7 @@ export class AuthenticationService {
 
   public logout() {
     localStorage.removeItem(this.tokenKey);
+    this.toastr.success('Logged out');
     this.router.navigate(['/login']);
   }
 

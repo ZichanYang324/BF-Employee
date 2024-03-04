@@ -88,7 +88,7 @@ export const createProfile = asyncHandler(async (req, res) => {
       URL: s3Response.Location,
       S3Bucket: s3Response.Bucket,
       S3Name: s3Response.Key,
-      type: 'Opt Receipt',
+      type: "Opt Receipt",
       owner: userId,
     });
     newProfile.OPTReceipt = newOptReceipt._id;
@@ -101,13 +101,13 @@ export const createProfile = asyncHandler(async (req, res) => {
       URL: s3Response.Location,
       S3Bucket: s3Response.Bucket,
       S3Name: s3Response.Key,
-      type: 'Driver License',
+      type: "Driver License",
       owner: userId,
     });
     newProfile.driversLicense = newDriverLicense._id;
   }
   const createdProfile = await Profile.create(newProfile);
-  user.profile = createdProfile;   
+  user.profile = createdProfile;
   user.save();
   return res.status(201).send(newProfile);
 });
@@ -130,13 +130,4 @@ export const getProfileStatus = async (req, res) => {
   } else {
     return res.status(200).json({ status: "Not Started" });
   }
-};
-
-export const updateProfileStatus = async (req, res) => {
-  const user = req.user;
-  const profile = await Profile.findById(user.profile?._id);
-  const { status } = req.body;
-  profile.applicationStatus = status;
-  await profile.save();
-  return res.status(200).send(profile);
 };

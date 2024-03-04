@@ -1,10 +1,12 @@
 <div
-  class="authentication-card-container"
+  class="authentication-card-container pt-12"
   fxLayout="column"
   fxLayoutAlign="center"
 >
   <mat-card class="authentication-card">
-    <mat-card-header> <mat-card-title>HR Login</mat-card-title></mat-card-header>
+    <mat-card-header>
+      <mat-card-title>HR Login</mat-card-title></mat-card-header
+    >
     <mat-card-content>
       <form
         [formGroup]="loginForm"
@@ -13,17 +15,36 @@
       >
         <mat-form-field>
           <mat-label>Username</mat-label>
-          <input matInput formControlName="username" />
+          <input
+            matInput
+            formControlName="username"
+            required
+          />
+          <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">
+            Username is required
+          </mat-error>
         </mat-form-field>
-        <br/>
+        <br />
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" />
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            required
+          />
+          <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">
+            Password is required
+          </mat-error>
         </mat-form-field>
       </form>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="onSubmit()">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onSubmit()"
+      >
         Login
       </button>
     </mat-card-actions>

@@ -10,8 +10,15 @@ const registrationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  token: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now, expires: "3h" },
+  link: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    expires: "3h",
+  },
   status: {
     type: String,
     enum: constants.registrationLinkStatus,
