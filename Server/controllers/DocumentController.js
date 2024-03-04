@@ -2,8 +2,9 @@ import Document from "../models/Document.model.js";
 import User from "../models/User.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { uploadFileToS3 } from '../config/s3Service.js';
+import { uploadFileToS3,downloadFileFromS3 } from '../config/s3Service.js';
 import Profile from "../models/Profile.model.js";
+import { uploadOneFile, getOneFilePresignedUrl } from '../utils/s3.js';
 
 const documentOrder = ["OPT Receipt", "OPT EAD", "I-983", "I-20"];
 
@@ -222,6 +223,24 @@ async function login(req, res) {
     res.status(500).json({ message: err.message });
   }
 }
+const downloadDocument = async (req, res) => {
+  const { documentId } = req.params;
+  try {
+    const document = await Document.findById(documentId);
+    if (!document) {
+      return res.status(404).send('Document not found');
+    }
+
+    const downloadUrl = await downloadFileFromS3(document.S3Name);
+    res.send(downloadUrl);
+  } catch (error) {
+    console.error('Error generating download URL:', error);
+    res.status(500).send('Error generating download URL');
+  }
+};
+
+
+
 export {
   register,
   login,
@@ -229,5 +248,7 @@ export {
   updateDocumentStatus,
   getMyDocuments,
   getAllDocuments,
-  getEmployees
+  getEmployees,
+  downloadDocument,
+
 };

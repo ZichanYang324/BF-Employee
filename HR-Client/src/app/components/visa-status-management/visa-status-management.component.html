@@ -2,7 +2,8 @@
   <app-document-detail class="app-de"
     [document]="document"
     (approve)="approveDocument(document._id)"
-    (reject)="rejectDocument($event.id, $event.feedback)">
+    (reject)="rejectDocument($event.id, $event.feedback)"
+    (download)="downloadDocument($event)">
   </app-document-detail>
 </div>
 

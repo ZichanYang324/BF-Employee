@@ -2,9 +2,12 @@
   <mat-card-header>
     <mat-card-title>{{ document.owner.fullName }}</mat-card-title>
     <mat-card-subtitle>{{ document.type }} - {{ document.status }}</mat-card-subtitle>
+
   </mat-card-header>
-  <img mat-card-image *ngIf="document.URL" [src]="document.URL" alt="Document Image">
+  <button mat-button color="primary" (click)="download.emit(document._id)">Download</button>
+  
   <mat-card-content>
+
     <p>URL: {{document.URL}}</p>
     <p>Work Authorization Title: {{ document.owner.workAuth.title }}</p>
     <p>Start Date: {{ document.owner.workAuth.startDate | date }}, End Date: {{ document.owner.workAuth.endDate | date }}</p>

@@ -13,7 +13,7 @@ export class HrVisaStatusService {
 
   constructor(private http: HttpClient) {}
   private getHttpOptions() {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWUyNWU3ZWE4MDlhNzI4NjZiNWQzNzMiLCJpYXQiOjE3MDk1MjQxNTQsImV4cCI6MTcwOTUyNzc1NH0.NKR4KtvRUygoLI7p3isQY4RHpnYE_cb76pnpIlv7owU";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWUyNWU3ZWE4MDlhNzI4NjZiNWQzNzMiLCJpYXQiOjE3MDk1MzIzMzMsImV4cCI6MTcwOTUzNTkzM30.gYRK-C3NYjsH7Cvz_BZi1GG4bTK_M9-vpI75fKhKdW8";
     return {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token}`
@@ -51,16 +51,10 @@ getAllEmployees(searchQuery: string = ''): Observable<any[]> {
 
   return this.http.get<any[]>(`http://localhost:3100/documents/employees`, options);
 }
-  //employee part
-  // getAllEmployees(): Observable<Employee[]> {
-  //   return this.http.get<Employee[]>(`${this.apiUrl}/employees`, this.getHttpOptions());
-  // }
-  
-  // searchEmployees(searchTerm: string): Observable<Employee[]> {
-  //   return this.http.get<Employee[]>(`${this.apiUrl}/employees?search=${searchTerm}`, this.getHttpOptions());
-  // }
-  
 
+downloadDocumentUrl(documentId: string): Observable<any> {
+  return this.http.get(`http://localhost:3100/documents/download/${documentId}`, { ...this.getHttpOptions(), responseType: 'text' });
+}
   // Placeholder for sending notifications
   sendNotification(employeeId: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/notifications/send`, { employeeId }, this.getHttpOptions());

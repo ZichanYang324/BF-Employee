@@ -10,6 +10,8 @@ import { Document } from '../../models/document.model';
 export class VisaStatusManagementComponent implements OnInit {
   documents: any[] = [];
   searchQuery: string = '';
+  downloadUrls: { [documentId: string]: string } = {}; // For storing multiple URLs
+
   constructor(private HrVisaStatusService: HrVisaStatusService) {}
 
   ngOnInit(): void {
@@ -53,5 +55,17 @@ export class VisaStatusManagementComponent implements OnInit {
     });
   }
   
+  downloadDocument(documentId: string): void {
+    this.HrVisaStatusService.downloadDocumentUrl(documentId).subscribe({
+      next: (downloadUrl) => {
 
+        window.open(downloadUrl, '_blank');
+
+        // Provide the URL to the user (e.g., through a link they can click)
+        this.downloadUrls[documentId] = downloadUrl;
+
+      },
+      error: (error) => console.error('Error downloading document:', error),
+    });
+  }
 }
