@@ -17,6 +17,14 @@ export const customFetch2 = axios.create({
   },
 });
 
+export const customFetchForForm = axios.create({
+  baseURL: "http://localhost:3100",
+  headers: {
+    "Accept":"multipart/form-data",
+    "Cache-Control": "no-cache",
+  },
+});
+
 // auto config
 customFetch.interceptors.request.use(
   (config) => {
@@ -33,6 +41,21 @@ customFetch.interceptors.request.use(
   },
 );
 customFetch2.interceptors.request.use(
+  (config) => {
+    const user = getUserFromLocalStorage();
+    if (user) {
+      config.headers["Authorization"] = `Bearer ${Cookies.get("token")}`;
+      // in the latest version "common" returns undefined
+      // config.headers.common['Authorization'] = `Bearer ${user.token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
+customFetchForForm.interceptors.request.use(
   (config) => {
     const user = getUserFromLocalStorage();
     if (user) {

@@ -8,8 +8,9 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
   useEffect(() => {
     //if user do not exist
-    if (!user) {
-      navigate("/");
+    console.log('user',user)
+    if (user === null) {
+      navigate("/login");
       return;
     }
   }, [user, navigate]);

@@ -1,7 +1,6 @@
 import { createComment } from "../../features/comment/commentSlice.js";
 import { getCurrentEmployeeReport } from "../../features/report/reportSlice";
 import { Comment } from "../comment/index.jsx";
-import ResponsiveAppBar from "../navbar";
 import {
   Box,
   Button,
@@ -50,7 +49,6 @@ export const Report = () => {
 
   return (
     <>
-      <ResponsiveAppBar />
       <Box sx={{ padding: "2rem" }}>
         <Typography variant="h5">My Facility Reports</Typography>
       </Box>

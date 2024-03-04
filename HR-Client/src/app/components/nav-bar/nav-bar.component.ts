@@ -1,3 +1,4 @@
+import { AuthenticationService } from '../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  constructor() {}
+  constructor(private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {}
+
+  logout(): void {
+    this.authenticationService.logout();
+  }
 }

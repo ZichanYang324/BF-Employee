@@ -1,4 +1,6 @@
 /* eslint react/prop-types: 0 */
+import { useDispatch } from "react-redux";
+import { updateInfo } from "../../features/info/infoSlice";
 import ImageUploader from "./ImageUploader";
 import { INPUT_SX } from "./utls";
 import {
@@ -38,9 +40,10 @@ function Name({
   const { register, control, handleSubmit, reset } = useForm({
     defaultValues,
   });
+  const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(updateInfo({ section: "name", data: { name: data } }))
   };
 
   return (
@@ -85,7 +88,7 @@ function Name({
           />
         </Box>
         <div>
-          <TextField sx={INPUT_SX} {...register("email")} label="Email" />
+          <TextField sx={INPUT_SX} {...register("email")} label="Email" disabled/>
         </div>
         <div>
           <TextField sx={INPUT_SX} {...register("SSN")} label="SSN" />

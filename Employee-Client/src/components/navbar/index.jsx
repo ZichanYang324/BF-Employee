@@ -1,28 +1,33 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import { useDispatch } from "react-redux";
-import { clearStore } from "../../features/user/userSlice";
-import { useNavigate } from "react-router-dom";
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearStore } from '../../features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const pages = ["Personal Information", "Visa Status Management", "Housing"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const dispatch = useDispatch();
+  const [imgSrc,setImgSrc] = React.useState('');
+  const dispatch = useDispatch()
   const navigate = useNavigate();
+
+  const profile = useSelector((store) => store.info.profile.data);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -48,23 +53,29 @@ function ResponsiveAppBar() {
 
   const handlePageClick = (page) => {
     switch (page) {
-      case "Visa Status Management":
-        navigate("/visa-status");
+      case 'Personal Information':
+        navigate('/info');
+        break
+      case 'Visa Status Management':
+        navigate('/visa-status');
         break;
-      case "Housing":
-        navigate("/housing");
+      case 'Housing':
+        navigate('/housing');
         break;
-      // case 'Personal Information':
-      //   navigate('/personal-information');
-      //   break;
       default:
         break;
     }
     handleCloseNavMenu();
   };
 
+  React.useEffect(()=>{
+    if(profile && profile.profilePic && profile.profilePic.url){
+      setImgSrc(profile.profilePic.url)
+    }
+  },[profile])
+
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ zIndex: -100 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -141,19 +152,9 @@ function ResponsiveAppBar() {
               color: "inherit",
               textDecoration: "none",
             }}
-          ></Typography>
-          {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box> */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          >
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -166,13 +167,10 @@ function ResponsiveAppBar() {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="">
-              <IconButton
-                onClick={handleOpenUserMenu}
-                sx={{ p: 0 }}
-              >
-                <Avatar
-                  alt="Remy Sharp"
-                  src="/static/images/avatar/2.jpg"
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar 
+                alt="Remy Sharp" 
+                src={imgSrc}
                 />
               </IconButton>
             </Tooltip>
