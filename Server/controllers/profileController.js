@@ -122,12 +122,12 @@ export const getProfile = async (req, res) => {
 };
 
 export const getProfileStatus = async (req, res) => {
-  const user = await User.findById(req.query.userId);
-  console.log("user", user);
+  const user = req.user;
+
   if (user.profile) {
     const profile = await Profile.findById(user.profile._id);
     return res.status(200).json({ status: profile.applicationStatus });
   } else {
-    return res.status(200).json({ status: "Not Started" });
+    return res.status(200).json({ status: "NOT_STARTED" });
   }
 };

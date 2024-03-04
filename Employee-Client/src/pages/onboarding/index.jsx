@@ -1,15 +1,27 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import Application from "./Application";
+import Pending from "./Pending";
+import Rejected from "./Rejected";
 
-export const Onboarding = () => {
+const Onboarding = () => {
   
-  const [status, setStatus] = useState("NOT_STARTED");
-  const { user } = useSelector((store) => store.user);
+  const { status } = useLoaderData();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-  })
-  
-  return (
-    <div>index</div>
-  )
+  if (status === "APPROVED") {
+    navigate("/info")
+  }
+
+  switch (status) {
+    case "NOT_STARTED":
+      return <Application />;
+    case "PENDING":
+      return <Pending />;
+    case "REJECTED":
+      return <Rejected />;
+    default:
+      return <Application />;
+  }
 }
+
+export default Onboarding;

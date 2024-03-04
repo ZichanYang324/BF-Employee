@@ -5,7 +5,7 @@ import { Register } from "./components/register";
 import { Report } from "./components/reports";
 import VisaStatusManagement from "./components/visa";
 import Info from "./pages/info";
-import Onboard from "./pages/onboard";
+import Onboarding from "./pages/onboarding";
 import ProtectedRoute from "./pages/protectedRoute";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Outlet } from "react-router-dom";
@@ -24,7 +24,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Onboard />} />
+          <Route index element={<Onboarding />} />
           <Route path="visa-status" element={<VisaStatusManagement />} />
           <Route path="info" element={<Info />} />
           <Route path="housing" element={<Housing />} />

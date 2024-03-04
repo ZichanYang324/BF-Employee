@@ -2,10 +2,10 @@ import { TextField, Box, Button, Typography, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
-import { stateNames, genders, workAuthTypes } from '../utils/constants';
-import DEFAULT_PIC from '../assets/default-avatar.jpeg';
-import   { customFetchForForm } from '../utils/customFetch';
 import { useSelector } from 'react-redux';
+import { stateNames, genders, workAuthTypes } from '../../utils/constants';
+import DEFAULT_PIC from '../../assets/default-avatar.jpeg';
+import { customFetchForForm } from '../../utils/customFetch';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -19,7 +19,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const Onboard = () => {
+const Application = () => {
 
   const {
     register,
@@ -644,4 +644,4 @@ const Onboard = () => {
   )
 }
 
-export default Onboard;
+export default Application;
