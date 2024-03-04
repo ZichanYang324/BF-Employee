@@ -5,7 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './hiring-management.component.html',
   styleUrls: ['./hiring-management.component.css'],
 })
-
-export class HiringManagementComponent{
-
-}
+export class HiringManagementComponent {}

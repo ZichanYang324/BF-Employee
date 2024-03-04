@@ -1,6 +1,6 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
-import RegistrationModel from "../models/Registration.model.js";
 import ProfileModel from "../models/Profile.model.js";
+import RegistrationModel from "../models/Registration.model.js";
 import { sendEmail } from "../utils/sendMail.js";
 import jwt from "jsonwebtoken";
 
@@ -31,7 +31,7 @@ export const getHistory = asyncHandler(async (_req, res) => {
 
 export const getApplicationByStatus = asyncHandler(async (req, res) => {
   const { status } = req.query;
-  const applications = await ProfileModel.find({ applicationStatus: status});
+  const applications = await ProfileModel.find({ applicationStatus: status });
   res.status(200).json(applications);
 });
 
@@ -44,9 +44,9 @@ export const getApplicationById = asyncHandler(async (req, res) => {
 export const updateApplicationStatus = asyncHandler(async (req, res) => {
   const { id, status } = req.body;
   const application = await ProfileModel.findByIdAndUpdate(
-    id, 
-    { applicationStatus: status }, 
-    { new: true }
+    id,
+    { applicationStatus: status },
+    { new: true },
   );
   res.status(200).json(application);
 });
@@ -54,9 +54,9 @@ export const updateApplicationStatus = asyncHandler(async (req, res) => {
 export const addFeedback = asyncHandler(async (req, res) => {
   const { id, feedback } = req.body;
   const application = await ProfileModel.findByIdAndUpdate(
-    id, 
-    { feedback }, 
-    { new: true }
+    id,
+    { feedback },
+    { new: true },
   );
   res.status(200).json(application);
 });

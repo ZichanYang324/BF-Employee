@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { UpdateApplicationStatusService } from './update-application-status.service';
+import { TestBed } from '@angular/core/testing';
 
 describe('UpdateApplicationStatusService', () => {
   let service: UpdateApplicationStatusService;

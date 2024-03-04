@@ -217,12 +217,11 @@
     </ul>
   </section>
 
-
   <div
     class="info-container mt-4"
     *ngIf="profile?.OPTReceipt?.url"
   >
-  <div class="section-label">OPT Receipt</div>
+    <div class="section-label">OPT Receipt</div>
     <div class="info-container">
       <div class="description-label">Status:</div>
       <div>{{ profile?.OPTEAD?.status }}</div>
@@ -242,14 +241,10 @@
     </div>
   </div>
 
-  <ng-container 
-    *ngIf="profile.applicationStatus === 'PENDING'"
-  >
-    <div
-      class="flex flex-col items-center w-full mt-12"
-    >
-      <button 
-        mat-raised-button 
+  <ng-container *ngIf="profile.applicationStatus === 'PENDING'">
+    <div class="flex flex-col items-center w-full mt-12">
+      <button
+        mat-raised-button
         class="w-36 bg-blue-700 text-white"
         (click)="approveApplication()"
       >
@@ -265,7 +260,10 @@
         (ngSubmit)="rejectApplication()"
         class="flex flex-col items-center w-full"
       >
-        <mat-form-field appearance="outline" class="w-96">
+        <mat-form-field
+          appearance="outline"
+          class="w-96"
+        >
           <mat-label>Feedback</mat-label>
           <textarea
             matInput
@@ -283,4 +281,3 @@
     </div>
   </ng-container>
 </div>
-

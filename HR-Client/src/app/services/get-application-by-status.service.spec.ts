@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { GetApplicationByStatusService } from './get-application-by-status.service';
+import { TestBed } from '@angular/core/testing';
 
 describe('GetApplicationByStatusService', () => {
   let service: GetApplicationByStatusService;

@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ApplicationReviewComponent } from './application-review.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('ApplicationReviewComponent', () => {
   let component: ApplicationReviewComponent;
@@ -8,9 +7,8 @@ describe('ApplicationReviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ApplicationReviewComponent ]
-    })
-    .compileComponents();
+      declarations: [ApplicationReviewComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ApplicationReviewComponent);
     component = fixture.componentInstance;

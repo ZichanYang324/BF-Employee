@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GetApplicationByStatusService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   private apiUrl = 'http://localhost:3100/hiring/getApplicationByStatus';
 
   getApplicationByStatus(status: string): Observable<any[]> {

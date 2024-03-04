@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login-page',
@@ -22,7 +22,7 @@ export class LoginPageComponent implements OnInit {
   public onSubmit() {
     this.authenticationService.login(
       this.loginForm.get('username')!.value,
-      this.loginForm!.get('password')!.value
+      this.loginForm!.get('password')!.value,
     );
   }
 }

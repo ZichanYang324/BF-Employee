@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SecretComponent } from './secret.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('SecretComponent', () => {
   let component: SecretComponent;
@@ -8,9 +7,8 @@ describe('SecretComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SecretComponent ]
-    })
-    .compileComponents();
+      declarations: [SecretComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SecretComponent);
     component = fixture.componentInstance;

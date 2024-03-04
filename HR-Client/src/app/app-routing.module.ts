@@ -1,14 +1,14 @@
+import { AuthGuard } from './helpers/auth..guard';
+import { ApplicationDetailsComponent } from './pages/application-details/application-details.component';
+import { ApplicationReviewComponent } from './pages/application-review/application-review.component';
 import { EmployeeProfilesComponent } from './pages/employee-profiles/employee-profiles.component';
 import { HiringManagementComponent } from './pages/hiring-management/hiring-management.component';
 import { HomeComponent } from './pages/home/home.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { RegistrationEmailComponent } from './pages/registration-email/registration-email.component';
+import { SecretComponent } from './secret/secret.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RegistrationEmailComponent } from './pages/registration-email/registration-email.component';
-import { ApplicationReviewComponent } from './pages/application-review/application-review.component';
-import { ApplicationDetailsComponent } from './pages/application-details/application-details.component';
-import { SecretComponent } from './secret/secret.component';
-import { AuthGuard } from './helpers/auth..guard';
-import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 const routes: Routes = [
   {
@@ -48,8 +48,8 @@ const routes: Routes = [
         path: '',
         redirectTo: 'registration-email',
         pathMatch: 'full',
-      }
-    ]
+      },
+    ],
   },
 ];
 

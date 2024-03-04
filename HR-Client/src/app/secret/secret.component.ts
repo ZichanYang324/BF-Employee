@@ -1,4 +1,3 @@
-
 import { AuthenticationService } from './../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -9,10 +8,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./secret.component.css'],
 })
 export class SecretComponent implements OnInit {
-  
-  constructor(
-    private authenticationService: AuthenticationService,
-  ) {}
+  constructor(private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {}
 

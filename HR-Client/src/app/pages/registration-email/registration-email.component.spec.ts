@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RegistrationEmailComponent } from './registration-email.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('RegistrationEmailComponent', () => {
   let component: RegistrationEmailComponent;
@@ -8,9 +7,8 @@ describe('RegistrationEmailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RegistrationEmailComponent ]
-    })
-    .compileComponents();
+      declarations: [RegistrationEmailComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RegistrationEmailComponent);
     component = fixture.componentInstance;

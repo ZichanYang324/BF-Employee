@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RegistrationHistoryServiceService } from 'src/app/services/registration-history-service.service';
@@ -7,11 +7,9 @@ import { RegistrationHistoryServiceService } from 'src/app/services/registration
 @Component({
   selector: 'app-registration-email',
   templateUrl: './registration-email.component.html',
-  styleUrls: ['./registration-email.component.css']
+  styleUrls: ['./registration-email.component.css'],
 })
-
 export class RegistrationEmailComponent implements OnInit {
-
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
