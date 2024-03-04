@@ -7,6 +7,25 @@ import UserModel from "../models/User.model.js";
 // number of reports per page
 const MAX_ITEM_PERPAGE = 3;
 
+export const getProfileIdFromUid = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const user = await UserModel.findById(userId).exec();
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+    if (!user.profile) {
+      return res.status(404).json("Profile has not created");
+    }
+    return res.status(200).json(user.profile);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json(`error when fetching user profile data - ${error}`);
+  }
+};
+
 /**
  * Get housing details for current user
  * @param {profileId}

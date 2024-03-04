@@ -13,7 +13,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route
+          path="/"
+          element={<Login />}
+        />
         <Route
           path="dashboard"
           element={
@@ -22,11 +25,27 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="register" element={<Register />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="visa-status" element={<VisaStatusManagement />} />
-        <Route path="info" element={<Info />} />
-        <Route path="onboard" element={<Onboard />} />
+        <Route
+          path="register"
+          element={<Register />}
+        />
+        <Route
+          path="dashboard"
+          element={<Dashboard />}
+        />
+        <Route
+          path="visa-status"
+          element={<VisaStatusManagement />}
+        />
+        <Route
+          path="info"
+          element={<Info />}
+        />
+        <Route
+          path="onboard"
+          element={<Onboard />}
+        />
+
         <Route
           path="housing"
           element={
@@ -35,6 +54,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="report"
           element={

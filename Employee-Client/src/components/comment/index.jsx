@@ -51,23 +51,41 @@ export const Comment = (props) => {
   return (
     <>
       {comment && comment?.length === 0 && (
-        <Typography sx={{ fontSize: 15 }} gutterBottom>
+        <Typography
+          sx={{ fontSize: 15 }}
+          gutterBottom
+        >
           No comment available
         </Typography>
       )}
       {comment && comment.length !== 0 && (
-        <div className="container" style={{ marginTop: "-3px" }}>
+        <div
+          className="container"
+          style={{ marginTop: "-3px" }}
+        >
           <div style={{ marginBottom: "5px" }}>Comments - Scoll to see</div>
           {comment.map((el) => {
             return (
-              <Card key={el._id} sx={{ padding: "2rem" }}>
-                <Typography sx={{ fontSize: 15 }} gutterBottom>
+              <Card
+                key={el._id}
+                sx={{ padding: "2rem" }}
+              >
+                <Typography
+                  sx={{ fontSize: 15 }}
+                  gutterBottom
+                >
                   {`Description: ${el.description}`}
                 </Typography>
-                <Typography sx={{ fontSize: 15 }} gutterBottom>
+                <Typography
+                  sx={{ fontSize: 15 }}
+                  gutterBottom
+                >
                   {`CreatedBy: ${el.createdby.firstName}`}
                 </Typography>
-                <Typography sx={{ fontSize: 15 }} gutterBottom>
+                <Typography
+                  sx={{ fontSize: 15 }}
+                  gutterBottom
+                >
                   {`TimeStamp: ${el.timestamp}`}
                 </Typography>
 

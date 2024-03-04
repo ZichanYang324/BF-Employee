@@ -1,6 +1,5 @@
 import { createComment } from "../../features/comment/commentSlice.js";
 import { getCurrentEmployeeReport } from "../../features/report/reportSlice";
-import { housingConstants } from "../../utils/housingConstants.js";
 import { Comment } from "../comment/index.jsx";
 import ResponsiveAppBar from "../navbar";
 import {
@@ -17,8 +16,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ProfileIdContext from "../../utils/ProfileIdContext.jsx";
 
 export const Report = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ export const Report = () => {
   const status = useSelector((state) => state.report.status);
   const [open, setOpen] = useState(false);
   const [reportId, setReportId] = useState(null);
-  const profileId = housingConstants.profileId;
+  const { profileId, isLoading } = useContext(ProfileIdContext);
   const handleClickOpen = (reportId) => {
     setOpen(true);
     setReportId(reportId);
@@ -43,10 +43,10 @@ export const Report = () => {
   };
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status === "idle" && !isLoading && profileId) {
       dispatch(getCurrentEmployeeReport(profileId));
     }
-  }, [dispatch, status]);
+  }, [dispatch, status, isLoading]);
 
   return (
     <>
