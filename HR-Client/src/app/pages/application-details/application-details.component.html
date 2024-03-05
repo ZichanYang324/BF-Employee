@@ -21,8 +21,7 @@
   <section>
     <img
       class="profile-pic"
-      *ngIf="profile?.profilePic"
-      [src]="profile?.profilePic"
+      [src]="profile?.profilePic?.url"
       alt="Profile picture"
     />
   </section>

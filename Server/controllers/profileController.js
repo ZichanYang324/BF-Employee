@@ -44,6 +44,7 @@ export const createProfile = asyncHandler(async (req, res) => {
     gender: gender,
     cellPhone: cellPhone,
     workPhone: workPhone,
+    email: user.email,
     address: address,
     car: car,
     SSN: SSN,

@@ -36,6 +36,7 @@ export class ApplicationDetailsComponent implements OnInit {
         .getApplicationById(id)
         .subscribe((data) => {
           this.profile = data;
+          console.log('profile', this.profile);
         });
     });
   }
