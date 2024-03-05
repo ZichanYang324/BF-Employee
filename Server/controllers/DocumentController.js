@@ -30,8 +30,8 @@ async function uploadDocumentbc(req, res) {
   console.log("In unploadDocument function backend:");
   console.log("userId", userId);
   console.log("Received documentType:", documentType);
-  console.log("Received file:", req.file);
-  if (!req.file) {
+  console.log("Received file:", req.files);
+  if (!req.files) {
     return res
       .status(400)
       .json({ message: "No file uploaded or file is missing." });
@@ -43,7 +43,8 @@ async function uploadDocumentbc(req, res) {
   }
 
   try {
-    const s3Response = await uploadFileToS3(req.file);
+    const thisFile = req.files[0]
+    const s3Response = await uploadFileToS3(thisFile);
     const newDocument = await Document.create({
       owner: userId,
       type: documentType,

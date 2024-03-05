@@ -8,7 +8,7 @@ import checkHRRole from "../middlewares/hrRoleMiddleware.js";
 import express from "express";
 import multer from "multer";
 
-const upload = multer({ storage: multer.memoryStorage() });
+// const upload = multer({ storage: multer.memoryStorage() });
 
 const router = express.Router();
 
@@ -17,12 +17,6 @@ const router = express.Router();
 router.post(
   "/upload",
   authenticate,
-  upload.single("file"),
-  (req, res, next) => {
-    console.log("Multer Debug - req.file:", req.file);
-    console.log("Multer Debug - req.body:", req.body);
-    next();
-  },
   uploadDocumentbc,
 );
 // update document status (for HR)
