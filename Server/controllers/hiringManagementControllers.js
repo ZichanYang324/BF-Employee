@@ -24,6 +24,17 @@ export const sendLink = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Email sent successfully!" });
 });
 
+export const setLinkUsed = asyncHandler(async (req, res) => {
+  const { link } = req.body;
+  const registration = await RegistrationModel.findOne({ link });
+  if (!registration) {
+    return res.status(404).json("Registration not found");
+  }
+  registration.status = "Used";
+  await registration.save();
+  return res.status(200).json({ message: "Registration link used successfully!" });
+});
+
 export const getHistory = asyncHandler(async (_req, res) => {
   const history = await RegistrationModel.find({});
   res.status(200).json(history);

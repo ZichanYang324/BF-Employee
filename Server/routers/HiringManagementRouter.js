@@ -4,6 +4,7 @@ import { getApplicationByStatus } from "../controllers/hiringManagementControlle
 import { getApplicationById } from "../controllers/hiringManagementControllers.js";
 import { updateApplicationStatus } from "../controllers/hiringManagementControllers.js";
 import { addFeedback } from "../controllers/hiringManagementControllers.js";
+import { setLinkUsed } from "../controllers/hiringManagementControllers.js";
 import express from "express";
 import { protect } from "../middlewares/authMiddleware.js";
 import checkHRRole from "../middlewares/hrRoleMiddleware.js";
@@ -20,5 +21,6 @@ hiringManagementRouter
   .route("/updateApplicationStatus")
   .put(protect, checkHRRole, updateApplicationStatus);
 hiringManagementRouter.route("/addFeedback").put(protect, checkHRRole, addFeedback);
+hiringManagementRouter.route("/setLinkUsed").put(setLinkUsed);
 
 export default hiringManagementRouter;

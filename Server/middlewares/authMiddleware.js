@@ -10,7 +10,6 @@ const protect = asyncHandler(async (req, res, next) => {
 
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];
-    console.log("token", token);
   }
 
   if (token) {
@@ -18,7 +17,6 @@ const protect = asyncHandler(async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       req.user = await User.findById(decoded.userId).select("-password");
-      console.log("req.user", req.user);
       next();
     } catch (error) {
       console.error(error);
