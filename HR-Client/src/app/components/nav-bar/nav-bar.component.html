@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" class="flex justify-between !px-8 h-16">
+  <a class="cursor-pointer mr-6" routerLink="/">
+    Home
+  </a>
+  <div class="flex justify-between gap-2">
+    <button mat-button routerLink="/employee-profiles">
+      Employee Profiles
+    </button>
+    <button mat-button routerLink="/visastatus">
+      Visa Status Management
+    </button>
+    <button mat-button routerLink="/hiring-management/registration-email">
+      Hiring Management
+    </button>
+    <button mat-button routerLink="/housing">
+      Housing Management
+    </button>
+    <button mat-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

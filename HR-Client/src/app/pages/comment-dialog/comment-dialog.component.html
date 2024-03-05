@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Add/Edit a comment</h2>
+<mat-dialog-content class="mat-typography">
+    <form #commentForm="ngForm" class="form-container">
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <input matInput [(ngModel)]="commentData.description" name="description" required>
+            <mat-error *ngIf="commentForm.controls['description']?.errors?.['required']">
+                Description is required.
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="commentData" [disabled]="commentForm.invalid">Add</button>
+</mat-dialog-actions>

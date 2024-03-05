@@ -56,6 +56,8 @@ const constants = {
   immigrationStatus: ["CITIZEN", "PR", "VISA"],
   applicationStatus: ["NOT_STARTED", "PENDING", "REJECTED", "APPROVED"],
   documentStatus: ["PENDING", "APPROVED", "REJECTED"],
+  facilityReportStatus: ["Open", "In Progress", "Closed"],
+  registrationLinkStatus: ["Used", "Not Used"],
 };
 
 export default constants;

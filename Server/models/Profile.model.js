@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import constants from "../config/constants.js";
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 const refType = Schema.Types.ObjectId;
@@ -22,6 +22,7 @@ const ProfileSchema = new Schema({
   gender: {
     type: String,
     enum: constants.gender,
+    required: true,
   },
   profilePic: {
     type: refType,
@@ -33,6 +34,10 @@ const ProfileSchema = new Schema({
   },
   workPhone: {
     type: String,
+  },
+  email: {
+    type: String,
+    // required: true,
   },
   address: {
     street: {
@@ -59,12 +64,15 @@ const ProfileSchema = new Schema({
   car: {
     make: {
       type: String,
+      default: "",
     },
     model: {
       type: String,
+      default: "",
     },
     color: {
       type: String,
+      default: "",
     },
   },
   SSN: {
@@ -83,25 +91,19 @@ const ProfileSchema = new Schema({
   workAuth: {
     title: {
       type: String,
-      required: true,
+      default: "",
     },
     startDate: {
       type: Date,
-      required: true,
     },
     endDate: {
       type: Date,
-      required: true,
     },
   },
   driversLicense: {
     number: {
       type: String,
-      required: true,
-    },
-    state: {
-      type: String,
-      enum: constants.state,
+      default: "",
     },
     expiration: {
       type: Date,
@@ -164,8 +166,10 @@ const ProfileSchema = new Schema({
     },
   ],
   OPTReceipt: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
     status: {
       type: String,
       enum: constants.documentStatus,
@@ -176,8 +180,10 @@ const ProfileSchema = new Schema({
     },
   },
   OPTEAD: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
     status: {
       type: String,
       enum: constants.documentStatus,
@@ -188,8 +194,10 @@ const ProfileSchema = new Schema({
     },
   },
   I983: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
     status: {
       type: String,
       enum: constants.documentStatus,
@@ -200,8 +208,10 @@ const ProfileSchema = new Schema({
     },
   },
   I20: {
-    type: refType,
-    ref: "Document",
+    document: {
+      type: refType,
+      ref: "Document",
+    },
     status: {
       type: String,
       enum: constants.documentStatus,
