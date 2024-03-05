@@ -126,11 +126,12 @@ async function getAllDocuments(req, res) {
         }
       })
       .exec();
+    console.log('documents',documents)
 
     if (!documents.length) {
       return res.status(404).json({ message: "No documents found." });
     }
-    const transformedDocuments = documents.map(doc => {
+    const transformedDocuments = documents.filter(doc=>!!doc.owner).map(doc => {
       const docObj = doc.toObject();
       if (docObj.owner && docObj.owner.profile) {
         docObj.owner.fullName = `${docObj.owner.profile.firstName}${docObj.owner.profile.middleName ? ' ' + docObj.owner.profile.middleName : ''} ${docObj.owner.profile.lastName}`;
