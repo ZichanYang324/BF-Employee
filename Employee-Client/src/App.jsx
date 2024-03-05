@@ -9,7 +9,7 @@ import Onboarding from "./pages/onboarding";
 import ProtectedRoute from "./pages/protectedRoute";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import appicationStatusLoader from "./loaders/applicationStatusLoader.js";
+import appicationStatusLoader from "./loaders/onboardLoader.js";
 
 
 const ProtectedRoutes = () => {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Onboarding />,
-        loader: appicationStatusLoader,
+        loader: appicationStatusLoader
       },
       {
         path: "visa-status",

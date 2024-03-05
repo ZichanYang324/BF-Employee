@@ -11,7 +11,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <ProfileIdProvider>
         <App />
-        <Toaster />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 2000,
+            closeButton: true,
+          }}
+        />
       </ProfileIdProvider>
     </Provider>
   </React.StrictMode>,

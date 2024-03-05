@@ -227,6 +227,9 @@ const ProfileSchema = new Schema({
     default: "NOT_STARTED",
     required: true,
   },
+  feedback: {
+    type: String,
+  },
 });
 
 export default mongoose.model("Profile", ProfileSchema);

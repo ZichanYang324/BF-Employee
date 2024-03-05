@@ -14,8 +14,8 @@ const logRequestData = (req, res, next) => {
   next();
 };
 
-profileRouter.post("/createProfile", logRequestData, createProfile);
-profileRouter.post("/getProfile", getProfile);
+profileRouter.post("/createProfile", protect, createProfile);
+profileRouter.post("/getProfile", protect, getProfile);
 profileRouter.get("/getProfileStatus", protect, getProfileStatus);
 
 export default profileRouter;

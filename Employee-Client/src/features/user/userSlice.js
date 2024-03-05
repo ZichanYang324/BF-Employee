@@ -12,7 +12,7 @@ import {
 } from "./userThunk";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 const initialState = {
   isLoading: false,
@@ -54,7 +54,7 @@ const userSlice = createSlice({
     logoutUser: (state, { payload }) => {
       state.user = null;
       state.isSidebarOpen = false;
-      delete customFetch.defaults.headers.common.Authorization;
+      // delete customFetch.defaults.headers.common.Authorization;
       removeUserFromLocalStorage();
       removeCookies();
       if (payload) {

@@ -12,12 +12,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from '../../features/user/userSlice';
 import { useNavigate } from "react-router-dom";
 import useInput from '../../utils/use-input';
 import { getMsgErrorValidPass, isNotEmpty, validPass } from '../../utils/checkInputReg';
 import CustomInput from '../Input';
+import customFetch from '../../utils/customFetch';
 
 
 const defaultTheme = createTheme();
@@ -27,6 +28,7 @@ export function Login() {
     const passwordInput = useInput(validPass);
     const dispatch = useDispatch();
     const [submitIsValid, setSubmitIsValid] = useState(false);
+    const { user } = useSelector((store) => store.user);
     const navigate = useNavigate();
 
     const usernameInputErrorMsg = usernameInput.hasError
@@ -40,7 +42,6 @@ export function Login() {
     const handleSubmit = (event) => {
         event.preventDefault();
         dispatch(loginUser({ username: usernameInput.value, password: passwordInput.value }));
-        navigate('/')
     };
 
     const checkPgae = () => {
@@ -51,25 +52,26 @@ export function Login() {
         }
     }
 
-    // const checkStatus = async(userId) =>{
-    //     const {data:resp} = await customFetch.get(`/profile/getProfileStatus?userId=${userId}`)
-    //     console.log('resp',resp)
-    //     if(resp.status.toLowerCase() === 'approved'){
-    //       navigate('/info')
-    //     }else(
-    //         navigate('/')
-    //     )
-    //   }
+    const checkStatus = async(userId) =>{
+        const {data:resp} = await customFetch.get(`/profile/getProfileStatus?userId=${userId}`)
+        console.log('resp',resp)
+        if(resp.status.toLowerCase() === 'approved'){
+          //go to home page
+          navigate('/info')
+        }else(
+            navigate('/')
+        )
+      }
 
     useEffect(() => {
         checkPgae()
     }, [usernameInput.isValid, passwordInput.isValid])
 
-    // useEffect(() => {
-    //     if (user) {
-    //         checkStatus(user._id)
-    //     }
-    // }, [user]);
+    useEffect(() => {
+        if (user) {
+            checkStatus(user._id)
+        }
+    }, [user]);
 
     return (
         <ThemeProvider theme={defaultTheme}>

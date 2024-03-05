@@ -27,7 +27,7 @@ export const createProfile = asyncHandler(async (req, res) => {
   //     message: "Work authorization is required",
   //   });
   // }
-  const token = req.headers["Authorization"].split(" ")[1];
+  const token = req.headers.authorization.split(" ")[1];
   const tokenPayload = JSON.parse(
     Buffer.from(token.split(".")[1], "base64").toString(),
   );

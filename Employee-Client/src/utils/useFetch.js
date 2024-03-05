@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import Cookies from "js-cookie";
 
 /**
  * @typedef {Object} UseFetchOptions
@@ -45,6 +46,7 @@ function useFetch(url, options) {
         headers: {
           "Content-Type":
             optionsRef.current?.headers["Content-Type"] || "application/json",
+          "Authorization": `Bearer ${Cookies.get("token")}`,
           ...optionsRef.current?.headers,
         },
         body: optionsRef.current?.body
@@ -54,7 +56,6 @@ function useFetch(url, options) {
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
-        // TODO: response according to status code
       }
 
       const responseData = await response.json();
