@@ -34,28 +34,29 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>Number of Beds</mat-label>
-            <input matInput type="number" [(ngModel)]="houseData.facilityDetails.beds" name="beds" required>
+            <input matInput min=0 type="number" [(ngModel)]="houseData.facilityDetails.beds" name="beds" required>
             <mat-error *ngIf="houseForm.controls['beds']?.errors?.['required']">
                 Number of Beds is required.
             </mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Number of Mattresses</mat-label>
-            <input matInput type="number" [(ngModel)]="houseData.facilityDetails.mattresses" name="mattresses" required>
+            <input matInput min=0 type="number" [(ngModel)]="houseData.facilityDetails.mattresses" name="mattresses"
+                required>
             <mat-error *ngIf="houseForm.controls['mattresses']?.errors?.['required']">
                 Number of Mattresses is required.
             </mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Number of Tables</mat-label>
-            <input matInput type="number" [(ngModel)]="houseData.facilityDetails.tables" name="tables" required>
+            <input matInput min=0 type="number" [(ngModel)]="houseData.facilityDetails.tables" name="tables" required>
             <mat-error *ngIf="houseForm.controls['tables']?.errors?.['required']">
                 Number of Tables is required.
             </mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Number of Chairs</mat-label>
-            <input matInput type="number" [(ngModel)]="houseData.facilityDetails.chairs" name="chairs" required>
+            <input matInput min=0 type="number" [(ngModel)]="houseData.facilityDetails.chairs" name="chairs" required>
             <mat-error *ngIf="houseForm.controls['chairs']?.errors?.['required']">
                 Number of Chairs is required.
             </mat-error>
