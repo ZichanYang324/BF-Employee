@@ -9,10 +9,12 @@ import {
 } from "../controllers/facilityReportControllers.js";
 import {
   addHouseForHR,
+  assignHousing,
   deleteHouseForHR,
   getAllBasicHouseInfoForHR,
   getHouseSummaryForHR,
   getHousingDetailsForEmployee,
+  getProfileIdFromUid,
 } from "../controllers/housingControllers.js";
 import express from "express";
 
@@ -25,10 +27,12 @@ const commentRouter = express.Router();
 // housing info router /housing
 housingRouter
   .post("/", getHousingDetailsForEmployee)
+  .post("/getProfileId", getProfileIdFromUid)
   .post("/add", addHouseForHR)
-  .get("/getAllBasicHouses", getAllBasicHouseInfoForHR)
-  .get("/getHouseSummary", getHouseSummaryForHR)
-  .delete("/delete", deleteHouseForHR);
+  .post("/getAllBasicHouses", getAllBasicHouseInfoForHR)
+  .post("/getHouseSummary", getHouseSummaryForHR)
+  .delete("/delete", deleteHouseForHR)
+  .post("/assign", assignHousing);
 // facility report router /report
 reportRouter
   .post("/", getReportForEmployee)

@@ -21,8 +21,10 @@
   <section>
     <img
       class="profile-pic"
-      *ngIf="profile?.profilePic"
-      [src]="profile?.profilePic"
+      [src]="
+        profile?.profilePic ??
+        'http://localhost:3100/public/default-avatar.jpeg'
+      "
       alt="Profile picture"
     />
   </section>

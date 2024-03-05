@@ -1,6 +1,5 @@
 import { fetchHousing } from "../../features/housing/housingSlice";
 import { createReport } from "../../features/report/reportSlice";
-import { housingConstants } from "../../utils/housingConstants";
 import "./style.css";
 import GroupIcon from "@mui/icons-material/Group";
 import {
@@ -17,11 +16,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import ProfileIdContext from "../../utils/ProfileIdContext.jsx";
 export const Housing = () => {
+  const { profileId, isLoading } = useContext(ProfileIdContext);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -39,10 +39,10 @@ export const Housing = () => {
     setOpen(false);
   };
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchHousing(housingConstants.profileId));
+    if (!isLoading && profileId) {
+      dispatch(fetchHousing(profileId));
     }
-  }, [dispatch, status]);
+  }, [profileId, isLoading]);
 
   return (
     <>
@@ -52,14 +52,20 @@ export const Housing = () => {
       </Box>
 
       <Box className="cardContainer">
-        <Card sx={{ width: "80%", height: "16rem" }} variant="outlined">
+        <Card
+          sx={{ width: "80%", height: "16rem" }}
+          variant="outlined"
+        >
           <CardContent>
             <Box
               display={"flex"}
               justifyContent={"space-between"}
               alignItems={"baseline"}
             >
-              <Typography sx={{ fontSize: 20 }} gutterBottom>
+              <Typography
+                sx={{ fontSize: 20 }}
+                gutterBottom
+              >
                 Address: {housing?.address}
               </Typography>
               <Box sx={{ display: "flex" }}>
@@ -95,10 +101,16 @@ export const Housing = () => {
               </Typography>
             </Box>
           </CardContent>
-          <Box padding={"0px 10%"} display={"flex"}>
+          <Box
+            padding={"0px 10%"}
+            display={"flex"}
+          >
             {housing?.assignedEmployees.map((el, idx) => {
               return (
-                <Card key={idx} sx={{ padding: "10px", margin: "5px" }}>
+                <Card
+                  key={idx}
+                  sx={{ padding: "10px", margin: "5px" }}
+                >
                   <Typography sx={{ fontSize: 15 }}>
                     {`Name:${el.fullName} - Phone:${el.phone}`}
                   </Typography>
@@ -118,7 +130,7 @@ export const Housing = () => {
               const formJson = Object.fromEntries(formData.entries());
               await dispatch(
                 createReport({
-                  profileId: housingConstants.profileId,
+                  profileId: profileId,
                   houseID: housing?.houseId,
                   ...formJson,
                 }),

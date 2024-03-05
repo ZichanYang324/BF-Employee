@@ -3,11 +3,14 @@ import { ApplicationDetailsComponent } from './pages/application-details/applica
 import { ApplicationReviewComponent } from './pages/application-review/application-review.component';
 import { EmployeeProfilesComponent } from './pages/employee-profiles/employee-profiles.component';
 import { HiringManagementComponent } from './pages/hiring-management/hiring-management.component';
+import { HouseSummaryComponent } from './pages/house-summary/house-summary.component';
+import { HousingComponent } from './pages/housing/housing.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegistrationEmailComponent } from './pages/registration-email/registration-email.component';
 import { SecretComponent } from './secret/secret.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { VisaStatusManagementComponent } from './components/visa-status-management/visa-status-management.component';
 
 const routes: Routes = [
   {
@@ -23,6 +26,20 @@ const routes: Routes = [
     path: 'employee-profiles',
     component: EmployeeProfilesComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'visastatus',
+    component: VisaStatusManagementComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'housing',
+    component: HousingComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'house-summary/:houseID',
+    component: HouseSummaryComponent,
   },
   {
     path: 'hiring-management',

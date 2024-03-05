@@ -18,22 +18,18 @@ export class AuthenticationService {
   ) {}
 
   public login(username: string, password: string): void {
-    this.authenticationClient
-      .login(username, password)
-      .subscribe(
-        {
-          next: ({ user, token, expiresIn }) => {
-            localStorage.setItem(this.tokenKey, token);
-            localStorage.setItem(this.expiresInKey, expiresIn);
-            localStorage.setItem(this.userKey, JSON.stringify(user));
-            this.toastr.success('Signed in');
-            this.router.navigate(['/']);
-          },
-          error: (err) => {
-            this.toastr.error(err);
-          },
-        }
-      );
+    this.authenticationClient.login(username, password).subscribe({
+      next: ({ user, token, expiresIn }) => {
+        localStorage.setItem(this.tokenKey, token);
+        localStorage.setItem(this.expiresInKey, expiresIn);
+        localStorage.setItem(this.userKey, JSON.stringify(user));
+        this.toastr.success('Signed in');
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.toastr.error(err);
+      },
+    });
   }
 
   // public register(username: string, email: string, password: string): void {
