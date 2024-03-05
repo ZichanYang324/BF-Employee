@@ -15,11 +15,14 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
+const DEFAULT_PIC = "http://localhost:3100/public/default-avatar.jpeg";
+
 function ImageUploader({ value, sx, label, inputProps }) {
-  const displayUrl = useMemo(
-    () => (typeof value === "string" ? value : URL.createObjectURL(value[0])),
-    [value],
-  );
+  const displayUrl = useMemo(() => {
+    if (!value) return DEFAULT_PIC;
+    if (value.length === 0) return DEFAULT_PIC;
+    return typeof value === "string" ? value : URL.createObjectURL(value[0]);
+  }, [value]);
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 4, ...sx }}>
       <img
@@ -44,7 +47,10 @@ function ImageUploader({ value, sx, label, inputProps }) {
           role={undefined}
         >
           Upload
-          <VisuallyHiddenInput type="file" {...inputProps} />
+          <VisuallyHiddenInput
+            type="file"
+            {...inputProps}
+          />
         </Button>
       </Box>
     </Box>
