@@ -88,7 +88,7 @@ export const createProfile = asyncHandler(async (req, res) => {
       URL: s3Response.Location,
       S3Bucket: s3Response.Bucket,
       S3Name: s3Response.Key,
-      type: "Opt Receipt",
+      type: "OPT Receipt",
       owner: userId,
     });
     newProfile.OPTReceipt = newOptReceipt._id;

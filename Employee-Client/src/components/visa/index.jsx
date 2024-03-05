@@ -49,7 +49,7 @@ const VisaStatusManagement = () => {
         Visa Status Management
       </Typography>
       {status === 'loading' && <CircularProgress />}
-      {status === 'failed' && <Typography color="error">Error: {error}</Typography>}
+      {/* {status === 'failed' && <Typography color="error">Error: {error}</Typography>} */}
       {documents.length === 0 && status === 'succeeded' && <Typography>No documents found. Start by uploading your first document.</Typography>}
       
       <FormControl fullWidth sx={{ my: 2 }}>

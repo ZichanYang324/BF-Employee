@@ -100,7 +100,7 @@ async function getMyDocuments(req, res) {
 
   try {
     const documents = (await Document.find({ owner: userId })).filter(
-      (item) => item.type !== "Profile Picture",
+      (item) => item.type !== "Profile Picture" && item.type !== "Driver License",
     );
 
     if (!documents.length) {
