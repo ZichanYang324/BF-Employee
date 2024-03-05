@@ -69,7 +69,6 @@ export const createProfile = asyncHandler(async (req, res) => {
   if (profilePicFile) {
     const file = profilePicFile;
     const s3Response = await uploadFileToS3(file.buffer, file.originalname);
-    console.log("s3Response", s3Response);
     const newProfilePic = await Document.create({
       URL: s3Response.Location,
       S3Bucket: s3Response.Bucket,
