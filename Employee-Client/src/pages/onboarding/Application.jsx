@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { stateNames, genders, workAuthTypes } from '../../utils/constants';
 import DEFAULT_PIC from '../../assets/default-avatar.jpeg';
 import { customFetchForForm } from '../../utils/customFetch';
+import { toast } from 'sonner';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -19,12 +20,12 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const Application = () => {
+const Application = ({pending, value}) => {
 
   const {
     register,
     handleSubmit,
-    watch
+    watch,
   } = useForm();
 
   const {user} = useSelector((store)=>store.user)
@@ -98,8 +99,11 @@ const Application = () => {
     formData.append('data',JSON.stringify(jsonData))
 
     const res = await customFetchForForm.post('/profile/createProfile', formData);
-    console.log(res);
-    // TODO: jump to pending page or show error
+    if ( res.ok ) {
+      toast.success('Application submitted.');
+    } else {
+      toast.error('An error occurred, please try again.');
+    }
   };
 
   return (
@@ -110,8 +114,14 @@ const Application = () => {
         maxWidth: '1000px',
         mx: 'auto',
         py: '16px',
-    }}>
+      }}>
       <Typography variant='h3' gutterBottom>Onboarding Application</Typography>
+      { pending ? 
+        <Typography variant='h5' sx={{color: 'red'}}>
+          Please wait for the HR to review your application.
+        </Typography> 
+        : null 
+      }
       <form style={{ 
         display: 'flex', 
         flexDirection: 'column', 
@@ -130,6 +140,7 @@ const Application = () => {
             required
             sx={{ mr: 2 }}
             {...register('firstName')}
+            disabled={pending}
           />
           <TextField
             label="Last Name"
@@ -137,6 +148,7 @@ const Application = () => {
             fullWidth
             required
             {...register('lastName')}
+            disabled={pending}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -146,12 +158,14 @@ const Application = () => {
             sx={{ mr: 2 }}
             fullWidth
             {...register('middleName')}
+            disabled={pending}
           />
           <TextField
             label="Preferred Name"
             variant="outlined"
             fullWidth
             {...register('preferredName')}
+            disabled={pending}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex' }}>
@@ -162,6 +176,7 @@ const Application = () => {
             fullWidth
             sx={{ mr: 2 }}
             {...register('gender')}
+            disabled={pending}
           >
             {genders.map((gender) => (
               <MenuItem 
@@ -182,6 +197,7 @@ const Application = () => {
               shrink: true,
             }}
             {...register('dateOfBirth')}
+            disabled={pending}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -192,12 +208,14 @@ const Application = () => {
             required
             sx={{ mr: 2 }}
             {...register('cellPhone')}
+            disabled={pending}
           />
           <TextField
             label="Work Phone"
             variant="outlined"
             fullWidth
             {...register('workPhone')}
+            disabled={pending}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -208,6 +226,7 @@ const Application = () => {
             fullWidth
             sx={{ mr: 2 }}
             {...register('SSN')}
+            disabled={pending}
           />
           <TextField
             label="Email"
@@ -237,11 +256,13 @@ const Application = () => {
             sx={{mt: 2}}
             startIcon={<CloudUploadIcon />}
             role={undefined}
+            disabled={pending}
           >
             Upload
             <VisuallyHiddenInput
               type="file"
               {...register('profilePic')}
+              disabled={pending}
             />
           </Button>
         </Box>
@@ -252,12 +273,14 @@ const Application = () => {
           required
           sx={{mt: 2}}
           {...register('streetAddress')}
+          disabled={pending}
         />
         <TextField
           label="Building / Apartment #"
           variant="outlined"
           sx={{mt: 2}}
           {...register('buildingNumber')}
+          disabled={pending}
         />
         <TextField
           label="City"
@@ -265,6 +288,7 @@ const Application = () => {
           required
           sx={{mt: 2}}
           {...register('city')}
+          disabled={pending}
         />
         <Box sx={{ mt: 2, display: 'flex'}}>
           <TextField
@@ -274,6 +298,7 @@ const Application = () => {
             fullWidth
             sx={{ mr: 2 }}
             {...register('state')}
+            disabled={pending}
           >
             {stateNames.map((state) => (
               <MenuItem key={state.value} value={state.value}>
@@ -287,6 +312,7 @@ const Application = () => {
             required
             fullWidth
             {...register('zipCode')}
+            disabled={pending}
           />
         </Box>
         <Typography variant='h6' sx={{mt:4}}>
@@ -302,6 +328,7 @@ const Application = () => {
           defaultValue={true}
           sx={{ width: '80px', mt: 2 }}
           {...register('showWorkAuth')}
+          disabled={pending}
         >
           <MenuItem value={false}>Yes</MenuItem>
           <MenuItem value={true}>No</MenuItem>
@@ -318,6 +345,7 @@ const Application = () => {
               fullWidth
               sx={{mt: 2}}
               {...register('authType')}
+              disabled={pending}
             >
               {workAuthTypes.map((workAuthType) => (
                 <MenuItem key={workAuthType.value} value={workAuthType.value}>
@@ -337,6 +365,7 @@ const Application = () => {
                 }}
                 sx={{ mr: 2 }}
                 {...register('startDate')}
+                disabled={pending}
               />
               <TextField
                 label="End Date"
@@ -348,6 +377,7 @@ const Application = () => {
                   shrink: true,
                 }}
                 {...register('endDate')}
+                disabled={pending}
               />
             </Box>
             {authType === 'F1' && (
@@ -398,6 +428,7 @@ const Application = () => {
             fullWidth
             sx={{ mt: 2}}
             {...register('identity')}
+            disabled={pending}
           >
             <MenuItem value="PR">
               Green Card
@@ -420,6 +451,7 @@ const Application = () => {
             fullWidth
             sx={{ width: '80px' }}
             {...register('hasDriverlicense')}
+            disabled={pending}
           >
             <MenuItem value={true}>Yes</MenuItem>
             <MenuItem value={false}>No</MenuItem>
@@ -433,6 +465,7 @@ const Application = () => {
                 fullWidth
                 sx={{mr: 2}}
                 {...register('licenseNumber')}
+                disabled={pending}
               />
               <TextField
                 label="Expiration Date"
@@ -443,6 +476,7 @@ const Application = () => {
                   shrink: true,
                 }}
                 {...register('licenseExpirationDate')}
+                disabled={pending}
               />
             </Box>
             <Typography variant='body2' sx={{my:2}}>
@@ -454,11 +488,13 @@ const Application = () => {
               sx={{width: 120}}
               startIcon={<CloudUploadIcon />}
               role={undefined}
+              disabled={pending}
             >
               Upload
               <VisuallyHiddenInput
                 type="file"
                 {...register('driverlicense')}
+                disabled={pending}
               />
             </Button>
             {driverlicense && (
@@ -466,6 +502,7 @@ const Application = () => {
                 href={URL.createObjectURL(driverlicense)} 
                 target="_blank"
                 style={{ marginLeft: 24}}
+                disabled={pending}
               >
                 {driverlicense.name}
               </a>
@@ -478,18 +515,21 @@ const Application = () => {
                 label="Make"
                 variant="outlined"
                 {...register('carMake')}
+                disabled={pending}
               />
               <TextField
                 label="Model"
                 variant="outlined"
                 sx={{mt: 2}}
                 {...register('carModel')}
+                disabled={pending}
               />
               <TextField
                 label="Color"
                 variant="outlined"
                 sx={{mt: 2}}
                 {...register('carColor')}
+                disabled={pending}
               />
             </Box>
             
@@ -511,6 +551,7 @@ const Application = () => {
             fullWidth
             sx={{mr: 2}}
             {...register('referenceFirstName')}
+            disabled={pending}
           />
           <TextField
             label="Middle Name"
@@ -518,6 +559,7 @@ const Application = () => {
             fullWidth
             sx={{mr: 2}}
             {...register('referenceMiddleName')}
+            disabled={pending}
           />
           <TextField
             label="Last Name"
@@ -525,6 +567,7 @@ const Application = () => {
             required
             fullWidth
             {...register('referenceLastName')}
+            disabled={pending}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -535,6 +578,7 @@ const Application = () => {
             required
             sx={{mr: 2}}
             {...register('referencePhone')}
+            disabled={pending}
           />
           <TextField
             label="Email"
@@ -542,6 +586,7 @@ const Application = () => {
             required
             fullWidth
             {...register('referenceEmail')}
+            disabled={pending}
           />
         </Box>
         <TextField
@@ -551,6 +596,7 @@ const Application = () => {
           required
           sx={{mt: 2}}
           {...register('referenceRelationship')}
+          disabled={pending}
         />
         <Typography variant='h6' sx={{mt:4, alignSelf: 'start'}}>
           Emergency Contacts
@@ -563,6 +609,7 @@ const Application = () => {
             fullWidth
             sx={{mr: 2}}
             {...register('emergencyContactFirstName')}
+            disabled={pending}
           />
           <TextField
             label="Middle Name"
@@ -570,6 +617,7 @@ const Application = () => {
             fullWidth
             sx={{mr: 2}}
             {...register('emergencyContactMiddleName')}
+            disabled={pending}
           />
           <TextField
             label="Last Name"
@@ -577,6 +625,7 @@ const Application = () => {
             required
             fullWidth
             {...register('emergencyContactLastName')}
+            disabled={pending}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -587,6 +636,7 @@ const Application = () => {
             required
             sx={{mr: 2}}
             {...register('emergencyContactPhone')}
+            disabled={pending}
           />
           <TextField
             label="Email"
@@ -594,6 +644,7 @@ const Application = () => {
             required
             fullWidth
             {...register('emergencyContactEmail')}
+            disabled={pending}
           />
         </Box>
         <TextField
@@ -603,6 +654,7 @@ const Application = () => {
           required
           sx={{mt: 2}}
           {...register('emergencyContactRelationship')}
+          disabled={pending}
         />
         { (optReceipt || driverlicense) && (
           <>
@@ -630,15 +682,17 @@ const Application = () => {
             </Box>
           </>
         )}
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{my: 8}}
-          type="submit"
-        >
-          Submit
-        </Button>
+        { !pending &&
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{my: 8}}
+            type="submit"
+          >
+            Submit
+          </Button>
+        }
       </form>
     </Box>
   )

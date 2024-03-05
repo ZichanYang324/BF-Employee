@@ -43,7 +43,8 @@ function useFetch(url, options) {
       const response = await fetch(`${BASE_URL}${url}`, {
         method: optionsRef.current?.method || "GET",
         headers: {
-          "Content-Type": optionsRef.current?.headers["Content-Type"] || "application/json",
+          "Content-Type":
+            optionsRef.current?.headers["Content-Type"] || "application/json",
           ...optionsRef.current?.headers,
         },
         body: optionsRef.current?.body
