@@ -1,4 +1,5 @@
 import customFetch from "../../utils/customFetch";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchDocumentStatus = createAsyncThunk('visaStatus/fetchDocumentStatus', async (_, { rejectWithValue }) => {
   try {

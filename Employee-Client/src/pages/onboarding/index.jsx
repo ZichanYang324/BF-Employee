@@ -35,11 +35,11 @@ const Onboarding = () => {
 
   switch (status) {
     case "NOT_STARTED":
-      return <Application/>;
+      return <Application />;
     case "PENDING":
       return <Application pending={true} profile={profile}/>;
     case "REJECTED":
-      return <Application profile={profile} />;
+      return <Application rejected={true} profile={profile} />;
     default:
       return <Application />;
   }

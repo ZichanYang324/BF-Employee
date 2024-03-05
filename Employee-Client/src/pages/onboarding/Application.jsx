@@ -20,7 +20,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const Application = ({pending, profile}) => {
+const Application = ({pending, profile, rejected}) => {
 
   const {
     register,
@@ -98,12 +98,20 @@ const Application = ({pending, profile}) => {
     if (data.driverlicense) formData.append('driverlicense', data.driverlicense[0]);
     formData.append('data',JSON.stringify(jsonData))
 
-    const res = await customFetchForForm.post('/profile/createProfile', formData);
-    if ( res.status === 201 ) {
-      toast.success('Application submitted.');
-      window.location.reload();
-    } else {
-      toast.error('An error occurred, please try again.');
+    if (!rejected) {
+      const res = await customFetchForForm.post('/profile/createProfile', formData);
+      if ( res.status === 201 ) {
+        toast.success('Application submitted.');
+      } else {
+        toast.error('An error occurred, please try again.');
+      }
+    } else{
+      const res = await customFetchForForm.put('/profile/updateProfile', formData);
+      if ( res.status === 200 ) {
+        toast.success('Application submitted.');
+      } else {
+        toast.error('An error occurred, please try again.');
+      }
     }
   };
 
@@ -125,8 +133,8 @@ const Application = ({pending, profile}) => {
       }
       {
         profile.feedback ?
-        <Typography variant='body2' sx={{color: 'red'}}>
-          HR feedback: {profile.feedback}
+        <Typography variant='h6' sx={{color: 'red'}}>
+          Application Rejected.<br/> HR feedback: {profile.feedback}
         </Typography>
         : null
       }
@@ -348,7 +356,6 @@ const Application = ({pending, profile}) => {
           select
           required
           fullWidth
-          defaultValue={true}
           sx={{ width: '80px', mt: 2 }}
           {...register('showWorkAuth')}
           disabled={pending}
