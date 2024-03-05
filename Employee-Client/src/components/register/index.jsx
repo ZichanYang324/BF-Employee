@@ -16,11 +16,13 @@ import { checkEmailReg, getMsgErrorValidPass, isNotEmpty, validPass } from '../.
 import CustomInput from '../Input';
 import { useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import customFetch from '../../utils/customFetch';
 
 const defaultTheme = createTheme();
 
 export function Register() {
     const location = useLocation();
+    const fullUrl = window.location.origin + location.pathname + location.search + location.hash;
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
 
@@ -57,14 +59,19 @@ export function Register() {
         ? getMsgErrorValidPass(passwordInput.value)
         : '';
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         //check if password is same
         if (passwordRepeatInput.value !== passwordInput.value) {
             setPasswordRepeatError('Password is not same')
             return
         }
-        dispatch(registerUser({ username: usernameInput.value, email: jwtDecode(token).email, password: passwordInput.value }));
+        dispatch(registerUser({ 
+            username: usernameInput.value, 
+            email: jwtDecode(token).email, 
+            password: passwordInput.value,
+        }));
+        await customFetch.put('/hiring/setLinkUsed', { link: fullUrl });
     }
 
     useEffect(() => {
