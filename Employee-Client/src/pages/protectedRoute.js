@@ -11,6 +11,8 @@ const ProtectedRoute = ({ children }) => {
     if (user === null) {
       navigate("/login");
       return;
+    }else {
+      navigate("/onboarding");
     }
   }, [user, navigate]);
   return children;
