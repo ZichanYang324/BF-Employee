@@ -1,5 +1,4 @@
 // s3Service.js
-import { bucketName } from "./config/s3";
 import AWS from "aws-sdk";
 
 const s3 = new AWS.S3({
@@ -7,7 +6,7 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-async function uploadFileToS3(fileBuffer, fileName) {
+async function uploadFileToS3(fileBuffer, fileName, bucketName) {
   const params = {
     Bucket: bucketName,
     Key: fileName,

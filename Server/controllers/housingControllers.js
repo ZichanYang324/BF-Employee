@@ -7,6 +7,30 @@ import UserModel from "../models/User.model.js";
 // number of reports per page
 const MAX_ITEM_PERPAGE = 3;
 
+export const assignHousing = async (req, res) => {
+  try {
+    const { userId, houseId } = req.body;
+    const user = await UserModel.findById(userId).exec();
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+    if (!user.profile) {
+      return res.status(404).json("Profile has not created");
+    }
+    const house = await Housing.findById(houseId);
+    if (!house) {
+      return res.status(404).json("house not exist");
+    }
+    house.assignedEmployees.push(user.profile._id);
+    house.save();
+    return res.status(200).json(house);
+  } catch (error) {
+    res
+      .status(500)
+      .json(`error when assigning the user to an house - ${error}`);
+  }
+};
+
 export const getProfileIdFromUid = async (req, res) => {
   const { userId } = req.body;
   try {

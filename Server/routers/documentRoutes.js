@@ -2,11 +2,15 @@ import {
   getMyDocuments,
   updateDocumentStatus,
   uploadDocumentbc,
+  login,
+  getAllDocuments,
+  getEmployees,
+  downloadDocument,
+  sendNotification
 } from "../controllers/DocumentController.js";
 import { authenticate } from "../middlewares/authMiddleware.js";
 import checkHRRole from "../middlewares/hrRoleMiddleware.js";
 import express from "express";
-import multer from "multer";
 
 // const upload = multer({ storage: multer.memoryStorage() });
 
@@ -26,14 +30,16 @@ router.patch(
   checkHRRole,
   updateDocumentStatus,
 );
-router.get("/my", authenticate, getMyDocuments);
+router.get("/my",authenticate, getMyDocuments);
+router.get("/all", authenticate, checkHRRole, getAllDocuments);
+// router.post('/register', register);
+router.post('/login', login);
+router.get("/employees", authenticate, checkHRRole, getEmployees);
+router.get('/download/:documentId', authenticate, downloadDocument);
+router.post('/sendNotification/:documentId', authenticate, checkHRRole, sendNotification);
 
-//router.post('/register', register);
-//router.post('/login', login);
 router.get("/testAuth", authenticate, (req, res) => {
   res.json(req.user);
 });
-// get user's documents
-//router.get("/my", authenticate, getMyDocuments);
 
 export default router;

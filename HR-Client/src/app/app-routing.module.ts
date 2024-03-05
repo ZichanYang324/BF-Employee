@@ -10,6 +10,7 @@ import { RegistrationEmailComponent } from './pages/registration-email/registrat
 import { SecretComponent } from './secret/secret.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { VisaStatusManagementComponent } from './components/visa-status-management/visa-status-management.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,11 @@ const routes: Routes = [
   {
     path: 'employee-profiles',
     component: EmployeeProfilesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'visastatus',
+    component: VisaStatusManagementComponent,
     canActivate: [AuthGuard],
   },
   {
