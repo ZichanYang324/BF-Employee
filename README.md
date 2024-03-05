@@ -37,6 +37,18 @@ cd HR-Client
 npm install
 npm run start or ng serve
 ```
+### .ENV
+NODE_ENV=development
+MONGO_URL = 
+JWT_SECRET=''
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=
+AWS_S3_BUCKET_NAME=
+JWT_EMAIL_SECRET=
+EMAIL_USER=
+EMAIL_PASS=
+
 
 ### `useFetch` hook
 
