@@ -132,9 +132,9 @@ const Application = ({pending, profile, rejected}) => {
         : null 
       }
       {
-        profile.feedback ?
+        rejected && profile?.feedback ?
         <Typography variant='h6' sx={{color: 'red'}}>
-          Application Rejected.<br/> HR feedback: {profile.feedback}
+          Application Rejected.<br/> HR feedback: {profile?.feedback}
         </Typography>
         : null
       }

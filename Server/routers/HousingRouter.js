@@ -38,7 +38,7 @@ housingRouter
 // facility report router /report
 reportRouter
   .post("/", protect, getReportForEmployee)
-  .post("/add", protect,  createReportForEmployee);
+  .post("/add", protect, createReportForEmployee);
 // comment info router /comment
 commentRouter
   .post("/", protect, checkHRRole, getReportComments)

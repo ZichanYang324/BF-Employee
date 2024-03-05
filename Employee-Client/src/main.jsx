@@ -12,6 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <ProfileIdProvider>
         <App />
         <Toaster
+          richColors
           position="top-right"
           toastOptions={{
             duration: 2000,
