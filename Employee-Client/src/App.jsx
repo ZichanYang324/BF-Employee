@@ -5,36 +5,62 @@ import { Register } from "./components/register";
 import { Report } from "./components/reports";
 import VisaStatusManagement from "./components/visa";
 import Info from "./pages/info";
-import Onboard from "./pages/onboard";
+import Onboarding from "./pages/onboarding";
 import ProtectedRoute from "./pages/protectedRoute";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Outlet } from "react-router-dom";
+import appicationStatusLoader from "./loaders/onboardLoader.js";
+
+
+const ProtectedRoutes = () => {
+  return (
+    <ProtectedRoute>
+      <ResponsiveAppBar />
+      <Outlet />
+    </ProtectedRoute>
+  )
+}
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <ProtectedRoutes />,
+    children: [
+      {
+        index: true,
+        element: <Onboarding />,
+        loader: appicationStatusLoader
+      },
+      {
+        path: "visa-status",
+        element: <VisaStatusManagement />,
+      },
+      {
+        path: "info",
+        element: <Info />,
+      },
+      {
+        path: "housing",
+        element: <Housing />,
+      },
+      {
+        path: "report",
+        element: <Report />,
+      },
+    ],
+  },
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "register",
+    element: <Register />,
+  },
+]);
 
 function App() {
-  // const user = useSelector((store) => store.user).user
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <ResponsiveAppBar />
-              <Outlet />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Onboard />} />
-          <Route path="visa-status" element={<VisaStatusManagement />} />
-          <Route path="info" element={<Info />} />
-          <Route path="housing" element={<Housing />} />
-          <Route path="report" element={<Report />} />
-        </Route>
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router}/>
 }
 
 export default App;
