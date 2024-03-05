@@ -33,12 +33,12 @@ const Onboarding = () => {
     console.log(profile)
   }, [profileStatus, dispatch]);
 
-  useEffect(() => {
-    if (documentsStatus === "idle") {
-      dispatch(fetchDocuments());
-    }
-    console.log(documents)
-  }, [documentsStatus, dispatch]);
+  // useEffect(() => {
+  //   if (documentsStatus === "idle") {
+  //     dispatch(fetchDocuments());
+  //   }
+  //   console.log(documents)
+  // }, [documentsStatus, dispatch]);
 
   if (profileStatus !== "succeeded" && prevProfileStatus === "idle") {
     return <div>Loading...</div>;
