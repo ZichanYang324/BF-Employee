@@ -1,4 +1,5 @@
 import User from "../models/User.model.js";
+import { Document } from "../models/index.js";
 import { getOneFilePresignedUrl } from "../utils/s3.js";
 
 export async function summary(req, res) {
@@ -74,7 +75,10 @@ export async function entireProfile(req, res) {
     if (!employee) {
       return res.status(404).json("Employee not found");
     }
-    const presignedUrls = await _getPresignedUrls(employee.profile);
+    const presignedUrls = await _getPresignedUrls({
+      profile: employee.profile,
+      userId,
+    });
     const result = {
       userId,
       ...{
@@ -117,13 +121,45 @@ export async function entireProfile(req, res) {
   }
 }
 
-async function _getPresignedUrls(profile) {
-  const profilePic = profile.profilePic;
-  const driversLicense = profile.driversLicense?.document;
-  const OPTReceipt = profile.OPTReceipt?.document;
-  const OPTEAD = profile.OPTEAD?.document;
-  const I983 = profile.I983?.document;
-  const I20 = profile.I20?.document;
+async function _getPresignedUrls({ profile, userId }) {
+  let profilePic = profile.profilePic;
+  let driversLicense = profile.driversLicense?.document;
+  let OPTReceipt = profile.OPTReceipt?.document;
+  if (!OPTReceipt) {
+    OPTReceipt = await Document.findOne({
+      owner: userId,
+      type: "OPT Receipt",
+    })
+      .lean()
+      .exec();
+  }
+  let OPTEAD = profile.OPTEAD?.document;
+  if (!OPTEAD) {
+    OPTEAD = await Document.findOne({
+      owner: userId,
+      type: "OPT EAD",
+    })
+      .lean()
+      .exec();
+  }
+  let I983 = profile.I983?.document;
+  if (!I983) {
+    I983 = await Document.findOne({
+      owner: userId,
+      type: "I-983",
+    })
+      .lean()
+      .exec();
+  }
+  let I20 = profile.I20?.document;
+  if (!I20) {
+    I20 = await Document.findOne({
+      owner: userId,
+      type: "I-20",
+    })
+      .lean()
+      .exec();
+  }
 
   const urlsRes = await Promise.all([
     profilePic ? getOneFilePresignedUrl({ Key: profilePic.S3Name }) : null,

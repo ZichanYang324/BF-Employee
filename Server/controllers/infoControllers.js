@@ -67,6 +67,14 @@ export async function getDocuments(req, res) {
       )
       .exec();
     const documentUrls = await _getDocumentUrls(profile);
+    const documentUrlsPatch = await _getDocumentUrlsPatch({ userId: user._id });
+    // push if docType is not already in documentUrls
+    documentUrlsPatch.forEach(([docType, url]) => {
+      const docTypeIndex = documentUrls.findIndex(([type]) => type === docType);
+      if (docTypeIndex === -1 && docType !== "Profile Picture") {
+        documentUrls.push([docType, url]);
+      }
+    });
     res.status(200).json(documentUrls);
   } catch (error) {
     console.error(error);
@@ -92,6 +100,24 @@ async function _getDocumentUrls(profile) {
         return [docType, null];
       }
       return [docType, { s3Key, url }];
+    }),
+  );
+  return documentUrls;
+}
+
+async function _getDocumentUrlsPatch({ userId }) {
+  const documents = await Document.find({ owner: userId }).exec();
+  const documentUrls = await Promise.all(
+    documents.map(async (doc) => {
+      const { S3Name, type: docType } = doc;
+      const { data: url, error } = await getOneFilePresignedUrl({
+        Key: S3Name,
+      });
+      if (error) {
+        console.error(error);
+        return [docType, null];
+      }
+      return [docType, { S3Name, url }];
     }),
   );
   return documentUrls;
