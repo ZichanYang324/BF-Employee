@@ -27,18 +27,18 @@ const commentRouter = express.Router();
 
 // housing info router /housing
 housingRouter
-  .post("/", protect, checkHRRole, getHousingDetailsForEmployee)
-  .post("/getProfileId", protect, checkHRRole, getProfileIdFromUid)
-  .post("/add", protect, checkHRRole, addHouseForHR)
-  .post("/getAllBasicHouses", protect, checkHRRole, getAllBasicHouseInfoForHR)
-  .post("/getHouseSummary", protect, checkHRRole, getHouseSummaryForHR)
+  .post("/", protect, getHousingDetailsForEmployee)
+  .post("/getProfileId", protect,  getProfileIdFromUid)
+  .post("/add", protect, addHouseForHR)
+  .post("/getAllBasicHouses", protect, getAllBasicHouseInfoForHR)
+  .post("/getHouseSummary", protect, getHouseSummaryForHR)
   .post("/addEmployeeToHouse", protect, checkHRRole, addEmpToHouse)
   .delete("/delete", protect, checkHRRole, deleteHouseForHR)
   .post("/assign", protect, checkHRRole, assignHousing);
 // facility report router /report
 reportRouter
-  .post("/", protect, checkHRRole, getReportForEmployee)
-  .post("/add", protect, checkHRRole, createReportForEmployee);
+  .post("/", protect, getReportForEmployee)
+  .post("/add", protect,  createReportForEmployee);
 // comment info router /comment
 commentRouter
   .post("/", protect, checkHRRole, getReportComments)
