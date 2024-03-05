@@ -1,7 +1,15 @@
+import { uploadFileToS3 } from "../config/s3Service.js";
 import ProfileModel from "../models/Profile.model.js";
 import User from "../models/User.model.js";
-import { Profile } from "../models/index.js";
+import { Document, Profile } from "../models/index.js";
 import { getOneFilePresignedUrl } from "../utils/s3.js";
+
+function _formatDate(date) {
+  if (!date) {
+    return "";
+  }
+  return date.toISOString().split("T")[0];
+}
 
 export async function getProfile(req, res) {
   let userId = req.user?._id;
@@ -28,15 +36,13 @@ export async function getProfile(req, res) {
     if (!userProfile.profile) {
       userProfile.profile = {};
     } else {
-      userProfile.profile.DOB =
-        userProfile.profile && userProfile.profile.DOB
-          ? userProfile.profile.DOB.toISOString().split("T")[0]
-          : "";
-
-      userProfile.profile.workAuth.startDate =
-        userProfile.profile.workAuth.startDate.toISOString().split("T")[0];
-      userProfile.profile.workAuth.endDate =
-        userProfile.profile.workAuth.endDate.toISOString().split("T")[0];
+      userProfile.profile.DOB = _formatDate(userProfile?.profile?.DOB);
+      userProfile.profile.workAuth.startDate = _formatDate(
+        userProfile?.profile?.workAuth?.startDate,
+      );
+      userProfile.profile.workAuth.endDate = _formatDate(
+        userProfile?.profile?.workAuth?.endDate,
+      );
     }
 
     return res.status(200).json(userProfile);
@@ -114,10 +120,17 @@ export async function update(req, res) {
     }
 
     if (section === "name") {
-      const { name } = req.body;
-      console.log("name1234", name);
-      console.log("profile._id123124123123", profile._id);
-      await _updateName(profile._id, name);
+      const { name: _nameJSON } = req.body;
+      const name = JSON.parse(_nameJSON);
+      const profilePicFile = req.files.find(
+        (file) => file.fieldname === "profilePic",
+      );
+      await _updateName({
+        profileId: profile._id,
+        userId: user._id,
+        name,
+        profilePicFile,
+      });
     } else if (section === "address") {
       const { address } = req.body;
       await _updateAddress({ profileId: profile._id, address });
@@ -144,16 +157,30 @@ export async function update(req, res) {
   }
 }
 
-async function _updateName(profileId, name) {
+async function _updateName({ profileId, userId, name, profilePicFile }) {
   let profile = await Profile.findById(profileId);
   profile.firstName = name.firstName || "";
   profile.lastName = name.lastName || "";
   profile.middleName = name.middleName || "";
   profile.preferredName = name.preferredName || "";
-  // profile.profilePic = name.profilePic || "";
   profile.SSN = name.SSN || "";
   profile.DOB = name.DOB || "";
   profile.gender = name.gender || "";
+
+  if (profilePicFile) {
+    const s3Response = await uploadFileToS3(
+      profilePicFile.buffer,
+      profilePicFile.originalname,
+    );
+    const newProfilePic = await Document.create({
+      URL: s3Response.Location,
+      S3Bucket: s3Response.Bucket,
+      S3Name: s3Response.Key,
+      type: "Profile Picture",
+      owner: userId,
+    });
+    profile.profilePic = newProfilePic._id;
+  }
 
   await profile.save();
   return profile;
