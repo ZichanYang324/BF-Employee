@@ -21,7 +21,7 @@ export const assignHousing = async (req, res) => {
     if (!house) {
       return res.status(404).json("house not exist");
     }
-    house.assignedEmployees.push(userId);
+    house.assignedEmployees.push(user.profile._id);
     house.save();
     return res.status(200).json(house);
   } catch (error) {
