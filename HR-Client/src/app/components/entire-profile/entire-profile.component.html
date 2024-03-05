@@ -228,17 +228,17 @@
     >
       <div class="info-container">
         <div class="description-label">Status:</div>
-        <div>{{ profile?.OPTEAD?.status }}</div>
+        <div>{{ profile?.OPTReceipt?.status }}</div>
       </div>
       <div class="info-container">
         <div class="description-label">Feedback:</div>
-        <div>{{ profile?.OPTEAD?.feedback }}</div>
+        <div>{{ profile?.OPTReceipt?.feedback }}</div>
       </div>
       <div class="info-container">
         <a
-          *ngIf="profile?.OPTEAD?.url"
+          *ngIf="profile?.OPTReceipt?.url"
           class="link"
-          [href]="profile?.OPTEAD?.url"
+          [href]="profile?.OPTReceipt?.url"
           target="_blank"
           >Download</a
         >
