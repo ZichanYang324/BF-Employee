@@ -2,8 +2,6 @@ import Document from "../models/Document.model.js";
 import User from "../models/User.model.js";
 import jwt from "jsonwebtoken";
 import { uploadFileToS3,downloadFileFromS3 } from '../config/s3Service.js';
-import Profile from "../models/Profile.model.js";
-import { uploadOneFile, getOneFilePresignedUrl } from '../utils/s3.js';
 import nodemailer from 'nodemailer';
 
 const documentOrder = ["OPT Receipt", "OPT EAD", "I-983", "I-20"];
@@ -33,8 +31,11 @@ async function uploadDocumentbc(req, res) {
   console.log("In unploadDocument function backend:")
   console.log("userId",userId);
   console.log("Received documentType:", documentType);
-  if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded or file is missing." });
+  console.log("Received file:", req.files);
+  if (!req.files) {
+    return res
+      .status(400)
+      .json({ message: "No file uploaded or file is missing." });
   }
   if (!(await canUploadNextDocument(userId, documentType))) {
     return res.status(403).json({
@@ -43,8 +44,8 @@ async function uploadDocumentbc(req, res) {
   }
 
   try {
-
-    const s3Response = await uploadFileToS3(req.file);
+    const thisFile = req.files[0]
+    const s3Response = await uploadFileToS3(thisFile);
     const newDocument = await Document.create({
       owner: userId,
       type: documentType,

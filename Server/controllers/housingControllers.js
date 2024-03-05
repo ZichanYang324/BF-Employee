@@ -1,5 +1,6 @@
 import CommentModel from "../models/Comment.model.js";
 import FacilityReportModel from "../models/FacilityReport.model.js";
+import HousingModel from "../models/Housing.model.js";
 import Housing from "../models/Housing.model.js";
 import Profile from "../models/Profile.model.js";
 import UserModel from "../models/User.model.js";
@@ -21,7 +22,7 @@ export const assignHousing = async (req, res) => {
     if (!house) {
       return res.status(404).json("house not exist");
     }
-    house.assignedEmployees.push(userId);
+    house.assignedEmployees.push(user.profile._id);
     house.save();
     return res.status(200).json(house);
   } catch (error) {
@@ -29,6 +30,32 @@ export const assignHousing = async (req, res) => {
       .status(500)
       .json(`error when assigning the user to an house - ${error}`);
   }
+};
+
+export const addEmpToHouse = async (req, res) => {
+  try {
+    const { houseID, username } = req.body;
+    const user = await UserModel.findOne({username:username})
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+    if(!user.profile){
+      return res.status(404).json("User does not have profile");
+    }
+    const house = await HousingModel.findById(houseID)
+    console.log('user.profile',user.profile)
+    if(!house.assignedEmployees.includes(user.profile)){
+      house.assignedEmployees.push(user.profile)
+    }else{
+      return res.status(404).json("user already in this house");
+    }
+    
+    house.save()
+    return res.status(200).json({success:true});
+  }catch(error){
+    console.log(error)
+  }
+    
 };
 
 export const getProfileIdFromUid = async (req, res) => {

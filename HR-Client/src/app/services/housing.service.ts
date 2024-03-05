@@ -16,6 +16,14 @@ export class HousingService {
     });
   }
 
+  addEmployeeToHouse(houseID: string,username:string){
+    const body = {
+      houseID:houseID,
+      username:username}
+    console.log('body',body)
+    return this.http.post(`${this.baseUrl}/addEmployeeToHouse`, body)
+  }
+
   getHouseSummary(houseID: string, page: number) {
     const params = new HttpParams()
       .set('houseID', houseID)
