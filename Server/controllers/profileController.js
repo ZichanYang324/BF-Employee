@@ -103,7 +103,7 @@ export const createProfile = asyncHandler(async (req, res) => {
       type: "Driver License",
       owner: userId,
     });
-    newProfile.driversLicense = newDriverLicense._id;
+    newProfile.driversLicense.document = newDriverLicense._id;
   }
   const createdProfile = await Profile.create(newProfile);
   user.profile = createdProfile;
@@ -219,7 +219,7 @@ export const updateProfile = asyncHandler(async (req, res) => {
       type: "Driver License",
       owner: user._id,
     });
-    profile.driversLicense = newDriverLicense._id;
+    profile.driversLicense.document = newDriverLicense._id;
   }
   profile.save();
   return res.status(200).send(profile);

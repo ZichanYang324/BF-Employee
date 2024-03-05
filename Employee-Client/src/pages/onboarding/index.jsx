@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { fetchProfile } from "../../features/info/infoSlice";
 import useFetch from "../../utils/useFetch";
 import { usePrevious } from "react-use";
+import { fetchDocuments } from "../../features/info/infoSlice";
+
 
 const Onboarding = () => {
 
@@ -15,6 +17,8 @@ const Onboarding = () => {
   const profile = useSelector((store) => store.info.profile.data);
   const profileStatus = useSelector((store) => store.info.profile.status);
   const prevProfileStatus = usePrevious(profileStatus);
+  const documents = useSelector((store) => store.info.documents.data);
+  const documentsStatus = useSelector((store) => store.info.documents.status);
 
   useEffect(() => {
     if (status === "APPROVED") {
@@ -28,6 +32,13 @@ const Onboarding = () => {
     }
     console.log(profile)
   }, [profileStatus, dispatch]);
+
+  useEffect(() => {
+    if (documentsStatus === "idle") {
+      dispatch(fetchDocuments());
+    }
+    console.log(documents)
+  }, [documentsStatus, dispatch]);
 
   if (profileStatus !== "succeeded" && prevProfileStatus === "idle") {
     return <div>Loading...</div>;
