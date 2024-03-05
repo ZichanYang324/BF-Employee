@@ -1,7 +1,6 @@
-
 <app-nav-bar></app-nav-bar>
 <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
-  <mat-tab label="In Progress">
+  <mat-tab label="Documents">
         <div *ngFor="let document of documents">
       <app-document-detail class="app-de"
         [document]="document"
@@ -17,7 +16,7 @@
       <button (click)="closeIframe()">Close Preview</button>
     </div>
   </mat-tab>
-  <mat-tab label="All">
+  <mat-tab label="Employee">
     <app-employee-list></app-employee-list>
   </mat-tab>
 </mat-tab-group>
