@@ -35,7 +35,7 @@ npm run dev
 ```bash
 cd HR-Client
 npm install
-npm run dev
+npm run start or ng serve
 ```
 
 ### `useFetch` hook
