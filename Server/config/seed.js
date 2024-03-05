@@ -269,7 +269,6 @@ const seed = async () => {
     await hr.save();
 
     console.log("Succeeded");
-
   } catch (err) {
     console.error(err);
   } finally {

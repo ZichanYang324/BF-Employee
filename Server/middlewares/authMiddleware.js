@@ -10,7 +10,8 @@ const protect = asyncHandler(async (req, res, next) => {
 
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];
-    console.log("token", token);
+
+    console.log("Token:", token);
   }
 
   if (token) {

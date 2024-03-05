@@ -30,7 +30,6 @@ const initialState = {
     },
     status: "idle",
     error: null,
-    feedback: ""
   },
   documents: {
     data: [

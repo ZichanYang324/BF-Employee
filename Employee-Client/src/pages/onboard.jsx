@@ -2,11 +2,10 @@ import { TextField, Box, Button, Typography, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useForm } from 'react-hook-form';
+import { stateNames, genders, workAuthTypes } from '../utils/constants';
+import DEFAULT_PIC from '../assets/default-avatar.jpeg';
+import   { customFetchForForm } from '../utils/customFetch';
 import { useSelector } from 'react-redux';
-import { stateNames, genders, workAuthTypes } from '../../utils/constants';
-import DEFAULT_PIC from '../../assets/default-avatar.jpeg';
-import { customFetchForForm } from '../../utils/customFetch';
-import { toast } from 'sonner';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -20,12 +19,12 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const Application = ({pending, profile, rejected}) => {
+const Onboard = () => {
 
   const {
     register,
     handleSubmit,
-    watch,
+    watch
   } = useForm();
 
   const {user} = useSelector((store)=>store.user)
@@ -37,6 +36,11 @@ const Application = ({pending, profile, rejected}) => {
   const optReceipt = watch('optReceipt') ? watch('optReceipt')[0] : null;
   const driverlicense = watch('driverlicense') ? watch('driverlicense')[0] : null;
 
+
+
+  // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
+  
+  // }, [register, unregister, showWorkAuth, authType, hasDriverlicense, profilePic]);
 
   const onSubmit = async (data) => {
     const jsonData = {
@@ -98,21 +102,9 @@ const Application = ({pending, profile, rejected}) => {
     if (data.driverlicense) formData.append('driverlicense', data.driverlicense[0]);
     formData.append('data',JSON.stringify(jsonData))
 
-    if (!rejected) {
-      const res = await customFetchForForm.post('/profile/createProfile', formData);
-      if ( res.status === 201 ) {
-        toast.success('Application submitted.');
-      } else {
-        toast.error('An error occurred, please try again.');
-      }
-    } else{
-      const res = await customFetchForForm.put('/profile/updateProfile', formData);
-      if ( res.status === 200 ) {
-        toast.success('Application submitted.');
-      } else {
-        toast.error('An error occurred, please try again.');
-      }
-    }
+    const res = await customFetchForForm.post('/profile/createProfile', formData);
+    console.log(res);
+    // TODO: jump to pending page or show error
   };
 
   return (
@@ -123,21 +115,8 @@ const Application = ({pending, profile, rejected}) => {
         maxWidth: '1000px',
         mx: 'auto',
         py: '16px',
-      }}>
+    }}>
       <Typography variant='h3' gutterBottom>Onboarding Application</Typography>
-      { pending ? 
-        <Typography variant='h5' sx={{color: 'red'}}>
-          Please wait for the HR to review your application.
-        </Typography> 
-        : null 
-      }
-      {
-        profile.feedback ?
-        <Typography variant='h6' sx={{color: 'red'}}>
-          Application Rejected.<br/> HR feedback: {profile.feedback}
-        </Typography>
-        : null
-      }
       <form style={{ 
         display: 'flex', 
         flexDirection: 'column', 
@@ -156,8 +135,6 @@ const Application = ({pending, profile, rejected}) => {
             required
             sx={{ mr: 2 }}
             {...register('firstName')}
-            disabled={pending}
-            defaultValue={profile?.firstName}
           />
           <TextField
             label="Last Name"
@@ -165,8 +142,6 @@ const Application = ({pending, profile, rejected}) => {
             fullWidth
             required
             {...register('lastName')}
-            disabled={pending}
-            defaultValue={profile?.lastName}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -176,16 +151,12 @@ const Application = ({pending, profile, rejected}) => {
             sx={{ mr: 2 }}
             fullWidth
             {...register('middleName')}
-            disabled={pending}
-            defaultValue={profile?.middleName}
           />
           <TextField
             label="Preferred Name"
             variant="outlined"
             fullWidth
             {...register('preferredName')}
-            disabled={pending}
-            defaultValue={profile?.preferredName}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex' }}>
@@ -196,8 +167,6 @@ const Application = ({pending, profile, rejected}) => {
             fullWidth
             sx={{ mr: 2 }}
             {...register('gender')}
-            disabled={pending}
-            defaultValue={profile?.gender}
           >
             {genders.map((gender) => (
               <MenuItem 
@@ -218,8 +187,6 @@ const Application = ({pending, profile, rejected}) => {
               shrink: true,
             }}
             {...register('dateOfBirth')}
-            disabled={pending}
-            defaultValue={profile?.DOB}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -230,16 +197,12 @@ const Application = ({pending, profile, rejected}) => {
             required
             sx={{ mr: 2 }}
             {...register('cellPhone')}
-            disabled={pending}
-            defaultValue={profile?.cellPhone}
           />
           <TextField
             label="Work Phone"
             variant="outlined"
             fullWidth
             {...register('workPhone')}
-            disabled={pending}
-            defaultValue={profile?.workPhone}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -250,8 +213,6 @@ const Application = ({pending, profile, rejected}) => {
             fullWidth
             sx={{ mr: 2 }}
             {...register('SSN')}
-            disabled={pending}
-            defaultValue={profile?.SSN}
           />
           <TextField
             label="Email"
@@ -267,10 +228,9 @@ const Application = ({pending, profile, rejected}) => {
         <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 4}}>
           <img
             src={
-              (profile?.profilePic?.url) ||
-              (profilePic ?
+              profilePic ?
               URL.createObjectURL(profilePic) : 
-              DEFAULT_PIC)
+              DEFAULT_PIC
             }
             width="80px"
             height="80px"
@@ -282,13 +242,11 @@ const Application = ({pending, profile, rejected}) => {
             sx={{mt: 2}}
             startIcon={<CloudUploadIcon />}
             role={undefined}
-            disabled={pending}
           >
             Upload
             <VisuallyHiddenInput
               type="file"
               {...register('profilePic')}
-              disabled={pending}
             />
           </Button>
         </Box>
@@ -299,16 +257,12 @@ const Application = ({pending, profile, rejected}) => {
           required
           sx={{mt: 2}}
           {...register('streetAddress')}
-          disabled={pending}
-          defaultValue={profile?.address.street}
         />
         <TextField
           label="Building / Apartment #"
           variant="outlined"
           sx={{mt: 2}}
           {...register('buildingNumber')}
-          disabled={pending}
-          defaultValue={profile?.address.building}
         />
         <TextField
           label="City"
@@ -316,8 +270,6 @@ const Application = ({pending, profile, rejected}) => {
           required
           sx={{mt: 2}}
           {...register('city')}
-          disabled={pending}
-          defaultValue={profile?.address.city}
         />
         <Box sx={{ mt: 2, display: 'flex'}}>
           <TextField
@@ -327,8 +279,6 @@ const Application = ({pending, profile, rejected}) => {
             fullWidth
             sx={{ mr: 2 }}
             {...register('state')}
-            disabled={pending}
-            defaultValue={profile?.address.state}
           >
             {stateNames.map((state) => (
               <MenuItem key={state.value} value={state.value}>
@@ -342,8 +292,6 @@ const Application = ({pending, profile, rejected}) => {
             required
             fullWidth
             {...register('zipCode')}
-            disabled={pending}
-            defaultValue={profile?.address.zip}
           />
         </Box>
         <Typography variant='h6' sx={{mt:4}}>
@@ -356,15 +304,14 @@ const Application = ({pending, profile, rejected}) => {
           select
           required
           fullWidth
+          defaultValue={true}
           sx={{ width: '80px', mt: 2 }}
           {...register('showWorkAuth')}
-          disabled={pending}
-          defaultValue={profile?.workAuth.title && true}
         >
           <MenuItem value={false}>Yes</MenuItem>
           <MenuItem value={true}>No</MenuItem>
         </TextField>
-        {(showWorkAuth || profile?.workAuth.title) ? (
+        {showWorkAuth ? (
           <>
             <Typography variant='body2' sx={{mt:2}}>
               What is your work authorization?
@@ -376,8 +323,6 @@ const Application = ({pending, profile, rejected}) => {
               fullWidth
               sx={{mt: 2}}
               {...register('authType')}
-              disabled={pending}
-              defaultValue={profile?.workAuth.title}
             >
               {workAuthTypes.map((workAuthType) => (
                 <MenuItem key={workAuthType.value} value={workAuthType.value}>
@@ -397,8 +342,6 @@ const Application = ({pending, profile, rejected}) => {
                 }}
                 sx={{ mr: 2 }}
                 {...register('startDate')}
-                disabled={pending}
-                defaultValue={profile?.workAuth.startDate}
               />
               <TextField
                 label="End Date"
@@ -410,8 +353,6 @@ const Application = ({pending, profile, rejected}) => {
                   shrink: true,
                 }}
                 {...register('endDate')}
-                disabled={pending}
-                defaultValue={profile?.workAuth.endDate}
               />
             </Box>
             {authType === 'F1' && (
@@ -431,7 +372,6 @@ const Application = ({pending, profile, rejected}) => {
                     <VisuallyHiddenInput
                       type="file"
                       {...register('optReceipt')}
-
                     />
                   </Button>
                   {optReceipt && (
@@ -452,7 +392,6 @@ const Application = ({pending, profile, rejected}) => {
                 required
                 sx={{mt: 2}}
                 {...register('visaTitle')}
-                defaultValue={profile?.workAuth.title}
               />
             )}
           </>
@@ -464,7 +403,6 @@ const Application = ({pending, profile, rejected}) => {
             fullWidth
             sx={{ mt: 2}}
             {...register('identity')}
-            disabled={pending}
           >
             <MenuItem value="PR">
               Green Card
@@ -487,13 +425,11 @@ const Application = ({pending, profile, rejected}) => {
             fullWidth
             sx={{ width: '80px' }}
             {...register('hasDriverlicense')}
-            disabled={pending}
-            defaultValue={profile?.driversLicense.number ? true : false}
           >
             <MenuItem value={true}>Yes</MenuItem>
             <MenuItem value={false}>No</MenuItem>
           </TextField>
-        {(hasDriverlicense || profile?.driversLicense.number) && (
+        {hasDriverlicense && (
           <>
             <Box sx={{ mt: 2, display: 'flex'}}>
               <TextField
@@ -502,8 +438,6 @@ const Application = ({pending, profile, rejected}) => {
                 fullWidth
                 sx={{mr: 2}}
                 {...register('licenseNumber')}
-                disabled={pending}
-                defaultValue={profile?.driversLicense?.number}
               />
               <TextField
                 label="Expiration Date"
@@ -514,8 +448,6 @@ const Application = ({pending, profile, rejected}) => {
                   shrink: true,
                 }}
                 {...register('licenseExpirationDate')}
-                disabled={pending}
-                defaultValue={profile?.driversLicense?.expiration}
               />
             </Box>
             <Typography variant='body2' sx={{my:2}}>
@@ -527,13 +459,11 @@ const Application = ({pending, profile, rejected}) => {
               sx={{width: 120}}
               startIcon={<CloudUploadIcon />}
               role={undefined}
-              disabled={pending}
             >
               Upload
               <VisuallyHiddenInput
                 type="file"
                 {...register('driverlicense')}
-                disabled={pending}
               />
             </Button>
             {driverlicense && (
@@ -541,7 +471,6 @@ const Application = ({pending, profile, rejected}) => {
                 href={URL.createObjectURL(driverlicense)} 
                 target="_blank"
                 style={{ marginLeft: 24}}
-                disabled={pending}
               >
                 {driverlicense.name}
               </a>
@@ -554,24 +483,18 @@ const Application = ({pending, profile, rejected}) => {
                 label="Make"
                 variant="outlined"
                 {...register('carMake')}
-                disabled={pending}
-                defaultValue={profile?.car.make}
               />
               <TextField
                 label="Model"
                 variant="outlined"
                 sx={{mt: 2}}
                 {...register('carModel')}
-                disabled={pending}
-                defaultValue={profile?.car.model}
               />
               <TextField
                 label="Color"
                 variant="outlined"
                 sx={{mt: 2}}
                 {...register('carColor')}
-                disabled={pending}
-                defaultValue={profile?.car.color}
               />
             </Box>
             
@@ -593,8 +516,6 @@ const Application = ({pending, profile, rejected}) => {
             fullWidth
             sx={{mr: 2}}
             {...register('referenceFirstName')}
-            disabled={pending}
-            defaultValue={profile?.reference?.firstName}
           />
           <TextField
             label="Middle Name"
@@ -602,8 +523,6 @@ const Application = ({pending, profile, rejected}) => {
             fullWidth
             sx={{mr: 2}}
             {...register('referenceMiddleName')}
-            disabled={pending}
-            defaultValue={profile?.reference?.middleName}
           />
           <TextField
             label="Last Name"
@@ -611,8 +530,6 @@ const Application = ({pending, profile, rejected}) => {
             required
             fullWidth
             {...register('referenceLastName')}
-            disabled={pending}
-            defaultValue={profile?.reference?.lastName}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -623,8 +540,6 @@ const Application = ({pending, profile, rejected}) => {
             required
             sx={{mr: 2}}
             {...register('referencePhone')}
-            disabled={pending}
-            defaultValue={profile?.reference.phone}
           />
           <TextField
             label="Email"
@@ -632,8 +547,6 @@ const Application = ({pending, profile, rejected}) => {
             required
             fullWidth
             {...register('referenceEmail')}
-            disabled={pending}
-            defaultValue={profile?.reference.email}
           />
         </Box>
         <TextField
@@ -643,8 +556,6 @@ const Application = ({pending, profile, rejected}) => {
           required
           sx={{mt: 2}}
           {...register('referenceRelationship')}
-          disabled={pending}
-          defaultValue={profile?.reference.relationship}
         />
         <Typography variant='h6' sx={{mt:4, alignSelf: 'start'}}>
           Emergency Contacts
@@ -657,8 +568,6 @@ const Application = ({pending, profile, rejected}) => {
             fullWidth
             sx={{mr: 2}}
             {...register('emergencyContactFirstName')}
-            disabled={pending}
-            defaultValue={profile?.emergencyContacts[0]?.firstName}
           />
           <TextField
             label="Middle Name"
@@ -666,8 +575,6 @@ const Application = ({pending, profile, rejected}) => {
             fullWidth
             sx={{mr: 2}}
             {...register('emergencyContactMiddleName')}
-            disabled={pending}
-            defaultValue={profile?.emergencyContacts[0]?.middleName}
           />
           <TextField
             label="Last Name"
@@ -675,8 +582,6 @@ const Application = ({pending, profile, rejected}) => {
             required
             fullWidth
             {...register('emergencyContactLastName')}
-            disabled={pending}
-            defaultValue={profile?.emergencyContacts[0]?.lastName}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex'}}>
@@ -687,8 +592,6 @@ const Application = ({pending, profile, rejected}) => {
             required
             sx={{mr: 2}}
             {...register('emergencyContactPhone')}
-            disabled={pending}
-            defaultValue={profile?.emergencyContacts[0]?.phone}
           />
           <TextField
             label="Email"
@@ -696,8 +599,6 @@ const Application = ({pending, profile, rejected}) => {
             required
             fullWidth
             {...register('emergencyContactEmail')}
-            disabled={pending}
-            defaultValue={profile?.emergencyContacts[0]?.email}
           />
         </Box>
         <TextField
@@ -707,8 +608,6 @@ const Application = ({pending, profile, rejected}) => {
           required
           sx={{mt: 2}}
           {...register('emergencyContactRelationship')}
-          disabled={pending}
-          defaultValue={profile?.emergencyContacts[0]?.relationship}
         />
         { (optReceipt || driverlicense) && (
           <>
@@ -736,20 +635,18 @@ const Application = ({pending, profile, rejected}) => {
             </Box>
           </>
         )}
-        { !pending &&
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{my: 8}}
-            type="submit"
-          >
-            Submit
-          </Button>
-        }
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{my: 8}}
+          type="submit"
+        >
+          Submit
+        </Button>
       </form>
     </Box>
   )
 }
 
-export default Application;
+export default Onboard;
