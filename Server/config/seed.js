@@ -261,6 +261,7 @@ const seed = async () => {
     console.log("User2 saved");
 
     console.log("Succeeded");
+
   } catch (err) {
     console.error(err);
   } finally {

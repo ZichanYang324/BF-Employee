@@ -13,9 +13,9 @@ const logRequestData = (req, res, next) => {
   console.log("req.files", req.files);
   next();
 };
+
 profileRouter.post("/createProfile", logRequestData, createProfile);
 profileRouter.post("/getProfile", getProfile);
-//use by send get to /profile/getProfileStatus?userId=21391273943527
-profileRouter.get("/getProfileStatus", protect ,getProfileStatus);
+profileRouter.get("/getProfileStatus", protect, getProfileStatus);
 
 export default profileRouter;

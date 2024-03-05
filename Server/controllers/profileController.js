@@ -27,7 +27,7 @@ export const createProfile = asyncHandler(async (req, res) => {
   //     message: "Work authorization is required",
   //   });
   // }
-  const token = req.headers["authorization"].split(" ")[1];
+  const token = req.headers["Authorization"].split(" ")[1];
   const tokenPayload = JSON.parse(
     Buffer.from(token.split(".")[1], "base64").toString(),
   );
@@ -124,7 +124,7 @@ export const getProfile = async (req, res) => {
 export const getProfileStatus = async (req, res) => {
   const user = req.user;
 
-  if (user.profile) {
+  if (user?.profile) {
     const profile = await Profile.findById(user.profile._id);
     return res.status(200).json({ status: profile.applicationStatus });
   } else {
