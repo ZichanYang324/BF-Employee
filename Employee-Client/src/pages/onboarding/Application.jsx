@@ -88,6 +88,14 @@ const Application = ({pending, profile, rejected}) => {
           phone: data.emergencyContactPhone,
           email: data.emergencyContactEmail,
         },
+        {
+          firstName: data.emergencyContact2FirstName,
+          middleName: data.emergencyContact2MiddleName,
+          lastName: data.emergencyContact2LastName,
+          relationship: data.emergencyContact2Relationship,
+          phone: data.emergencyContact2Phone,
+          email: data.emergencyContact2Email,
+        }
       ]
     }
 
@@ -647,7 +655,7 @@ const Application = ({pending, profile, rejected}) => {
           defaultValue={profile?.reference.relationship}
         />
         <Typography variant='h6' sx={{mt:4, alignSelf: 'start'}}>
-          Emergency Contacts
+          Emergency Contact 1
         </Typography>
         <Box sx={{ mt: 2, display: 'flex'}}>
           <TextField
@@ -709,6 +717,70 @@ const Application = ({pending, profile, rejected}) => {
           {...register('emergencyContactRelationship')}
           disabled={pending}
           defaultValue={profile?.emergencyContacts[0]?.relationship}
+        />
+        <Typography variant='h6' sx={{mt:4, alignSelf: 'start'}}>
+          Emergency Contact 2
+        </Typography>
+        <Box sx={{ mt: 2, display: 'flex'}}>
+          <TextField
+            label="First Name"
+            variant="outlined"
+            required
+            fullWidth
+            sx={{mr: 2}}
+            {...register('emergencyContact2FirstName')}
+            disabled={pending}
+            defaultValue={profile?.emergencyContacts[1]?.firstName}
+          />
+          <TextField
+            label="Middle Name"
+            variant="outlined"
+            fullWidth
+            sx={{mr: 2}}
+            {...register('emergencyContact2MiddleName')}
+            disabled={pending}
+            defaultValue={profile?.emergencyContacts[1]?.middleName}
+          />
+          <TextField
+            label="Last Name"
+            variant="outlined"
+            required
+            fullWidth
+            {...register('emergencyContact2LastName')}
+            disabled={pending}
+            defaultValue={profile?.emergencyContacts[1]?.lastName}
+          />
+        </Box>
+        <Box sx={{ mt: 2, display: 'flex'}}>
+          <TextField
+            label="Phone"
+            variant="outlined"
+            fullWidth
+            required
+            sx={{mr: 2}}
+            {...register('emergencyContact2Phone')}
+            disabled={pending}
+            defaultValue={profile?.emergencyContacts[1]?.phone}
+          />
+          <TextField
+            label="Email"
+            variant="outlined"
+            required
+            fullWidth
+            {...register('emergencyContact2Email')}
+            disabled={pending}
+            defaultValue={profile?.emergencyContacts[1]?.email}
+          />
+        </Box>
+        <TextField
+          label="Relationship"
+          variant="outlined"
+          fullWidth
+          required
+          sx={{mt: 2}}
+          {...register('emergencyContact2Relationship')}
+          disabled={pending}
+          defaultValue={profile?.emergencyContacts[1]?.relationship}
         />
         { (optReceipt || driverlicense) && (
           <>
