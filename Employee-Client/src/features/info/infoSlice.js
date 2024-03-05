@@ -1,4 +1,4 @@
-import customFetch from "../../utils/customFetch";
+import customFetch, { customFetchForForm } from "../../utils/customFetch";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -59,9 +59,9 @@ export const fetchDocuments = createAsyncThunk(
 
 export const updateInfo = createAsyncThunk(
   "/info/updateInfo",
-  async ({ section, data }, thunkAPI) => {
+  async ({ section, formData }, thunkAPI) => {
     try {
-      const response = await customFetch.post(`/info/update/${section}`, data);
+      const response = await customFetchForForm.post(`/info/update/${section}`, formData);
       thunkAPI.dispatch(fetchProfile());
       return response.data;
     } catch (error) {
