@@ -3,6 +3,13 @@ import User from "../models/User.model.js";
 import { Profile } from "../models/index.js";
 import { getOneFilePresignedUrl } from "../utils/s3.js";
 
+function _formatDate(date) {
+  if (!date) {
+    return "";
+  }
+  return date.toISOString().split("T")[0];
+}
+
 export async function getProfile(req, res) {
   let userId = req.user?._id;
 
@@ -28,15 +35,13 @@ export async function getProfile(req, res) {
     if (!userProfile.profile) {
       userProfile.profile = {};
     } else {
-      userProfile.profile.DOB =
-        userProfile.profile && userProfile.profile.DOB
-          ? userProfile.profile.DOB.toISOString().split("T")[0]
-          : "";
-
-      userProfile.profile.workAuth.startDate =
-        userProfile.profile.workAuth.startDate.toISOString().split("T")[0];
-      userProfile.profile.workAuth.endDate =
-        userProfile.profile.workAuth.endDate.toISOString().split("T")[0];
+      userProfile.profile.DOB = _formatDate(userProfile?.profile?.DOB);
+      userProfile.profile.workAuth.startDate = _formatDate(
+        userProfile?.profile?.workAuth?.startDate,
+      );
+      userProfile.profile.workAuth.endDate = _formatDate(
+        userProfile?.profile?.workAuth?.endDate,
+      );
     }
 
     return res.status(200).json(userProfile);
