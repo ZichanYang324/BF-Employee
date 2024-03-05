@@ -53,10 +53,6 @@ export function Register() {
         ? 'Username is required!'
         : '';
 
-    const emailInputErrorMsg = emailInput.hasError
-        ? 'Please input a valid email'
-        : '';
-
     const userPasswordErrorMsg = passwordInput.hasError
         ? getMsgErrorValidPass(passwordInput.value)
         : '';
@@ -68,7 +64,7 @@ export function Register() {
             setPasswordRepeatError('Password is not same')
             return
         }
-        dispatch(registerUser({ username: usernameInput.value, email: emailInput.value, password: passwordInput.value }));
+        dispatch(registerUser({ username: usernameInput.value, email: jwtDecode(token).email, password: passwordInput.value }));
     }
 
     useEffect(() => {
@@ -80,7 +76,7 @@ export function Register() {
     }, [user]);
 
     const checkPage = () => {
-        if (emailInput.isValid && passwordInput.isValid && passwordRepeatInput.isValid) {
+        if (usernameInput.isValid && passwordInput.isValid && passwordRepeatInput.isValid) {
             setSubmitIsValid(true)
         } else {
             setSubmitIsValid(false)
@@ -89,7 +85,7 @@ export function Register() {
 
     useEffect(() => {
         checkPage()
-    }, [emailInput.value, passwordInput.value, passwordRepeatInput.value, usernameInput.value])
+    }, [passwordInput.value, passwordRepeatInput.value, usernameInput.value])
 
     if (token && isTokenValid(token)) {
         return (
@@ -124,7 +120,6 @@ export function Register() {
                                 value={jwtDecode(token).email}
                                 handleChange={emailInput.valueChangeHandler}
                                 onBlur={emailInput.inputBlurHandler}
-                                errorMsg={emailInputErrorMsg}
                                 disabled={true}
                             />
                             <CustomInput

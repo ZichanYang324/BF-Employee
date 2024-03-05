@@ -27,21 +27,21 @@ const commentRouter = express.Router();
 
 // housing info router /housing
 housingRouter
-  .post("/", protect, checkHRRole, getHousingDetailsForEmployee)
-  .post("/getProfileId", protect, checkHRRole, getProfileIdFromUid)
-  .post("/add", protect, checkHRRole, addHouseForHR)
-  .post("/getAllBasicHouses", protect, checkHRRole, getAllBasicHouseInfoForHR)
-  .post("/getHouseSummary", protect, checkHRRole, getHouseSummaryForHR)
-  .post("/addEmployeeToHouse", protect, checkHRRole, addEmpToHouse)
-  .delete("/delete", protect, checkHRRole, deleteHouseForHR)
-  .post("/assign", protect, checkHRRole, assignHousing);
+  .post("/", getHousingDetailsForEmployee)
+  .post("/getProfileId", getProfileIdFromUid)
+  .post("/add", addHouseForHR)
+  .post("/getAllBasicHouses", getAllBasicHouseInfoForHR)
+  .post("/getHouseSummary", getHouseSummaryForHR)
+  .post("/addEmployeeToHouse", addEmpToHouse)
+  .delete("/delete", deleteHouseForHR)
+  .post("/assign", assignHousing);
 // facility report router /report
 reportRouter
-  .post("/", protect, checkHRRole, getReportForEmployee)
-  .post("/add", protect, checkHRRole, createReportForEmployee);
+  .post("/", getReportForEmployee)
+  .post("/add", createReportForEmployee);
 // comment info router /comment
 commentRouter
-  .post("/", protect, checkHRRole, getReportComments)
-  .post("/add", protect, checkHRRole, createComment)
-  .patch("/update", protect, checkHRRole, updateComment);
+  .post("/", getReportComments)
+  .post("/add", createComment)
+  .patch("/update", updateComment);
 export { housingRouter, reportRouter, commentRouter };
