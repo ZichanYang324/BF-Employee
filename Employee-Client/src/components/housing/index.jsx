@@ -26,7 +26,7 @@ export const Housing = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const housing = useSelector((state) => state.housing.data);
-  const status = useSelector((state) => state.housing.status);
+  // const status = useSelector((state) => state.housing.status);
   const handleClickOpen = () => {
     setOpen(true);
   };

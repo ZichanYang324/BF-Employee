@@ -49,6 +49,10 @@
     </div>
     <div class="content-container">
         <h2>Employee Information</h2>
+        <label>Enter employee's username you want to add in this house</label>
+        <br/>
+        <input type="text" name="username" class="content-container-input" [(ngModel)]="inputValue">
+        <button mat-raised-button color="primary" (click)="addEmployeeToHouse()">Add</button>
         <ul>
             <li *ngFor="let employee of houseSummary.employeeInfo">
                 <div class="content-container">

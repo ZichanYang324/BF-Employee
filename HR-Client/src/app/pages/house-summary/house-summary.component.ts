@@ -15,6 +15,7 @@ export class HouseSummaryComponent implements OnInit {
   houseID: string = '';
   page: number = 1; // Initialized to 1 by default
   houseSummary: any;
+  inputValue: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +34,18 @@ export class HouseSummaryComponent implements OnInit {
       this.fetchHouseSummary();
     });
   }
-
+  addEmployeeToHouse(){
+    console.log('add a employee to house',this.inputValue)
+    this.housingService.addEmployeeToHouse(this.houseID,this.inputValue).subscribe({
+      next: (data) => {
+        console.log('add successfully')
+        location.reload();
+      },
+      error: (error) => {
+        console.error('Failed add employee to this house', error);
+      },
+    })
+  }
   fetchHouseSummary() {
     if (!this.houseID) {
       console.error('HouseID is required to fetch summary');
