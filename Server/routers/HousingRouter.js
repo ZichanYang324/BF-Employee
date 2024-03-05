@@ -18,12 +18,12 @@ import {
   getProfileIdFromUid,
 } from "../controllers/housingControllers.js";
 import express from "express";
+import { protect } from "../middlewares/authMiddleware.js";
+import checkHRRole from "../middlewares/hrRoleMiddleware.js";
 
 const housingRouter = express.Router();
 const reportRouter = express.Router();
 const commentRouter = express.Router();
-
-// TODO: add middlewares to authentify/validate request
 
 // housing info router /housing
 housingRouter

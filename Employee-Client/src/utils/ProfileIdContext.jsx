@@ -1,19 +1,19 @@
 // Inside a React component or context
 import React, { useState, useEffect } from "react";
 import customFetch from "./customFetch";
-
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 const ProfileIdContext = React.createContext();
 
 export const ProfileIdProvider = ({ children }) => {
   const [profileId, setProfileId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-
+  const token = Cookies.get("token");
   useEffect(() => {
     const getProfileId = async () => {
       setIsLoading(true);
-      const token = JSON.parse(localStorage.getItem("user"));
       const res = await customFetch.post("housing/getProfileId", {
-        userId: token._id,
+        userId: jwtDecode(token).userId,
       });
       setProfileId(res.data);
       setIsLoading(false);

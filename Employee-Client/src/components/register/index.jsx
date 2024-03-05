@@ -14,10 +14,30 @@ import { registerUser } from '../../features/user/userSlice';
 import useInput from '../../utils/use-input';
 import { checkEmailReg, getMsgErrorValidPass, isNotEmpty, validPass } from '../../utils/checkInputReg';
 import CustomInput from '../Input';
+import { useLocation } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const defaultTheme = createTheme();
 
 export function Register() {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const token = queryParams.get('token');
+
+    const isTokenValid = (token) => {
+        try {
+            const decodedToken = jwtDecode(token);
+            const currentTime = Date.now() / 1000; // in seconds
+            // Check if the token is expired
+            if (decodedToken.exp < currentTime) {
+            return false;
+            }
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
+    
     const usernameInput = useInput(isNotEmpty);
     const passwordInput = useInput(validPass);
     const emailInput = useInput(checkEmailReg);
@@ -33,10 +53,6 @@ export function Register() {
         ? 'Username is required!'
         : '';
 
-    const emailInputErrorMsg = emailInput.hasError
-        ? 'Please input a valid email'
-        : '';
-
     const userPasswordErrorMsg = passwordInput.hasError
         ? getMsgErrorValidPass(passwordInput.value)
         : '';
@@ -48,7 +64,7 @@ export function Register() {
             setPasswordRepeatError('Password is not same')
             return
         }
-        dispatch(registerUser({ username: usernameInput.value, email: emailInput.value, password: passwordInput.value }));
+        dispatch(registerUser({ username: usernameInput.value, email: jwtDecode(token).email, password: passwordInput.value }));
     }
 
     useEffect(() => {
@@ -60,7 +76,7 @@ export function Register() {
     }, [user]);
 
     const checkPage = () => {
-        if (emailInput.isValid && passwordInput.isValid && passwordRepeatInput.isValid) {
+        if (usernameInput.isValid && passwordInput.isValid && passwordRepeatInput.isValid) {
             setSubmitIsValid(true)
         } else {
             setSubmitIsValid(false)
@@ -69,75 +85,78 @@ export function Register() {
 
     useEffect(() => {
         checkPage()
-    }, [emailInput.value, passwordInput.value, passwordRepeatInput.value, usernameInput.value])
+    }, [passwordInput.value, passwordRepeatInput.value, usernameInput.value])
 
-    return (
-        <ThemeProvider theme={defaultTheme}>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign Up
-                    </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                        <CustomInput
-                            label="Username"
-                            value={usernameInput.value}
-                            handleChange={usernameInput.valueChangeHandler}
-                            onBlur={usernameInput.inputBlurHandler}
-                            errorMsg={usernameInputErrorMsg}
-                        />
-                        <CustomInput
-                            label="Email Address"
-                            name="email"
-                            value={emailInput.value}
-                            handleChange={emailInput.valueChangeHandler}
-                            placeholder="xxxxx@gmail.com"
-                            onBlur={emailInput.inputBlurHandler}
-                            errorMsg={emailInputErrorMsg}
-                        />
-                        <CustomInput
-                            label="Password"
-                            value={passwordInput.value}
-                            handleChange={passwordInput.valueChangeHandler}
-                            onBlur={passwordInput.inputBlurHandler}
-                            type='password'
-                            errorMsg={userPasswordErrorMsg}
-                        />
-                        <CustomInput
-                            label="Repeat Password"
-                            value={passwordRepeatInput.value}
-                            handleChange={passwordRepeatInput.valueChangeHandler}
-                            onBlur={passwordRepeatInput.inputBlurHandler}
-                            type='password'
-                            errorMsg={passwordRepeatError}
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            onClick={handleSubmit}
-                            disabled={!submitIsValid}
-                        >
-                            Sign up
-                        </Button>
-                        <Grid container>
+    if (token && isTokenValid(token)) {
+        return (
+            <ThemeProvider theme={defaultTheme}>
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <Box
+                        sx={{
+                            marginTop: 8,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign Up
+                        </Typography>
+                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                            <CustomInput
+                                label="Username"
+                                value={usernameInput.value}
+                                handleChange={usernameInput.valueChangeHandler}
+                                onBlur={usernameInput.inputBlurHandler}
+                                errorMsg={usernameInputErrorMsg}
+                            />
+                            <CustomInput
+                                label="Email Address"
+                                name="email"
+                                value={jwtDecode(token).email}
+                                handleChange={emailInput.valueChangeHandler}
+                                onBlur={emailInput.inputBlurHandler}
+                                disabled={true}
+                            />
+                            <CustomInput
+                                label="Password"
+                                value={passwordInput.value}
+                                handleChange={passwordInput.valueChangeHandler}
+                                onBlur={passwordInput.inputBlurHandler}
+                                type='password'
+                                errorMsg={userPasswordErrorMsg}
+                            />
+                            <CustomInput
+                                label="Repeat Password"
+                                value={passwordRepeatInput.value}
+                                handleChange={passwordRepeatInput.valueChangeHandler}
+                                onBlur={passwordRepeatInput.inputBlurHandler}
+                                type='password'
+                                errorMsg={passwordRepeatError}
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                                onClick={handleSubmit}
+                                disabled={!submitIsValid}
+                            >
+                                Sign up
+                            </Button>
+                            <Grid container>
 
-                        </Grid>
+                            </Grid>
+                        </Box>
                     </Box>
-                </Box>
-            </Container>
-        </ThemeProvider>
-    );
+                </Container>
+            </ThemeProvider>
+        );
+    }else{
+        return <h1>Unauthorized</h1>
+    }
 }
