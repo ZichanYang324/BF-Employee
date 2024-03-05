@@ -5,18 +5,20 @@ import { getApplicationById } from "../controllers/hiringManagementControllers.j
 import { updateApplicationStatus } from "../controllers/hiringManagementControllers.js";
 import { addFeedback } from "../controllers/hiringManagementControllers.js";
 import express from "express";
+import { protect } from "../middlewares/authMiddleware.js";
+import checkHRRole from "../middlewares/hrRoleMiddleware.js";
 
 const hiringManagementRouter = express.Router();
 
-hiringManagementRouter.route("/sendLink").post(sendLink);
-hiringManagementRouter.route("/getHistory").get(getHistory);
+hiringManagementRouter.route("/sendLink").post(protect, checkHRRole, sendLink);
+hiringManagementRouter.route("/getHistory").get(protect, checkHRRole, getHistory);
 hiringManagementRouter
   .route("/getApplicationByStatus")
-  .get(getApplicationByStatus);
-hiringManagementRouter.route("/getApplicationById").get(getApplicationById);
+  .get(protect, checkHRRole, getApplicationByStatus);
+hiringManagementRouter.route("/getApplicationById").get(protect, checkHRRole, getApplicationById);
 hiringManagementRouter
   .route("/updateApplicationStatus")
-  .put(updateApplicationStatus);
-hiringManagementRouter.route("/addFeedback").put(addFeedback);
+  .put(protect, checkHRRole, updateApplicationStatus);
+hiringManagementRouter.route("/addFeedback").put(protect, checkHRRole, addFeedback);
 
 export default hiringManagementRouter;

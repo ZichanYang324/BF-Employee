@@ -1,17 +1,3 @@
-// src/components/visa/DocumentStatus.js
-import React from 'react';
-
-// const DocumentUpload = ({ onUpload, documentType }) => {
-//   return (
-//     <div>
-//       <input
-//         type="file"
-//         onChange={onUpload}
-//         style={{ display: 'block', margin: '10px 0' }}
-//       />
-//     </div>
-//   );
-// };
 const documentTypes = ["OPT Receipt", "OPT EAD", "I-983", "I-20"];
 
 const DocumentStatus = ({ document }) => {

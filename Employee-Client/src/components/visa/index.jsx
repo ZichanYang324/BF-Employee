@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDocumentStatus, uploadDocument } from '../../features/visaStatus/visaStatusSlice';
 import DocumentStatus from './DocumentStatus';
@@ -14,7 +14,8 @@ const VisaStatusManagement = () => {
 
   useEffect(() => {
     dispatch(fetchDocumentStatus());
-  }, [dispatch]);
+  }, [documents.length]);
+
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -48,7 +49,7 @@ const VisaStatusManagement = () => {
         Visa Status Management
       </Typography>
       {status === 'loading' && <CircularProgress />}
-      {status === 'failed' && <Typography color="error">Error: {error}</Typography>}
+      {/* {status === 'failed' && <Typography color="error">Error: {error}</Typography>} */}
       {documents.length === 0 && status === 'succeeded' && <Typography>No documents found. Start by uploading your first document.</Typography>}
       
       <FormControl fullWidth sx={{ my: 2 }}>
