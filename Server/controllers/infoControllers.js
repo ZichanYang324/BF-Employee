@@ -1,6 +1,7 @@
+import { uploadFileToS3 } from "../config/s3Service.js";
 import ProfileModel from "../models/Profile.model.js";
 import User from "../models/User.model.js";
-import { Profile } from "../models/index.js";
+import { Document, Profile } from "../models/index.js";
 import { getOneFilePresignedUrl } from "../utils/s3.js";
 
 function _formatDate(date) {
@@ -66,6 +67,14 @@ export async function getDocuments(req, res) {
       )
       .exec();
     const documentUrls = await _getDocumentUrls(profile);
+    const documentUrlsPatch = await _getDocumentUrlsPatch({ userId: user._id });
+    // push if docType is not already in documentUrls
+    documentUrlsPatch.forEach(([docType, url]) => {
+      const docTypeIndex = documentUrls.findIndex(([type]) => type === docType);
+      if (docTypeIndex === -1 && docType !== "Profile Picture") {
+        documentUrls.push([docType, url]);
+      }
+    });
     res.status(200).json(documentUrls);
   } catch (error) {
     console.error(error);
@@ -96,6 +105,24 @@ async function _getDocumentUrls(profile) {
   return documentUrls;
 }
 
+async function _getDocumentUrlsPatch({ userId }) {
+  const documents = await Document.find({ owner: userId }).exec();
+  const documentUrls = await Promise.all(
+    documents.map(async (doc) => {
+      const { S3Name, type: docType } = doc;
+      const { data: url, error } = await getOneFilePresignedUrl({
+        Key: S3Name,
+      });
+      if (error) {
+        console.error(error);
+        return [docType, null];
+      }
+      return [docType, { S3Name, url }];
+    }),
+  );
+  return documentUrls;
+}
+
 const SECTIONS = [
   "name",
   "address",
@@ -119,10 +146,17 @@ export async function update(req, res) {
     }
 
     if (section === "name") {
-      const { name } = req.body;
-      console.log("name1234", name);
-      console.log("profile._id123124123123", profile._id);
-      await _updateName(profile._id, name);
+      const { name: _nameJSON } = req.body;
+      const name = JSON.parse(_nameJSON);
+      const profilePicFile = req.files.find(
+        (file) => file.fieldname === "profilePic",
+      );
+      await _updateName({
+        profileId: profile._id,
+        userId: user._id,
+        name,
+        profilePicFile,
+      });
     } else if (section === "address") {
       const { address } = req.body;
       await _updateAddress({ profileId: profile._id, address });
@@ -149,16 +183,30 @@ export async function update(req, res) {
   }
 }
 
-async function _updateName(profileId, name) {
+async function _updateName({ profileId, userId, name, profilePicFile }) {
   let profile = await Profile.findById(profileId);
   profile.firstName = name.firstName || "";
   profile.lastName = name.lastName || "";
   profile.middleName = name.middleName || "";
   profile.preferredName = name.preferredName || "";
-  // profile.profilePic = name.profilePic || "";
   profile.SSN = name.SSN || "";
   profile.DOB = name.DOB || "";
   profile.gender = name.gender || "";
+
+  if (profilePicFile) {
+    const s3Response = await uploadFileToS3(
+      profilePicFile.buffer,
+      profilePicFile.originalname,
+    );
+    const newProfilePic = await Document.create({
+      URL: s3Response.Location,
+      S3Bucket: s3Response.Bucket,
+      S3Name: s3Response.Key,
+      type: "Profile Picture",
+      owner: userId,
+    });
+    profile.profilePic = newProfilePic._id;
+  }
 
   await profile.save();
   return profile;

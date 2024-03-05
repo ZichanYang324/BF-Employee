@@ -37,11 +37,11 @@ cd HR-Client
 npm install
 npm run start or ng serve
 ```
-
 ### .ENV
-```NODE_ENV=development
+```
+NODE_ENV=development
 MONGO_URL = 
-JWT_SECRET=
+JWT_SECRET=''
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 AWS_REGION=

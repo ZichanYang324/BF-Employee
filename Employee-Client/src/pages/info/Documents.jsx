@@ -28,13 +28,22 @@ function Documents() {
 
       <AccordionDetails>
         {documentsStatus === "succeeded"
-          ? documents.map(([docType, { url }]) => (
-              <div key={docType}>
-                <a href={url} rel="noreferrer" target="_blank">
-                  <Typography>{docType}</Typography>
-                </a>
-              </div>
-            ))
+          ? documents.map(
+              ([docType, doc]) =>
+                doc &&
+                doc.url &&
+                doc.url !== "" && (
+                  <div key={docType}>
+                    <a
+                      href={doc.url}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      <Typography>{docType}</Typography>
+                    </a>
+                  </div>
+                ),
+            )
           : "Loading..."}
       </AccordionDetails>
     </Accordion>
