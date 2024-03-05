@@ -8,6 +8,7 @@ import {
   getReportForEmployee,
 } from "../controllers/facilityReportControllers.js";
 import {
+  addEmpToHouse,
   addHouseForHR,
   assignHousing,
   deleteHouseForHR,
@@ -31,6 +32,7 @@ housingRouter
   .post("/add", addHouseForHR)
   .post("/getAllBasicHouses", getAllBasicHouseInfoForHR)
   .post("/getHouseSummary", getHouseSummaryForHR)
+  .post("/addEmployeeToHouse", addEmpToHouse)
   .delete("/delete", deleteHouseForHR)
   .post("/assign", assignHousing);
 // facility report router /report

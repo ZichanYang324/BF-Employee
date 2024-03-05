@@ -1,19 +1,13 @@
 import customFetch from "../../utils/customFetch";
-import { customFetch2 } from "../../utils/customFetch";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
-export const fetchDocumentStatus = createAsyncThunk(
-  "visaStatus/fetchDocumentStatus",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await customFetch.get("/documents/my");
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const fetchDocumentStatus = createAsyncThunk('visaStatus/fetchDocumentStatus', async (_, { rejectWithValue }) => {
+  try {
+    const response = await customFetch.get('/documents/my');
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
 export const updateDocumentStatus = createAsyncThunk(
   "visaStatus/updateDocumentStatus",
