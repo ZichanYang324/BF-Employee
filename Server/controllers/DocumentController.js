@@ -282,8 +282,8 @@ const downloadDocument = async (req, res) => {
 const transporter = nodemailer.createTransport({
   service: "gmail", // Replace with your email provider
   auth: {
-    user: "your-email@gmail.com", // Replace with your email
-    pass: "your-email-password", // Replace with your email password or app-specific password
+    user: "jackhallww@gmail.com", // Replace with your email
+    pass: "mcev cufc nsuv xcwi", // Replace with your email password or app-specific password
   },
 });
 export const sendNotification = async (req, res) => {
@@ -295,7 +295,7 @@ export const sendNotification = async (req, res) => {
     if (!user) return res.status(404).send("User not found for this document");
 
     const mailOptions = {
-      from: "your-email@gmail.com", // Sender address
+      from: "jiangdongming2000@gmail.com", // Sender address
       to: user.email, // Recipient address
       subject: "Reminder: Next Steps for Your Visa Status Management",
       text: "This is a reminder to complete your next steps in the visa status management process.", // Plain text body
